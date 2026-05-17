@@ -332,7 +332,10 @@ body::after {
 .premium-locked .lock-price { font-size: 22px; font-weight: 800; color: #C06040; margin-bottom: 6px; letter-spacing: 1px; }
 .premium-locked .lock-price small { font-size: 13px; font-weight: 400; color: var(--text-muted); }
 .premium-locked .qr-area { display: inline-block; padding: 12px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 12px; }
-.premium-locked .qr-placeholder { width: 160px; height: 160px; background: linear-gradient(135deg, #f8f8f8 0%, #eee 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 12px; text-align: center; line-height: 1.6; }
+.premium-locked .qr-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.premium-locked .qr-item { text-align: center; }
+.premium-locked .qr-img { width: 130px; height: 130px; border-radius: 10px; object-fit: contain; background: #fff; padding: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.premium-locked .qr-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; letter-spacing: 1px; }
 .premium-code-wrap { display: flex; gap: 8px; max-width: 260px; margin: 0 auto; }
 .premium-code-input {
   flex: 1; height: 42px; border-radius: 21px; border: 1.5px solid rgba(200,184,197,0.5);
@@ -1293,10 +1296,14 @@ function renderPremiumSection(bazi, an, interp) {
         <li>姻缘分析与配偶宫解读</li>
       </ul>
       <div class="lock-price">${PREMIUM_PRICE} <small>一次解锁 · 永久查看</small></div>
-      <div class="qr-area">
-        <div class="qr-placeholder">
-          📱 微信/支付宝扫码支付<br>
-          <span style="font-size:10px;color:#999;">付款后请输入解锁码</span>
+      <div class="qr-row">
+        <div class="qr-item">
+          <img class="qr-img" src="wechat-qr.png" alt="微信收款码">
+          <div class="qr-label">微信扫码支付</div>
+        </div>
+        <div class="qr-item">
+          <img class="qr-img" src="alipay-qr.jpg" alt="支付宝收款码">
+          <div class="qr-label">支付宝扫码支付</div>
         </div>
       </div>
       <div class="premium-code-wrap">
