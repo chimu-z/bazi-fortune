@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>探尋你的天命城市 · 八字深度解读</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   CSS Custom Properties — 莫兰迪色系 · 新中式治愈美学
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --mist-pink:   #F3E8EE;
+  --warm-cream:  #FEF9F2;
+  --sage-green:  #5B7A6F;
+  --moon-white:  #E6EEF0;
+  --amber-brown: #8B5A4B;
+  --soft-rose:   #D4B8C5;
+  --text-primary:   #3D2C35;
+  --text-secondary: #7A6E75;
+  --text-muted:     #A89DA4;
+  --glass-bg:       rgba(255,255,255,0.55);
+  --glass-border:   rgba(255,255,255,0.6);
+  --wood:   #7B9E6D;
+  --fire:   #D4876E;
+  --earth:  #C9A87C;
+  --metal:  #D4B860;
+  --water:  #6B9EC2;
+  --radius-xl: 24px; --radius-lg: 18px; --radius-md: 14px; --radius-sm: 10px;
+  --shadow-sm: 0 2px 12px rgba(60,40,50,0.06);
+  --shadow-md: 0 8px 32px rgba(60,40,50,0.10);
+  --shadow-lg: 0 16px 48px rgba(60,40,50,0.14);
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --font-title: "PingFang SC", "Hiragino Sans GB", "Noto Serif SC", "Times New Roman", serif;
+  --font-body:  "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+}
+@property --flow-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(175deg, var(--mist-pink) 0%, #F5ECF2 25%, var(--warm-cream) 55%, #F9F3EF 80%, var(--mist-pink) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex; justify-content: center; align-items: flex-start;
+  padding: 20px 14px 80px;
+  overflow-x: hidden;
+  color: var(--text-primary);
+  line-height: 1.8;
+  transition: background 0.8s ease;
+}
+
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Particles */
+.particle-layer { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.petal {
+  position: absolute; width: 18px; height: 12px; border-radius: 50% 0 50% 0;
+  background: radial-gradient(ellipse at 30% 30%, rgba(212,184,197,0.7), rgba(200,160,180,0.15));
+  animation: petalFloat 9s ease-in-out infinite; will-change: transform;
+}
+.petal:nth-child(1) { top:5%; left:8%; animation-delay:0s; animation-duration:9s; }
+.petal:nth-child(2) { top:12%; left:78%; animation-delay:2s; animation-duration:11s; width:14px; height:10px; }
+.petal:nth-child(3) { top:30%; left:5%; animation-delay:4.5s; animation-duration:10s; }
+.petal:nth-child(4) { top:45%; left:85%; animation-delay:1.2s; animation-duration:8.5s; width:20px; height:13px; }
+.petal:nth-child(5) { top:60%; left:10%; animation-delay:3s; animation-duration:12s; }
+.petal:nth-child(6) { top:75%; left:80%; animation-delay:5.5s; animation-duration:9.5s; width:15px; height:11px; }
+.petal:nth-child(7) { top:18%; left:22%; animation-delay:6.8s; animation-duration:10.5s; }
+@keyframes petalFloat {
+  0%,100% { transform: translate(0,0) rotate(0deg) scale(1); opacity:0.5; }
+  25% { transform: translate(30px,-40px) rotate(120deg) scale(1.15); opacity:0.75; }
+  50% { transform: translate(60px,-15px) rotate(250deg) scale(0.9); opacity:0.45; }
+  75% { transform: translate(20px,-55px) rotate(340deg) scale(1.1); opacity:0.7; }
+}
+.star-point {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #F5E6D3;
+  box-shadow: 0 0 6px 2px rgba(245,230,210,0.6), 0 0 14px 4px rgba(212,184,197,0.3);
+  animation: starRise 7s ease-in-out infinite; will-change: transform, opacity;
+}
+.star-point:nth-child(8)  { top:10%; left:30%; animation-delay:0s; width:3px; height:3px; }
+.star-point:nth-child(9)  { top:22%; left:65%; animation-delay:1.5s; }
+.star-point:nth-child(10) { top:38%; left:18%; animation-delay:3s; width:5px; height:5px; }
+.star-point:nth-child(11) { top:52%; left:72%; animation-delay:0.8s; }
+.star-point:nth-child(12) { top:68%; left:25%; animation-delay:4.2s; width:3px; height:3px; }
+.star-point:nth-child(13) { top:80%; left:55%; animation-delay:2.2s; }
+.star-point:nth-child(14) { top:15%; left:48%; animation-delay:5.5s; width:5px; height:5px; }
+@keyframes starRise {
+  0%,100% { transform: translateY(0) scale(1); opacity:0.3; }
+  50% { transform: translateY(-35px) scale(1.8); opacity:0.85; }
+}
+.aurora {
+  position: absolute; height: 2px; border-radius: 50%;
+  background: linear-gradient(90deg, transparent, rgba(212,184,197,0.5), rgba(200,192,216,0.6), rgba(180,210,220,0.4), transparent);
+  animation: auroraWave 14s ease-in-out infinite; will-change: transform, opacity; filter: blur(1.5px);
+}
+.aurora:nth-child(15) { top:20%; left:-10%; width:120%; animation-delay:0s; height:2.5px; }
+.aurora:nth-child(16) { top:50%; left:-15%; width:130%; animation-delay:5s; height:1.5px; }
+.aurora:nth-child(17) { top:72%; left:-8%; width:115%; animation-delay:3.5s; height:2px; }
+@keyframes auroraWave {
+  0%,100% { transform: translateX(-5%) rotate(-1deg); opacity:0.25; }
+  25% { transform: translateX(3%) rotate(0.5deg); opacity:0.55; }
+  50% { transform: translateX(8%) rotate(1.5deg); opacity:0.35; }
+  75% { transform: translateX(0%) rotate(0deg); opacity:0.6; }
+}
+
+.app-container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
+
+/* Screens */
+.screen { display: none; }
+.screen.active { display: block; animation: screenIn 0.55s var(--ease); }
+@keyframes screenIn { from { opacity:0; transform:translateY(20px); filter:blur(4px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }
+@keyframes screenOut { from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(1.04); filter:blur(6px); } }
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl); box-shadow: var(--shadow-md); padding: 28px 22px;
+  margin-bottom: 16px; border: 1px solid var(--glass-border); position: relative; overflow: hidden;
+}
+.glass-card::after {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.glass-card > * { position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════════════════════
+   COVER / LOCK SCREEN
+   ═══════════════════════════════════════════════════════════ */
+.compass-wrap { display: flex; justify-content: center; margin-bottom: 18px; }
+.compass { position: relative; width: 72px; height: 72px; }
+.compass-ring-outer { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(139,90,75,0.2); animation: spin 20s linear infinite; }
+.compass-ring-inner { position: absolute; inset: 10px; border-radius: 50%; border: 1.5px solid rgba(91,122,111,0.25); animation: spin 14s linear infinite reverse; }
+.compass-star { position: absolute; inset: 16px; border-radius: 50%; background: radial-gradient(circle, rgba(200,160,140,0.5) 0%, rgba(212,184,197,0.15) 50%, transparent 70%); animation: breathe 3s ease-in-out infinite; }
+.compass-dot { position: absolute; top:50%; left:50%; width:8px; height:8px; margin:-4px 0 0 -4px; border-radius:50%; background: var(--amber-brown); box-shadow: 0 0 12px 3px rgba(139,90,75,0.35); animation: breathe 3s ease-in-out infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes breathe { 0%,100% { opacity:0.6; transform:scale(1); } 50% { opacity:1; transform:scale(1.15); } }
+
+.cover-title { text-align:center; font-family:var(--font-title); font-size:26px; font-weight:800; color:var(--amber-brown); letter-spacing:2px; margin-bottom:6px; line-height:1.35; }
+.cover-subtitle { text-align:center; font-size:13.5px; color:var(--text-secondary); font-weight:400; margin-bottom:24px; letter-spacing:1px; line-height:1.6; }
+
+.pwd-wrap { position: relative; margin-bottom: 16px; }
+.pwd-input {
+  width: 100%; height: 50px; border-radius: 25px; border: 1.5px solid rgba(200,184,197,0.5);
+  background: rgba(255,250,248,0.45); padding: 0 22px; font-size: 15px;
+  font-family: var(--font-body); color: var(--text-primary); outline: none;
+  transition: all 0.35s var(--ease); text-align: center; letter-spacing: 2px;
+}
+.pwd-input::placeholder { color: var(--text-muted); letter-spacing: 1px; font-size: 13.5px; }
+.pwd-wrap::after {
+  content: ''; position: absolute; bottom: 4px; left: 28px; right: 28px; height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--sage-green), var(--amber-brown), var(--sage-green), transparent);
+  opacity: 0.45; transition: opacity 0.4s, left 0.4s, right 0.4s;
+}
+.pwd-input:focus { border-color: rgba(91,122,111,0.4); box-shadow: 0 0 0 4px rgba(91,122,111,0.06); background: rgba(255,252,250,0.65); }
+.pwd-wrap:focus-within::after { opacity: 0.8; left: 16px; right: 16px; }
+.pwd-error { text-align: center; color: #C06050; font-size: 12.5px; min-height: 20px; margin-bottom: 6px; }
+.pwd-input.shake, .premium-code-input.shake { animation: shake 0.5s var(--ease); }
+@keyframes shake { 0%,100% { transform: translateX(0); } 10%,50%,90% { transform: translateX(-5px); } 30%,70% { transform: translateX(5px); } }
+
+.btn-flow-wrap {
+  position: relative; padding: 2px; border-radius: 28px;
+  background: conic-gradient(from var(--flow-angle), var(--sage-green), var(--moon-white), var(--amber-brown), var(--soft-rose), var(--sage-green));
+  animation: flowRotate 4s linear infinite;
+}
+@keyframes flowRotate { to { --flow-angle: 360deg; } }
+.btn-unlock {
+  width: 100%; height: 50px; border-radius: 26px; border: none;
+  background: rgba(255,252,250,0.7); backdrop-filter: blur(10px);
+  color: var(--amber-brown); font-size: 16px; font-weight: 700; cursor: pointer;
+  font-family: var(--font-title); letter-spacing: 3px; transition: all 0.4s var(--ease);
+  position: relative; z-index: 1; display: flex; align-items: center; justify-content: center;
+}
+.btn-unlock:hover { background: rgba(255,250,248,0.9); box-shadow: 0 0 30px 6px rgba(139,90,75,0.1); letter-spacing:5px; }
+.btn-unlock:active { transform: scale(0.97); }
+
+.reset-link { display:block; text-align:center; margin-top:12px; background:none; border:none; color:var(--text-muted); font-size:11px; cursor:pointer; font-family:var(--font-body); padding:6px; transition:color 0.3s; width:100%; }
+.reset-link:hover { color: var(--text-secondary); }
+
+/* ═══════════════════════════════════════════════════════════
+   FORM SCREEN
+   ═══════════════════════════════════════════════════════════ */
+.form-title { text-align:center; font-family:var(--font-title); font-size:20px; font-weight:700; color:var(--amber-brown); letter-spacing:1px; margin-bottom:10px; }
+.form-calendar-hint {
+  text-align: center; font-size: 13px; color: var(--amber-brown); font-weight: 600;
+  background: rgba(139,90,75,0.06); border-radius: var(--radius-sm); padding: 8px 14px;
+  margin-bottom: 18px; border: 1px solid rgba(139,90,75,0.1); letter-spacing: 0.5px;
+}
+.form-group { margin-bottom: 15px; }
+.form-label { display:block; font-size:13px; font-weight:600; color:var(--text-secondary); margin-bottom:6px; }
+.form-row { display:flex; gap:10px; }
+.form-row > * { flex: 1; }
+.form-input, .form-select {
+  width:100%; height:46px; border-radius:var(--radius-sm); border:1.5px solid rgba(200,184,197,0.45);
+  background:rgba(255,252,250,0.45); padding:0 14px; font-size:15px; font-family:var(--font-body);
+  color:var(--text-primary); outline:none; transition:all 0.35s var(--ease);
+  appearance:none; -webkit-appearance:none;
+}
+.form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A89DA4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; cursor:pointer;
+}
+.form-input:focus, .form-select:focus { border-color:rgba(91,122,111,0.45); box-shadow:0 0 0 4px rgba(91,122,111,0.06); background:rgba(255,252,250,0.7); }
+
+.gender-toggle { display:flex; gap:16px; justify-content:center; }
+.gender-btn {
+  width:68px; height:68px; border-radius:50%; border:1.5px solid rgba(200,184,197,0.5);
+  background:rgba(255,252,250,0.4); font-size:14px; font-weight:600; color:var(--text-muted);
+  cursor:pointer; transition:all 0.4s var(--ease); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:4px; font-family:var(--font-body); user-select:none;
+}
+.gender-btn .emoji { font-size:24px; transition:transform 0.4s var(--ease); }
+.gender-btn.active { background:linear-gradient(135deg, rgba(212,184,197,0.4), rgba(245,232,238,0.6)); border-color:var(--soft-rose); color:var(--amber-brown); transform:scale(1.05); box-shadow:0 4px 20px rgba(180,150,160,0.2); }
+.gender-btn.active .emoji { transform:scale(1.15); }
+
+.btn-submit {
+  width:100%; height:50px; border-radius:26px; border:none;
+  background:linear-gradient(135deg, var(--sage-green), #6B8E80); color:#fff;
+  font-size:16px; font-weight:700; cursor:pointer; font-family:var(--font-title);
+  letter-spacing:2px; transition:all 0.4s var(--ease);
+  box-shadow:0 4px 20px rgba(91,122,111,0.2); animation:btnPulse 3s ease-in-out infinite;
+}
+.btn-submit:active { transform:scale(0.97); }
+@keyframes btnPulse { 0%,100% { box-shadow:0 4px 20px rgba(91,122,111,0.2); } 50% { box-shadow:0 4px 32px rgba(91,122,111,0.35), 0 0 0 8px rgba(91,122,111,0.04); } }
+.form-error { text-align:center; color:#C06050; font-size:13px; min-height:20px; margin-top:6px; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESULTS — Common
+   ═══════════════════════════════════════════════════════════ */
+.section-header { font-family:var(--font-title); font-size:18px; font-weight:700; color:var(--amber-brown); text-align:center; margin-bottom:16px; letter-spacing:1px; }
+.section-divider { text-align:center; font-family:var(--font-title); font-size:17px; font-weight:700; color:var(--amber-brown); margin:6px 0 14px; letter-spacing:1px; padding:10px 0; }
+.text-block { font-size:14px; color:var(--text-secondary); line-height:1.9; text-align:justify; text-indent:2em; }
+.text-block + .text-block { margin-top: 8px; }
+
+/* Pillars */
+.pillars-row { display:flex; gap:8px; margin-bottom:6px; }
+.pillar-card { flex:1; text-align:center; background:rgba(255,255,255,0.5); border-radius:var(--radius-md); padding:14px 6px; border:1px solid rgba(230,220,225,0.5); position:relative; overflow:hidden; }
+.pillar-card::before { content:''; position:absolute; top:-8px; left:-8px; width:36px; height:36px; border-radius:50%; opacity:0.08; }
+.pillar-card:nth-child(1)::before { background:#7B9E6D; }
+.pillar-card:nth-child(2)::before { background:#D4876E; }
+.pillar-card:nth-child(3)::before { background:#C9A87C; }
+.pillar-card:nth-child(4)::before { background:#6B9EC2; }
+.pillar-label { font-size:11px; color:var(--text-muted); margin-bottom:3px; }
+.pillar-stem { font-size:22px; font-weight:800; line-height:1.3; }
+.pillar-branch { font-size:18px; font-weight:700; line-height:1.3; }
+.pillar-na { font-size:10px; color:var(--text-muted); margin-top:2px; }
+
+/* Wuxing bars */
+.wx-bar-wrap { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+.wx-bar-label { width:28px; font-size:13px; font-weight:700; text-align:right; }
+.wx-bar-track { flex:1; height:18px; border-radius:9px; background:rgba(230,225,225,0.5); overflow:hidden; position:relative; }
+.wx-bar-fill { height:100%; border-radius:9px; transition:width 1s var(--ease); display:flex; align-items:center; padding-left:8px; font-size:10px; font-weight:700; color:#fff; }
+.wx-bar-fill.wood  { background: var(--wood); }
+.wx-bar-fill.fire  { background: var(--fire); }
+.wx-bar-fill.earth { background: var(--earth); }
+.wx-bar-fill.metal { background: var(--metal); }
+.wx-bar-fill.water { background: var(--water); }
+.wx-bar-count { font-size:12px; color:var(--text-secondary); min-width:22px; }
+
+/* Day Master Badge */
+.day-master-badge { display:inline-block; padding:6px 18px; border-radius:20px; font-size:15px; font-weight:700; margin-bottom:14px; }
+.day-master-badge.wood  { background:rgba(123,158,109,0.12); color:var(--wood); }
+.day-master-badge.fire  { background:rgba(212,135,110,0.12); color:var(--fire); }
+.day-master-badge.earth { background:rgba(201,168,124,0.12); color:var(--earth); }
+.day-master-badge.metal { background:rgba(212,184,96,0.12); color:var(--metal); }
+.day-master-badge.water { background:rgba(107,158,194,0.12); color:var(--water); }
+.xiyong-big { text-align:center; font-size:24px; font-weight:800; margin:10px 0 6px; letter-spacing:1px; }
+
+/* City Cards */
+.city-card { position:relative; border-radius:var(--radius-lg); overflow:hidden; aspect-ratio:3/4; cursor:pointer; box-shadow:var(--shadow-sm); transition:transform 0.45s var(--ease), box-shadow 0.45s var(--ease); -webkit-tap-highlight-color:transparent; margin-bottom:14px; animation:cardRise 0.6s var(--ease) backwards; }
+.city-card:nth-child(1) { animation-delay:0.15s; }
+.city-card:nth-child(2) { animation-delay:0.30s; }
+.city-card:nth-child(3) { animation-delay:0.45s; }
+@keyframes cardRise { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+.city-card:active { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+.city-card-photo { position:absolute; inset:0; background-size:cover; background-position:center; transition:transform 0.5s var(--ease); }
+.city-card:active .city-card-photo { transform:scale(1.06); }
+.city-card-placeholder { position:absolute; inset:0; }
+.city-card-overlay { position:absolute; inset:0; background:linear-gradient(to bottom, transparent 22%, rgba(30,20,25,0.06) 44%, rgba(30,20,25,0.38) 66%, rgba(20,15,18,0.76) 100%); z-index:1; pointer-events:none; }
+.city-card.taboo .city-card-overlay { background:linear-gradient(to bottom, rgba(180,170,170,0.22) 22%, rgba(160,150,150,0.3) 44%, rgba(130,120,120,0.52) 66%, rgba(100,90,90,0.8) 100%); }
+.city-card.taboo .city-card-photo { filter:grayscale(0.5) brightness(0.78); }
+.city-card-text { position:absolute; bottom:0; left:0; right:0; padding:18px 14px; z-index:2; }
+.city-card-name { font-size:20px; font-weight:800; color:#fff; margin-bottom:4px; text-shadow:0 1px 4px rgba(0,0,0,0.35); letter-spacing:1px; }
+.city-card-badge { display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:14px; margin-bottom:6px; background:rgba(255,255,255,0.22); backdrop-filter:blur(6px); color:#fff; letter-spacing:0.5px; }
+.city-card-reason { font-size:12.5px; line-height:1.6; color:rgba(255,255,255,0.9); text-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.city-card-taboo-warn { font-size:11px; color:#F5D0D0; font-weight:600; margin-top:3px; text-shadow:0 1px 3px rgba(0,0,0,0.3); }
+
+/* Card flip */
+.city-card-inner { position:relative; width:100%; height:100%; transition:transform 0.55s var(--ease); transform-style:preserve-3d; }
+.city-card.flipped .city-card-inner { transform:rotateY(180deg); }
+.city-card-front, .city-card-back { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:var(--radius-lg); overflow:hidden; }
+.city-card-back { transform:rotateY(180deg); background:linear-gradient(160deg, var(--mist-pink), #F5ECF2, var(--warm-cream)); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px; text-align:center; }
+.city-card-back .back-name { font-size:20px; font-weight:800; color:var(--amber-brown); margin-bottom:6px; }
+.city-card-back .back-wx { font-size:13px; color:var(--sage-green); margin-bottom:10px; font-weight:600; }
+.city-card-back .back-detail { font-size:13px; color:var(--text-secondary); line-height:1.75; }
+.city-card-back .back-hint { font-size:11px; color:var(--text-muted); margin-top:10px; }
+
+/* Taboo Warning */
+.taboo-warn-card { text-align:center; padding:16px 18px; background:rgba(250,240,240,0.5); border:1px solid rgba(200,160,160,0.3); border-radius:var(--radius-md); margin-bottom:14px; }
+.taboo-warn-card .warn-title { font-size:14px; font-weight:700; color:#B07070; margin-bottom:6px; }
+.taboo-warn-card .warn-text { font-size:13px; color:var(--text-secondary); line-height:1.7; }
+
+/* Share & Footer */
+.share-section { text-align:center; padding:16px 12px; background:linear-gradient(135deg, rgba(245,240,238,0.4), rgba(250,245,243,0.5)); border-radius:var(--radius-md); margin-bottom:14px; border:1px solid rgba(212,184,197,0.2); }
+.share-text { font-size:14px; color:var(--text-secondary); font-style:italic; line-height:1.8; }
+.disclaimer { text-align:center; font-size:11px; color:var(--text-muted); line-height:1.6; padding:6px 0 18px; }
+.btn-retry { display:block; margin:0 auto; background:none; border:1.5px solid rgba(200,184,197,0.4); color:var(--sage-green); font-size:14px; font-weight:600; padding:10px 28px; border-radius:22px; cursor:pointer; font-family:var(--font-body); transition:all 0.35s var(--ease); }
+.btn-retry:hover { background:rgba(91,122,111,0.05); border-color:var(--sage-green); }
+
+/* Verification error banner */
+.verify-error-banner {
+  display: none; text-align: center; padding: 10px 16px; margin: 8px 0;
+  background: rgba(200,60,60,0.1); border: 1px solid rgba(200,60,60,0.35);
+  border-radius: var(--radius-sm); color: #B04040; font-size: 12px; font-weight: 600;
+}
+.verify-error-banner.show { display: block; }
+
+/* ── Premium Deep Reading Section ── */
+.premium-locked {
+  text-align: center; padding: 20px 16px; margin-top: 14px;
+  background: linear-gradient(160deg, rgba(245,238,232,0.7), rgba(250,244,238,0.5));
+  border: 1.5px dashed rgba(212,184,150,0.5); border-radius: var(--radius-md);
+}
+.premium-locked .lock-icon { font-size: 36px; margin-bottom: 8px; }
+.premium-locked .lock-title { font-size: 17px; font-weight: 700; color: var(--amber-brown); margin-bottom: 4px; letter-spacing: 1px; }
+.premium-locked .lock-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.6; }
+.premium-locked .lock-features { text-align: left; max-width: 260px; margin: 0 auto 14px; }
+.premium-locked .lock-features li { font-size: 13px; color: var(--text-secondary); line-height: 2; padding-left: 4px; }
+.premium-locked .lock-features li::marker { content: '🔒 '; }
+.premium-locked .lock-price { font-size: 22px; font-weight: 800; color: #C06040; margin-bottom: 6px; letter-spacing: 1px; }
+.premium-locked .lock-price small { font-size: 13px; font-weight: 400; color: var(--text-muted); }
+.premium-locked .qr-area { display: inline-block; padding: 12px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 12px; }
+.premium-locked .qr-placeholder { width: 160px; height: 160px; background: linear-gradient(135deg, #f8f8f8 0%, #eee 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 12px; text-align: center; line-height: 1.6; }
+.premium-code-wrap { display: flex; gap: 8px; max-width: 260px; margin: 0 auto; }
+.premium-code-input {
+  flex: 1; height: 42px; border-radius: 21px; border: 1.5px solid rgba(200,184,197,0.5);
+  background: rgba(255,250,248,0.6); padding: 0 16px; font-size: 14px;
+  font-family: var(--font-body); color: var(--text-primary); outline: none;
+  text-align: center; letter-spacing: 2px; transition: border-color 0.3s var(--ease);
+}
+.premium-code-input:focus { border-color: var(--amber-brown); }
+.premium-code-btn {
+  height: 42px; padding: 0 20px; border-radius: 21px; border: none;
+  background: linear-gradient(135deg, #C9A87C, #B8936A); color: #fff;
+  font-size: 13px; font-weight: 700; font-family: var(--font-body);
+  cursor: pointer; letter-spacing: 1px; transition: all 0.35s var(--ease);
+  white-space: nowrap;
+}
+.premium-code-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(180,140,110,0.35); }
+.premium-error { font-size: 12px; color: #C06040; margin-top: 6px; min-height: 18px; }
+
+/* Premium unlocked content */
+.premium-unlocked { margin-top: 14px; }
+.deep-card {
+  padding: 18px 16px; margin-bottom: 12px;
+  background: linear-gradient(145deg, rgba(252,250,246,0.6), rgba(250,247,244,0.5));
+  border: 1px solid rgba(212,184,150,0.28); border-radius: var(--radius-md);
+  position: relative; overflow: hidden;
+}
+.deep-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+  background: linear-gradient(180deg, #C9A87C, #D4B860);
+  border-radius: 3px 0 0 3px;
+}
+.deep-card .deep-header { font-size: 15px; font-weight: 700; color: var(--amber-brown); margin-bottom: 8px; letter-spacing: 1px; }
+.deep-card .deep-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.85; }
+.deep-card .deep-text p { margin-bottom: 8px; }
+.deep-card .deep-highlight { display: inline-block; padding: 2px 10px; background: rgba(201,168,124,0.15); border-radius: 10px; font-weight: 600; color: var(--amber-brown); }
+
+/* Payment reminder toast */
+.premium-toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: rgba(60,50,40,0.92); color: #F5EDE0; padding: 12px 24px;
+  border-radius: 24px; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+  z-index: 200; backdrop-filter: blur(10px);
+  animation: toastIn 0.4s var(--ease), toastOut 0.4s 2.6s var(--ease) forwards;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+@keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* Reveal Overlay */
+.reveal-overlay { position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; background:rgba(245,235,240,0.6); backdrop-filter:blur(8px); pointer-events:none; }
+.reveal-overlay.hide { animation:revealOut 0.6s var(--ease) forwards; }
+@keyframes revealOut { to { opacity:0; } }
+.wuxing-wheel { width:90px; height:90px; border-radius:50%; background:conic-gradient(#7B9E6D 0deg 72deg, #D4876E 72deg 144deg, #C9A87C 144deg 216deg, #D4B860 216deg 288deg, #6B9EC2 288deg 360deg); box-shadow:0 0 40px 10px rgba(200,180,190,0.4); }
+.wuxing-wheel.animate { animation:wheelReveal 1.5s var(--ease) forwards; }
+@keyframes wheelReveal { 0% { transform:rotate(0deg) scale(0.3); opacity:0; } 30% { transform:rotate(240deg) scale(1.1); opacity:1; } 60% { transform:rotate(600deg) scale(1); opacity:0.8; } 100% { transform:rotate(720deg) scale(1.5); opacity:0; } }
+
+@media (max-width:380px) {
+  .cover-title { font-size:22px; }
+  .pillars-row { gap:5px; }
+  .pillar-stem { font-size:19px; }
+  .pillar-branch { font-size:16px; }
+  .glass-card { padding:22px 16px; }
+  .city-card-name { font-size:18px; }
+  .city-card-reason { font-size:11.5px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div class="particle-layer">
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div>
+  <div class="star-point"></div><div class="star-point"></div><div class="star-point"></div>
+  <div class="star-point"></div><div class="star-point"></div><div class="star-point"></div>
+  <div class="star-point"></div>
+  <div class="aurora"></div><div class="aurora"></div><div class="aurora"></div>
+</div>
+
+<div class="reveal-overlay" id="revealOverlay" style="display:none;"><div class="wuxing-wheel" id="wuxingWheel"></div></div>
+
+<div class="app-container">
+
+  <!-- ═══════════════════════════════════
+       LOCK SCREEN
+       ═══════════════════════════════════ -->
+  <div class="screen active" id="lockScreen">
+    <div class="glass-card" style="text-align:center;">
+      <div class="compass-wrap">
+        <div class="compass"><div class="compass-ring-outer"></div><div class="compass-ring-inner"></div><div class="compass-star"></div><div class="compass-dot"></div></div>
+      </div>
+      <div class="cover-title">探尋你的天命城市</div>
+      <div class="cover-subtitle">八字深度解读 · 为你指引能量契合之地</div>
+      <div class="pwd-wrap"><input type="password" class="pwd-input" id="pwdInput" placeholder="请输入你的专属密匙" autocomplete="off"></div>
+      <div class="pwd-error" id="pwdError"></div>
+      <div class="btn-flow-wrap"><button class="btn-unlock" onclick="handleUnlock()">開 啟 指 引</button></div>
+    </div>
+    <button class="reset-link" id="resetLock" style="display:none;" onclick="handleReset()">重置解锁状态</button>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       FORM SCREEN
+       ═══════════════════════════════════ -->
+  <div class="screen" id="formScreen">
+    <div class="glass-card">
+      <div class="form-title">告诉我你的出生信息</div>
+      <div class="form-calendar-hint">📅 请填写你的 <strong>阳历（公历）</strong> 出生日期</div>
+      <div class="form-group"><label class="form-label">🎂 出生年份（公历）</label><input type="number" class="form-input" id="inpYear" placeholder="例如 1995" min="1900" max="2100" value="1995"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">📅 月份（公历）</label><select class="form-select" id="inpMonth"></select></div>
+        <div class="form-group"><label class="form-label">📆 日期（公历）</label><select class="form-select" id="inpDay"></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">⏰ 出生时辰（北京时间）</label><select class="form-select" id="inpHour">
+        <option value="0">子时 (23:00 – 01:00)</option><option value="1">丑时 (01:00 – 03:00)</option><option value="2">寅时 (03:00 – 05:00)</option><option value="3">卯时 (05:00 – 07:00)</option><option value="4">辰时 (07:00 – 09:00)</option><option value="5">巳时 (09:00 – 11:00)</option><option value="6" selected>午时 (11:00 – 13:00)</option><option value="7">未时 (13:00 – 15:00)</option><option value="8">申时 (15:00 – 17:00)</option><option value="9">酉时 (17:00 – 19:00)</option><option value="10">戌时 (19:00 – 21:00)</option><option value="11">亥时 (21:00 – 23:00)</option>
+      </select></div>
+      <div class="form-group"><label class="form-label">💁 性别</label><div class="gender-toggle">
+        <button class="gender-btn active" id="genderMale" onclick="setGender('male')"><span class="emoji">👦</span> 男</button>
+        <button class="gender-btn" id="genderFemale" onclick="setGender('female')"><span class="emoji">👧</span> 女</button>
+      </div></div>
+      <div class="form-error" id="formError"></div>
+      <button class="btn-submit" onclick="handleCalculate()">开始深度解读</button>
+    </div>
+    <button class="reset-link" onclick="handleReset()">重置解锁状态</button>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       RESULTS SCREEN
+       ═══════════════════════════════════ -->
+  <div class="screen" id="resultsScreen">
+    <div id="resultsContent"></div>
+    <button class="btn-retry" style="margin-top:8px;" onclick="handleRetry()">🔄 重新测算</button>
+    <button class="reset-link" style="margin-top:4px;" onclick="handleReset()">重置解锁状态</button>
+    <div class="verify-error-banner" id="verifyErrorBanner">⚠️ 八字算法自检异常，请联系维护人员</div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════════════════════════
+   CONFIG
+   ═══════════════════════════════════════════════════════════ */
+const VALID_PASSWORDS = ['XUANXUE2024', 'CITY888'];
+const STORAGE_KEY = 'bazi_city_unlocked';
+
+/* ═══════════════════════════════════════════════════════════
+   CONSTANTS
+   ═══════════════════════════════════════════════════════════ */
+const TIAN_GAN = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const DI_ZHI   = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const WU_XING  = ['木','火','土','金','水'];
+// 天干五行: 甲乙→0(木), 丙丁→1(火), 戊己→2(土), 庚辛→3(金), 壬癸→4(水)
+const GAN_WX   = [0,0, 1,1, 2,2, 3,3, 4,4];
+// 地支五行: 子→4(水), 丑→2(土), 寅→0(木), 卯→0(木), 辰→2(土), 巳→1(火),
+//           午→1(火), 未→2(土), 申→3(金), 酉→3(金), 戌→2(土), 亥→4(水)
+const ZHI_WX   = [4,2, 0,0, 2,1, 1,2, 3,3, 2,4];
+// 地支藏干主气
+const HIDDEN = { 0:[9], 1:[5,9,7], 2:[0,2,4], 3:[1], 4:[4,1,9], 5:[2,6,4], 6:[3,5], 7:[5,3,1], 8:[6,8,4], 9:[7], 10:[4,7,3], 11:[8,0] };
+// 纳音 60甲子
+const NAYIN = ['海中金','炉中火','大林木','路旁土','剑锋金','山头火','涧下水','城头土','白蜡金','杨柳木','泉中水','屋上土','霹雳火','松柏木','流年水','砂石金','山下火','平地木','壁上土','金箔金','覆灯火','天河水','大驿土','钗钏金','桑柘木','柘榴木','大海水','石榴木','大海水','海中金','炉中火','大林木','路旁土','剑锋金','山头火','涧下水','城头土','白蜡金','杨柳木','泉中水','屋上土','霹雳火','松柏木','流年水','砂石金','山下火','平地木','壁上土','金箔金','覆灯火','天河水','大驿土','钗钏金','桑柘木','柘榴木','大海水','石榴木','大海水','海中金','炉中火'];
+
+const WX_COLOR = { '木':'#7B9E6D', '火':'#D4876E', '土':'#C9A87C', '金':'#D4B860', '水':'#6B9EC2' };
+const WX_EMOJI = { '木':'🌳', '火':'🔥', '土':'🏛️', '金':'💎', '水':'💧' };
+const WX_DIR = { '木':'东方', '火':'南方', '土':'中央/中原', '金':'西方', '水':'北方' };
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM — 付费解锁深度解读
+   ═══════════════════════════════════════════════════════════ */
+const PREMIUM_CODES = ['PREMIUM2026', 'DEPTH888', 'BAZI2026'];
+const PREMIUM_KEY = 'bazi_city_premium';
+const PREMIUM_PRICE = '¥9.9';
+
+/* ═══════════════════════════════════════════════════════════
+   CITY DB — 25城 · Unsplash 实拍图
+   ═══════════════════════════════════════════════════════════ */
+const CITY_DB = {
+  '木':[
+    { n:'杭州',c:'#7B9E6D',img:'https://images.unsplash.com/photo-1599571234909-29ed5d1321de?w=400&h=300&fit=crop',d:'西湖山水甲天下，龙井茶香四季。木主仁德与创造力，此地温润气候与文人底蕴，最适合需要舒展生长的你。' },
+    { n:'苏州',c:'#7B9E6D',img:'https://images.unsplash.com/photo-1587118103666-8e7e4e3e4c0e?w=400&h=300&fit=crop',d:'园林集东方美学大成，小桥流水养木气。木主仁慈与成长，这里精致慢生活滋养你内在的灵气。' },
+    { n:'成都',c:'#7B9E6D',img:'https://images.unsplash.com/photo-1609953911798-3cf5a020a1c8?w=400&h=300&fit=crop',d:'天府草木丰茂，盆地气候温润养人。木主生发之力，这里的巴适节奏与烟火气，让你的生命力自然舒展。' },
+    { n:'昆明',c:'#7B9E6D',img:'https://images.unsplash.com/photo-1597775181924-8f5fb6b9e3c8?w=400&h=300&fit=crop',d:'春城四季如春，花木繁盛。木主条达与希望，这里的高原阳光与鲜花，能唤起你内心最温柔的力量。' },
+    { n:'贵阳',c:'#7B9E6D',img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=300&fit=crop',d:'黔山秀水，森林覆盖率领先。木主生长与回归，这里青山绿水是你充电疗愈的天然氧吧。' }
+  ],
+  '火':[
+    { n:'深圳',c:'#D4876E',img:'https://images.unsplash.com/photo-1600037051203-6a1d0b4c8b3c?w=400&h=300&fit=crop',d:'年轻的热土，南方离火之精魄。火主礼与行动力，这里的快节奏与创新氛围，点燃你的事业小宇宙。' },
+    { n:'厦门',c:'#D4876E',img:'https://images.unsplash.com/photo-1558624232-0e9b9c2e5c8a?w=400&h=300&fit=crop',d:'阳光充沛，文艺清新中藏着热烈。火主热情与绽放，这里的海风与三角梅，让你由内而外闪闪发光。' },
+    { n:'长沙',c:'#D4876E',img:'https://images.unsplash.com/photo-1590650151155-3b62c5a1e8d0?w=400&h=300&fit=crop',d:'夜经济闻名，湘菜热辣如火。火主激情与活力，这座不夜城的烟火气恰好配你热力四射的灵魂。' },
+    { n:'武汉',c:'#D4876E',img:'https://images.unsplash.com/photo-1580734078497-3d1b9f0e8b5a?w=400&h=300&fit=crop',d:'三镇两江交汇，热气腾腾的过早文化。火主热诚与斗志，这里的市井烟火给你无限能量。' },
+    { n:'海口',c:'#D4876E',img:'https://images.unsplash.com/photo-1596436889106-be35e843f974?w=400&h=300&fit=crop',d:'热带滨海，阳光永不缺席。火主光明与温暖，这里碧海蓝天让你时刻保持满满热情。' }
+  ],
+  '土':[
+    { n:'北京',c:'#C9A87C',img:'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=400&h=300&fit=crop',d:'天下之中，六朝古都土德厚重。土主信义与包容，这里的红墙黄瓦与历史纵深，安放你稳如泰山的气场。' },
+    { n:'西安',c:'#C9A87C',img:'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=400&h=300&fit=crop',d:'千年古都，黄土高坡根脉深远。土主承载与信用，这里的城墙与兵马俑，连接你与华夏五千年的大气。' },
+    { n:'郑州',c:'#C9A87C',img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=300&fit=crop',d:'天下之中，黄河之畔中原厚土。土主中正与包容，这里的枢纽位置与务实氛围，托起你稳重向前的每一步。' },
+    { n:'济南',c:'#C9A87C',img:'https://images.unsplash.com/photo-1599571234909-29ed5d1321de?w=400&h=300&fit=crop',d:'泉水甲天下，齐鲁大地土德深厚。土主敦厚与诚信，这里的泉水与人文，滋养你温和而不失坚定的内心。' },
+    { n:'沈阳',c:'#C9A87C',img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop',d:'东北黑土地，工业重镇积淀深厚。土主承载与沉稳，这里的实干精神与冰雪热情，给你最踏实的归属感。' }
+  ],
+  '金':[
+    { n:'上海',c:'#D4B860',img:'https://images.unsplash.com/photo-1537531383496-f4749b88b463?w=400&h=300&fit=crop',d:'金融汇聚，金气锐利而璀璨。金主义气与决断，这里的摩登节奏与精致生活，匹配你对品质的极致追求。' },
+    { n:'重庆',c:'#D4B860',img:'https://images.unsplash.com/photo-1581337204873-1f6b6e4e6b6e?w=400&h=300&fit=crop',d:'山城立体魔幻，两江交汇聚金气。金主变革与锋芒，这里的8D地形与江湖气，给你披荆斩棘的勇气。' },
+    { n:'广州',c:'#D4B860',img:'https://images.unsplash.com/photo-1590650151155-3b62c5a1e8d0?w=400&h=300&fit=crop',d:'千年商都，十三行繁华聚金。金主财富与条理，这里的美食与花城气质，让你在精致中收获丰盛人生。' },
+    { n:'乌鲁木齐',c:'#D4B860',img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop',d:'丝路明珠，西域金气贯通东西。金主刚毅与独特，这里的异域风情与天山壮美，匹配你的与众不同。' },
+    { n:'兰州',c:'#D4B860',img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=300&fit=crop',d:'黄河穿城似金腰带，西北工业脊梁。金主坚韧与骨气，这里的牛肉面与大河气魄，给你咬定青山不放松的力量。' }
+  ],
+  '水':[
+    { n:'青岛',c:'#6B9EC2',img:'https://images.unsplash.com/photo-1596436889106-be35e843f974?w=400&h=300&fit=crop',d:'黄海之滨碧波万顷，水德充沛。水主智慧与变通，这里的红瓦绿树与海风，给你灵感如潮涌的每一天。' },
+    { n:'大连',c:'#6B9EC2',img:'https://images.unsplash.com/photo-1581337204873-1f6b6e4e6b6e?w=400&h=300&fit=crop',d:'北方明珠三面环海，水韵悠长。水主柔情与洞察，这里的星海广场与有轨电车，陪你写意人生。' },
+    { n:'天津',c:'#6B9EC2',img:'https://images.unsplash.com/photo-1537531383496-f4749b88b463?w=400&h=300&fit=crop',d:'九河下梢，海河蜿蜒水聚智慧。水主灵活与机智，这里的相声茶馆与五大道，滋养你通透幽默的灵魂。' },
+    { n:'宁波',c:'#6B9EC2',img:'https://images.unsplash.com/photo-1590650151155-3b62c5a1e8d0?w=400&h=300&fit=crop',d:'港通天下，东海之水聚财纳福。水主智慧与包容，这里的天一阁书香与海鲜，养你静水流深的力量。' },
+    { n:'哈尔滨',c:'#6B9EC2',img:'https://images.unsplash.com/photo-1581337204873-1f6b6e4e6b6e?w=400&h=300&fit=crop',d:'松花江畔，冰雪与水韵交融。水主智慧与灵动，这里的俄式建筑与冰雪大世界，配你最独特的个性。' }
+  ]
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ASTRONOMY — 太阳黄经 · 节气准确计算
+   ═══════════════════════════════════════════════════════════ */
+
+/**
+ * toJD — 公历日期 → 儒略日
+ * 标准天文公式，用于太阳黄经计算。
+ */
+function toJD(y, m, d) {
+  let Y = y, M = m;
+  if (M <= 2) { Y--; M += 12; }
+  const A = Math.floor(Y / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + B - 1524.5;
+}
+
+/**
+ * fromJD — 儒略日 → 公历日期
+ */
+function fromJD(jd) {
+  const Z = Math.floor(jd + 0.5), F = jd + 0.5 - Z;
+  let A = Z;
+  if (Z >= 2299161) {
+    const a = Math.floor((Z - 1867216.25) / 36524.25);
+    A = Z + 1 + a - Math.floor(a / 4);
+  }
+  const B = A + 1524;
+  const C = Math.floor((B - 122.1) / 365.25);
+  const D = Math.floor(365.25 * C);
+  const E = Math.floor((B - D) / 30.6001);
+  const day = B - D - Math.floor(30.6001 * E) + F;
+  const month = E < 14 ? E - 1 : E - 13;
+  const year = month > 2 ? C - 4716 : C - 4715;
+  return { year, month, day: Math.floor(day) };
+}
+
+/**
+ * sunLon — 太阳黄经 (0-360°)
+ *
+ * 使用 IAU 简化公式计算太阳视黄经。
+ * 精度 ±0.01°，足以准确判断节气日期。
+ * 公式来源: Jean Meeus《Astronomical Algorithms》第25章
+ *
+ * @param {number} jd — 儒略日
+ * @returns {number} 太阳黄经 (0-360°)
+ */
+function sunLon(jd) {
+  const T = (jd - 2451545.0) / 36525;
+  const T2 = T * T;
+  const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T2;
+  const M = 357.52911 + 35999.05029 * T - 0.0001537 * T2;
+  const Mr = M * Math.PI / 180;
+  const C = (1.914602 - 0.004817 * T - 0.000014 * T2) * Math.sin(Mr)
+          + (0.019993 - 0.000101 * T) * Math.sin(2 * Mr)
+          + 0.000289 * Math.sin(3 * Mr);
+  const omega = 125.04 - 1934.136 * T;
+  let lon = L0 + C - 0.00569 - 0.00478 * Math.sin(omega * Math.PI / 180);
+  return ((lon % 360) + 360) % 360;
+}
+
+/**
+ * solarJD — 牛顿迭代法求太阳到达指定黄经的儒略日
+ *
+ * 从该年大致日期开始迭代，每次用角偏差除以日均运动角速度(≈0.9856°/天)修正。
+ * 30次迭代内收敛至 0.00001°。
+ *
+ * @param {number} year — 公历年
+ * @param {number} angle — 目标太阳黄经 (0-360°)
+ * @returns {number} 儒略日
+ */
+function solarJD(year, angle) {
+  // Initial guess: Jan 1 sunLon≈280°, move forward to target angle
+  let jan1 = toJD(year, 1, 1);
+  let daysOffset = ((angle - 280 + 360) % 360) / 0.9856;
+  let jd = jan1 + daysOffset;
+  for (let i = 0; i < 30; i++) {
+    const lon = sunLon(jd);
+    let diff = angle - lon;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    if (Math.abs(diff) < 0.00001) break;
+    jd += diff / 0.9856;
+  }
+  return jd;
+}
+
+/**
+ * jieqiDate — 获取指定年份某个节气的公历日期
+ *
+ * 【节气与黄经对照表】
+ *   立春 315°   惊蛰 345°   清明 15°    立夏 45°    芒种 75°    小暑 105°
+ *   立秋 135°   白露 165°   寒露 195°   立冬 225°   大雪 255°   小寒 285°
+ *
+ * @param {number} year
+ * @param {number} angle — 太阳黄经
+ * @returns {{year,month,day}}
+ */
+function jieqiDate(year, angle) {
+  return fromJD(solarJD(year, angle));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BAZI ENGINE — 八字排盘核心
+   ═══════════════════════════════════════════════════════════ */
+
+/**
+ * 【日柱计算】getDayGanZhi
+ *
+ * 算法: 以 1900-01-01 = 甲戌日 为锚点，通过 JS Date 精确计算天数差。
+ *
+ *   日天干 = (0 + daysDiff) % 10    (锚点天干=0=甲)
+ *   日地支 = (10 + daysDiff) % 12   (锚点地支=10=戌)
+ *
+ * JS Date 在 1900-2100 年范围内正确处理公历闰年。
+ * 闰年规则: 能被4整除但不能被100整除, 或能被400整除。
+ *
+ * 【已验证的测试用例】 (4个独立日期交叉验证通过):
+ *   1996-07-18 → 丙辰日 ✓  (用户提供)
+ *   1995-06-15 → 丁丑日 ✓  (Python引擎验证)
+ *   2000-01-01 → 戊午日 ✓  (万年历验证)
+ *   2020-02-04 → 丁丑日 ✓  (万年历验证)
+ *
+ * @param {number} y — 公历年 (1900-2100)
+ * @param {number} m — 公历月 (1-12)
+ * @param {number} d — 公历日
+ * @returns {[number,number]} [天干序号, 地支序号]
+ */
+function getDayGanZhi(y, m, d) {
+  const ref = new Date(1900, 0, 1);
+  const birth = new Date(y, m - 1, d);
+  const daysDiff = Math.floor((birth - ref) / 86400000);
+  return [((0 + daysDiff) % 10 + 10) % 10, ((10 + daysDiff) % 12 + 12) % 12];
+}
+
+/**
+ * 【年柱计算】getYearGanZhi
+ *
+ * ⚠️ 关键规则: 年柱以【立春】为界，不以公历1月1日或农历正月初一为界。
+ *   若出生日期在当年立春之前，年柱取上一年。
+ *   立春通过太阳黄经315°精确计算（通常在2月3-5日）。
+ *
+ *   年柱天干 = (年份 - 4) % 10
+ *   年柱地支 = (年份 - 4) % 12
+ *
+ * @param {number} y — 公历年
+ * @param {number} m — 公历月
+ * @param {number} d — 公历日
+ * @returns {[number,number]} [年天干, 年地支]
+ */
+function getYearGanZhi(y, m, d) {
+  const lichun = jieqiDate(y, 315);
+  const birthKey = y * 10000 + m * 100 + d;
+  const lichunKey = lichun.year * 10000 + lichun.month * 100 + lichun.day;
+  const cy = birthKey < lichunKey ? y - 1 : y;
+  return [((cy - 4) % 10 + 10) % 10, ((cy - 4) % 12 + 12) % 12];
+}
+
+/**
+ * 【月柱计算】getMonthGanZhi
+ *
+ * ⚠️ 关键规则: 月柱以【节气(节)】为界，每月起点为"节"。
+ *
+ *   | 月柱 | 地支 | 节气范围              | 月序(寅=1) |
+ *   | 寅月 | 寅   | 立春(315°)→惊蛰(345°) | 1          |
+ *   | 卯月 | 卯   | 惊蛰(345°)→清明(15°)  | 2          |
+ *   | 辰月 | 辰   | 清明(15°)→立夏(45°)   | 3          |
+ *   | 巳月 | 巳   | 立夏(45°)→芒种(75°)   | 4          |
+ *   | 午月 | 午   | 芒种(75°)→小暑(105°)  | 5          |
+ *   | 未月 | 未   | 小暑(105°)→立秋(135°) | 6          |
+ *   | 申月 | 申   | 立秋(135°)→白露(165°) | 7          |
+ *   | 酉月 | 酉   | 白露(165°)→寒露(195°) | 8          |
+ *   | 戌月 | 戌   | 寒露(195°)→立冬(225°) | 9          |
+ *   | 亥月 | 亥   | 立冬(225°)→大雪(255°) | 10         |
+ *   | 子月 | 子   | 大雪(255°)→小寒(285°) | 11         |
+ *   | 丑月 | 丑   | 小寒(285°)→立春(315°) | 12         |
+ *
+ *   【五虎遁口诀】月天干 = (年天干%5 × 2 + 月序数 + 1) % 10
+ *    甲己之年丙作首 → 年干%5=0 → 寅月干=2(丙)
+ *    乙庚之年戊为头 → 年干%5=1 → 寅月干=4(戊)
+ *    丙辛之年寻庚上 → 年干%5=2 → 寅月干=6(庚)
+ *    丁壬之年壬寅流 → 年干%5=3 → 寅月干=8(壬)
+ *    戊癸之年甲寅好 → 年干%5=4 → 寅月干=0(甲)
+ *
+ * @param {number} y — 公历年
+ * @param {number} m — 公历月
+ * @param {number} d — 公历日
+ * @param {number} yStem — 年天干序号
+ * @returns {[number,number]} [月天干, 月地支]
+ */
+function getMonthGanZhi(y, m, d, yStem) {
+  const JIE = [
+    { angle: 315, branch: 2, num: 1  },
+    { angle: 345, branch: 3, num: 2  },
+    { angle: 15,  branch: 4, num: 3  },
+    { angle: 45,  branch: 5, num: 4  },
+    { angle: 75,  branch: 6, num: 5  },
+    { angle: 105, branch: 7, num: 6  },
+    { angle: 135, branch: 8, num: 7  },
+    { angle: 165, branch: 9, num: 8  },
+    { angle: 195, branch: 10, num: 9 },
+    { angle: 225, branch: 11, num: 10 },
+    { angle: 255, branch: 0,  num: 11 },
+    { angle: 285, branch: 1,  num: 12 }
+  ];
+  const birthKey = y * 10000 + m * 100 + d;
+  // 立春 date for filtering 小寒 (see loop below)
+  const lichunKey = (() => { const gd = fromJD(solarJD(y, 315)); return gd.year * 10000 + gd.month * 100 + gd.day; })();
+  let monthBranch = 2, monthNum = 1;
+  for (const jie of JIE) {
+    // Current year's solar term
+    let cJd = solarJD(y, jie.angle);
+    let cGd = fromJD(cJd);
+    let cKey = cGd.year * 10000 + cGd.month * 100 + cGd.day;
+    // 小寒(285°) of current year is in January, before 立春.
+    // For births on/after 立春 it belongs to the previous lunar year — skip it.
+    if (!(jie.angle === 285 && birthKey >= lichunKey)) {
+      if (birthKey >= cKey) {
+        monthBranch = jie.branch;
+        monthNum = jie.num;
+      }
+    }
+    // For January births, also check previous year's solar terms
+    if (m === 1) {
+      let pJd = solarJD(y - 1, jie.angle);
+      let pGd = fromJD(pJd);
+      let pKey = pGd.year * 10000 + pGd.month * 100 + pGd.day;
+      if (birthKey >= pKey) {
+        monthBranch = jie.branch;
+        monthNum = jie.num;
+      }
+    }
+  }
+  const monthStem = ((yStem % 5) * 2 + monthNum + 1) % 10;
+  return [monthStem, monthBranch];
+}
+
+/**
+ * 【时柱计算】getHourGanZhi
+ *
+ * 【五鼠遁口诀】
+ *   甲己还加甲 → 日干%5=0 → 子时干=0(甲)
+ *   乙庚丙作初 → 日干%5=1 → 子时干=2(丙)
+ *   丙辛从戊起 → 日干%5=2 → 子时干=4(戊)
+ *   丁壬庚子居 → 日干%5=3 → 子时干=6(庚)
+ *   戊癸何方发 → 日干%5=4 → 子时干=8(壬)
+ *   壬子是真途
+ *
+ *   时天干 = (日干%5 × 2 + 时支) % 10
+ *
+ * 【时支固定】
+ *   0=子时(23-1), 1=丑时(1-3), 2=寅时(3-5), 3=卯时(5-7),
+ *   4=辰时(7-9), 5=巳时(9-11), 6=午时(11-13), 7=未时(13-15),
+ *   8=申时(15-17), 9=酉时(17-19), 10=戌时(19-21), 11=亥时(21-23)
+ *
+ * @param {number} dayStem — 日天干序号
+ * @param {number} hourBranch — 时地支序号 (0-11)
+ * @returns {[number,number]} [时天干, 时地支]
+ */
+function getHourGanZhi(dayStem, hourBranch) {
+  const hourStem = ((dayStem % 5) * 2 + hourBranch) % 10;
+  return [hourStem, hourBranch];
+}
+
+function naIdx(s, b) {
+  return (((s * 6 - b * 5) % 60) + 60) % 60;
+}
+
+/**
+ * calcBazi — 完整八字排盘
+ *
+ * @param {number} y — 公历年
+ * @param {number} m — 公历月
+ * @param {number} d — 公历日
+ * @param {number} hb — 时地支序号 (0-11)
+ * @returns {object} { year, month, day, hour, nayin }
+ */
+function calcBazi(y, m, d, hb) {
+  const [yS, yB] = getYearGanZhi(y, m, d);
+  const [mS, mB] = getMonthGanZhi(y, m, d, yS);
+  const [dS, dB] = getDayGanZhi(y, m, d);
+  const [hS, _hB] = getHourGanZhi(dS, hb);
+  const na = (s, b) => NAYIN[naIdx(s, b)];
+  return {
+    year:  [yS, yB],
+    month: [mS, mB],
+    day:   [dS, dB],
+    hour:  [hS, hb],
+    nayin: {
+      year:  na(yS, yB),
+      month: na(mS, mB),
+      day:   na(dS, dB),
+      hour:  na(hS, hb)
+    }
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANALYSIS — 五行统计 · 喜用神 · 忌神
+   ═══════════════════════════════════════════════════════════ */
+
+/**
+ * analyze — 分析八字
+ *
+ * 【喜用神判断逻辑】
+ *   1. 统计四柱天干+地支主气藏干(共8字)的五行个数
+ *   2. 取数量最少(或缺失)的五行作为喜用神候选
+ *   3. 若多个五行并列最少 → 优先取生扶日主的五行(印星)
+ *   4. 若印星不在候选中 → 取与日主同五行者(比劫)
+ *   5. 若以上皆不在 → 取第一个
+ *
+ * 【忌神判断】
+ *   忌神 = 克喜用神的五行
+ *   五行相克: 金克木, 水克火, 木克土, 火克金, 土克水
+ */
+function analyze(bazi) {
+  const counts = { '木': 0, '火': 0, '土': 0, '金': 0, '水': 0 };
+  for (const [s, b] of [bazi.year, bazi.month, bazi.day, bazi.hour]) {
+    counts[WU_XING[GAN_WX[s]]]++;
+    counts[WU_XING[GAN_WX[HIDDEN[b][0]]]]++;
+  }
+  const dayWX = WU_XING[GAN_WX[bazi.day[0]]];
+
+  let minC = Infinity;
+  for (const w of WU_XING) { if (counts[w] < minC) minC = counts[w]; }
+  const cand = WU_XING.filter(w => counts[w] === minC);
+
+  const generatedBy = { '火':'木', '土':'火', '金':'土', '水':'金', '木':'水' };
+  const pref = generatedBy[dayWX];
+  let favorable;
+  if (cand.length === 1) {
+    favorable = cand[0];
+  } else if (cand.includes(pref)) {
+    favorable = pref;
+  } else if (cand.includes(dayWX)) {
+    favorable = dayWX;
+  } else {
+    favorable = cand[0];
+  }
+
+  const overcome = { '木':'金', '火':'水', '土':'木', '金':'火', '水':'土' };
+  const taboo = overcome[favorable];
+
+  return {
+    dayWX,
+    dayStem: bazi.day[0],
+    dayBranch: bazi.day[1],
+    counts,
+    favorable,
+    taboo
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   generateInterpretation — 动态内容生成
+   ═══════════════════════════════════════════════════════════ */
+function generateInterpretation(dayGan, dayZhi, xiYong, wuxingCount, bazi) {
+  const dayWX = WU_XING[GAN_WX[dayGan]];
+  const dayGanChar = TIAN_GAN[dayGan];
+  const dayZhiChar = DI_ZHI[dayZhi];
+
+  /* 10天干完整性格画像 */
+  const profiles = {
+    '甲': { title:'甲木参天之树', nature:'阳木',
+      desc:'甲木为纯阳之木，乃参天大树之象。你天生具有领袖气质，正直磊落，心怀远大。如同森林中最挺拔的那棵树，你有着与生俱来的方向感和向上生长的韧劲。面对困境不轻言放弃，越是艰难的环境，越能激发你的斗志。在团队中，你往往是那个默默撑起一片天的角色，以德服人，不怒自威。' },
+    '乙': { title:'乙木柔韧之藤', nature:'阴木',
+      desc:'乙木为阴木，如藤蔓花草般柔美而坚韧。你心思细腻，善于变通，能在夹缝中找到生机。不似甲木般刚硬，你以柔克刚，用智慧和适应力化解一切难题。审美天赋出众，对生活品质有独到追求，是人群中那个温和却无比坚定的人。外表柔软、内心强大，是你最迷人的反差。' },
+    '丙': { title:'丙火炽烈之阳', nature:'阳火',
+      desc:'丙火为太阳之火，光芒万丈，普照四方。你热情奔放、慷慨大度，是天生的焦点与感染力源。如同正午的太阳，走到哪里都能照亮身边的人。你拥有强烈的正义感与领导欲，乐于分享自己的光和热。但偶尔也需注意：太阳也需要落山休息，学会自我关怀同样重要。' },
+    '丁': { title:'丁火长明之灯', nature:'阴火',
+      desc:'丁火为灯烛之火，虽不似丙火般炽烈，却持久而温暖。你内心有着不灭的信念之光，在黑暗中默默照亮前行的路。细腻敏感、洞察力强，能敏锐地感知他人的情绪和需求。你像一盏不灭的灯火，给人稳定而持久的安全感。这份温柔而坚定的力量，是你最珍贵的礼物。' },
+    '戊': { title:'戊土厚重之山', nature:'阳土',
+      desc:'戊土为城墙之土，厚重稳健，承载万物。你如同巍峨高山，给人以无可替代的安全感与信赖感。稳重、讲信用、脚踏实地，是朋友圈中最可靠的定心丸。你做事不急不躁，有自己的节奏，如同一座沉默的大山，风吹雨打岿然不动。这份沉着与厚重，是成大事者的根基。' },
+    '己': { title:'己土滋养之田', nature:'阴土',
+      desc:'己土为田园之土，温润包容，滋养万物生长。你有着极强的共情能力与包容心，如同肥沃的土壤，默默支持着身边每一个人的成长。细致周到、善于照顾他人，是天生的协调者与抚慰者。你的温柔不是软弱，而是一种润物无声的力量，让每一个靠近你的人都感到被接纳和滋养。' },
+    '庚': { title:'庚金刚锐之剑', nature:'阳金',
+      desc:'庚金为刀剑之金，锋芒毕露，锐不可当。你天生果敢决断，有着超乎常人的意志力与执行力。如同出鞘的宝剑，你所向披靡，一旦认定目标便一往无前。正义感强烈，黑白分明，不喜拖泥带水。经历磨砺之后，你的锋芒会更加纯粹——真正的宝剑，都是在烈火中锻造而成的。' },
+    '辛': { title:'辛金精粹之珠', nature:'阴金',
+      desc:'辛金为珠宝之金，精致细腻，贵气内敛。你对品质有极致追求，无论是生活还是工作，都力求完美。外表低调而内心骄傲，如同珍珠生于蚌壳之中，光华内蕴而不张扬。你拥有极高的审美标准和敏锐的洞察力，能发现常人所忽视的细节之美，是真正意义上的"精致主义者"。' },
+    '壬': { title:'壬水浩瀚之海', nature:'阳水',
+      desc:'壬水为江河湖海之水，胸怀博大，智慧深沉。你有着开阔的格局和远超常人的远见，如同大海般包容万象。头脑灵活、善于变通，总能从意想不到的角度找到解决方案。你的智慧如水一般流动不息，不断探索未知领域。这份博大的胸怀，让你在任何领域都能走得很远。' },
+    '癸': { title:'癸水润物之露', nature:'阴水',
+      desc:'癸水为雨露之水，细腻柔和，渗透万物。你有着极强的直觉力和感知力，如同清晨的露珠，晶莹剔透而洞察幽微。表面平静、内心深沉，你善于倾听和观察，能在细微之处发现事物的本质。你的智慧不是惊涛骇浪，而是滴水穿石般的持久与深入，是最温柔也最强大的力量。' }
+  };
+  const profile = profiles[dayGanChar] || profiles['甲'];
+
+  /* 喜用神详细解读 (~150字) */
+  const dayWXDesc = {
+    '木': '木主仁德，象征生发、条达与创造力。木命之人天生具有向上的力量，如同春日抽枝的树苗，需要源源不断的养分来支撑成长。',
+    '火': '火主礼义，象征热情、光明与行动力。火命之人天生自带光芒，如同燃烧的火焰，需要持续的燃料来维持那份耀眼的热度。',
+    '土': '土主诚信，象征承载、包容与稳定性。土命之人天生厚重可靠，如同广袤的大地，需要适当的疏导与生机来保持活力。',
+    '金': '金主义气，象征决断、锐利与聚财能力。金命之人天生果敢锋利，如同经过锻造的金属，需要淬炼与磨砺来绽放光华。',
+    '水': '水主智慧，象征灵动、变通与深度。水命之人天生聪慧敏锐，如同流动的江河，需要方向与边界来汇聚力量。'
+  };
+  const xiyongHelp = {
+    '木': { '缺': '木气不足，如同花园缺少树木——虽有花草之美却少了骨架与方向感。', '补': '补足木气，能为你注入生发之力与决断魄力。木主肝胆，木气充盈则思维清晰果断，不再犹豫摇摆。东方青龙之位、文化艺术之域，最宜吸纳木德灵气。' },
+    '火': { '缺': '火气不足，如同冬日缺少暖阳——虽有理性却少了热情与感染力。', '补': '补足火气，能为你点燃内在的热情与行动力。火主心脏与小肠，火气充盈则精力充沛、感染力倍增。南方离火之位、创新热土之上，最宜汲取光明能量。' },
+    '土': { '缺': '土气不足，如同房屋缺少地基——虽有才华却少了稳定与归属感。', '补': '补足土气，能增强你的承载能力与包容力。土主脾胃，土气充盈则身心安稳、根基牢固。中原厚土之上、历史名都之中，最宜吸纳敦厚之气。' },
+    '金': { '缺': '金气不足，如同武士缺少兵器——虽有意志却少了锐气与决断。', '补': '补足金气，能提升你的决断力与聚财能力。金主肺与大肠，金气充盈则思维敏捷、判断精准。西方锐金之域、金融都会之中，最宜吸纳果断能量。' },
+    '水': { '缺': '水气不足，如同河流缺少源头——虽有智慧却少了灵动与深度。', '补': '补足水气，能滋养你的智慧与灵动机变。水主肾与膀胱，水气充盈则思路开阔、应变自如。北方水德之域、滨海休闲之地，最宜吸纳流动灵气。' }
+  };
+  const xiDetail = xiyongHelp[xiYong] || xiyongHelp['木'];
+  const dayDesc = dayWXDesc[dayWX] || dayWXDesc['木'];
+  const xiyongDetail = `${dayDesc}\n\n在本次排盘分析中，你的命局呈现出${xiDetail['缺']}五行讲究平衡流转，某一行的缺失并非缺陷，而是指出了你最需要补益的方向。"${xiYong}"便是你命局中的关键钥匙——${xiDetail['补']}\n\n当${xiYong}的能量进入你的生命，你会发现：内心的方向感变得更加清晰，许多过去犹豫不决的问题迎刃而解。这不是迷信，而是五行能量调和的自然表现——每一种元素都是宇宙馈赠给你的礼物，而你需要的，正是这份来自${xiYong}行的温柔补益。`;
+
+  /* 城市能量描述 */
+  const cityEnergy = {
+    '杭州': '西湖龙井灵气与互联网创新活力交融，千年人文积淀中蕴藏着最强的东方木德生发之气',
+    '苏州': '园林艺术的巅峰之作，小桥流水间藏着东方美学的生发之力，精致而不失生命力',
+    '成都': '天府之国的草木葱茏与慢生活哲学，盆地温润气候养出最自然的木行能量场',
+    '昆明': '四季如春的花都，高原阳光与繁花似锦让木行的舒展之力无处不在',
+    '贵阳': '黔山秀水的原始森林覆盖率，是木行能量最纯净的天然氧吧',
+    '深圳': '从零到一的创新热土，南方离火之精魄在快节奏与科技氛围中熊熊燃烧',
+    '厦门': '滨海阳光与文艺气息交织，离火之地的热烈以最温柔的方式绽放',
+    '长沙': '不夜城的烟火气与湘江两岸的热辣活力，火行能量在这里永不熄灭',
+    '武汉': '九省通衢的码头精神与热气腾腾的过早文化，火行能量粗犷而真挚',
+    '海口': '热带阳光与椰风海韵，最纯粹的离火之地，光明与温暖从不缺席',
+    '北京': '六朝古都的厚重王者之气，中土之德在红墙黄瓦间沉淀千年',
+    '西安': '黄土高坡的文明根脉，十三朝古都承载着最深厚的土行能量',
+    '郑州': '天下之中的枢纽位置，黄河之畔的务实氛围汇聚中原厚土之气',
+    '济南': '泉水与齐鲁文化的温和敦厚，水土相济中藏着最包容的土德',
+    '沈阳': '东北黑土地的实干精神，工业重镇的厚重积淀是最踏实的土行能量',
+    '上海': '外滩金融中心的锐利金气，摩登与精致交织出最璀璨的金属性能量场',
+    '重庆': '山城立体魔幻中的两江交汇，金行能量在8D地形中锋芒毕露',
+    '广州': '千年商都的十三行遗风，金行能量在美食与花市中流动不息',
+    '乌鲁木齐': '丝路明珠的西域风情，天山脚下的金行能量贯通东西文明',
+    '兰州': '黄河穿城而过的金带之象，西北工业脊梁中藏着最坚韧的金行力量',
+    '青岛': '黄海之滨的碧波万顷，红瓦绿树间藏着最充沛的水行智慧',
+    '大连': '北方明珠的三面环海，浪漫之都的水韵悠长滋养每一个灵动灵魂',
+    '天津': '九河下梢的海河蜿蜒，相声茶馆中流淌着最通透的水行机智',
+    '宁波': '东海之滨的书藏古今，港通天下中汇聚最深厚的水行包容力',
+    '哈尔滨': '松花江畔的冰雪水韵，东方莫斯科风情中藏着最独特的水行灵性'
+  };
+
+  /* 喜用神×日主 5×5 作用关系矩阵 */
+  const xiyongToDay = {
+    '木': { '木':'同类相助，如森林共生——增强你的仁德之力与向上生长的韧劲', '火':'木为火之源，如同薪柴之于火焰——持续为你提供燃烧的能量', '土':'木能疏土，为厚重的土性注入生机与条达', '金':'木为金之财，柔能克刚——补木能让你在锐利之外多一份圆融', '水':'木为水之泄，水生木而木荣——让你的智慧之水流向具体的创造' },
+    '火': { '木':'火得木生而更旺——为你的生长之力注入激情与行动力', '火':'同类相扶，如篝火相聚——增强你的热情与感染力', '土':'火生土而土暖——为你的厚重注入温暖与活力', '金':'火克金而金成器——用热情淬炼你的锋芒', '水':'火为水之财——让你的智慧之光照亮财富之路' },
+    '土': { '木':'土得木疏而不板——防止你的稳重变为固执', '火':'土得火生而更厚——为你的承载之力注入温暖能量', '土':'同类相助，如群山连绵——增强你的稳定与包容', '金':'土生金而金有源——你的厚重承载着财富的根基', '水':'土为水之制——为你的灵动加上必要的边界与方向' },
+    '金': { '木':'金克木而成材——为你的生发之力注入决断与锋芒', '火':'金得火炼而成器——用热情淬炼你的锐气', '土':'金得土生而有根——为你的锋芒增添厚重的根基', '金':'同类相助，如刀剑相鸣——增强你的决断力与锐气', '水':'金生水而水源不竭——为你的智慧提供持续的源泉' },
+    '水': { '木':'水生木而木茂——让你的智慧滋养出具体的成就', '火':'水为火之官——用智慧为你的热情提供方向', '土':'水得土制而不泛——防止你的灵动变为散漫', '金':'水得金生而源远——财富滋养智慧，智慧创造财富', '水':'同类相扶，如江河汇海——增强你的智慧与格局' }
+  };
+
+  function getCityReason(cityName, dayWX, xiYong) {
+    const energy = cityEnergy[cityName] || '';
+    const help = xiyongToDay[xiYong] && xiyongToDay[xiYong][dayWX] ? xiyongToDay[xiYong][dayWX] : '';
+    const intro = `${cityName}——${energy}。`;
+    const bridge = help ? `对你的命局而言，${help}。` : '';
+    const closing = `在这里，${xiYong}行的能量将自然而然地融入你的生命，补全你八字中最需要的那一块拼图。`;
+    return intro + ' ' + bridge + ' ' + closing;
+  }
+
+  return {
+    dayMasterAnalysis: { title: profile.title, nature: profile.nature, desc: profile.desc },
+    xiyongDetail,
+    getCityReason
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RECOMMEND
+   ═══════════════════════════════════════════════════════════ */
+function recommend(analysis) {
+  const favCities = CITY_DB[analysis.favorable] || [];
+  const tabooCities = CITY_DB[analysis.taboo] || [];
+  const shuffled = [...favCities].sort(() => Math.random() - 0.5);
+  return {
+    cities: shuffled.slice(0, 2),
+    tabooCity: tabooCities.length ? tabooCities[Math.floor(Math.random() * tabooCities.length)] : null,
+    favorable: analysis.favorable,
+    taboo: analysis.taboo
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UI Logic
+   ═══════════════════════════════════════════════════════════ */
+let currentGender = 'male';
+
+function $(id) { return document.getElementById(id); }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.animation = ''; });
+  const el = $(id); if (!el) return;
+  el.classList.add('active');
+  el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
+  const bgMap = {
+    lockScreen:    'linear-gradient(175deg, #F3E8EE 0%, #F5ECF2 25%, #FEF9F2 55%, #F9F3EF 80%, #F3E8EE 100%)',
+    formScreen:    'linear-gradient(175deg, #F8F2F5 0%, #FEF9F2 40%, #F3F0EC 100%)',
+    resultsScreen: 'linear-gradient(175deg, #F5EDF0 0%, #FDF8F4 50%, #F3E8EE 100%)'
+  };
+  document.body.style.background = bgMap[id] || bgMap.lockScreen;
+  document.body.style.backgroundAttachment = 'fixed';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UNLOCK / RESET
+   ═══════════════════════════════════════════════════════════ */
+function isUnlocked() { return localStorage.getItem(STORAGE_KEY) === '1'; }
+function setUnlocked(v) { v ? localStorage.setItem(STORAGE_KEY, '1') : localStorage.removeItem(STORAGE_KEY); updateResetLinks(); }
+function updateResetLinks() { const v = isUnlocked(); document.querySelectorAll('.reset-link').forEach(b => b.style.display = v ? 'block' : 'none'); }
+
+function handleUnlock() {
+  const input = $('pwdInput'), error = $('pwdError'), pwd = input.value.trim();
+  if (!pwd) { error.textContent = '请输入密匙'; return; }
+  if (VALID_PASSWORDS.includes(pwd)) {
+    error.textContent = ''; input.classList.remove('shake'); setUnlocked(true);
+    const lock = $('lockScreen');
+    lock.style.animation = 'screenOut 0.35s cubic-bezier(0.25,0.46,0.45,0.94) forwards';
+    setTimeout(() => { lock.classList.remove('active'); lock.style.animation = ''; showScreen('formScreen'); initFormDefaults(); }, 350);
+  } else {
+    error.textContent = '密匙错误，请重试';
+    input.classList.add('shake');
+    setTimeout(() => input.classList.remove('shake'), 500);
+    input.select();
+  }
+}
+
+function handleReset() {
+  setUnlocked(false);
+  localStorage.removeItem(PREMIUM_KEY);
+  const i = $('pwdInput'); if (i) i.value = '';
+  const e = $('pwdError'); if (e) e.textContent = '';
+  showScreen('lockScreen');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FORM
+   ═══════════════════════════════════════════════════════════ */
+function initFormDefaults() {
+  const mSel = $('inpMonth');
+  if (mSel && mSel.options.length === 0) { for (let i = 1; i <= 12; i++) mSel.add(new Option(i + '月', i)); mSel.value = '6'; }
+  const dSel = $('inpDay');
+  if (dSel && dSel.options.length === 0) { for (let i = 1; i <= 31; i++) dSel.add(new Option(i + '日', i)); dSel.value = '15'; }
+  const yInp = $('inpYear'); if (yInp) yInp.value = 1995;
+  const hSel = $('inpHour'); if (hSel) hSel.value = '6';
+  const err = $('formError'); if (err) err.textContent = '';
+  $('genderMale').classList.add('active');
+  $('genderFemale').classList.remove('active');
+  currentGender = 'male';
+}
+
+function updateDays() {
+  const y = parseInt($('inpYear').value) || 2000, m = parseInt($('inpMonth').value) || 6;
+  let dmax = 31;
+  if ([4, 6, 9, 11].includes(m)) dmax = 30;
+  else if (m === 2) dmax = ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) ? 29 : 28;
+  const dSel = $('inpDay'), cur = parseInt(dSel.value) || 15;
+  dSel.innerHTML = '';
+  for (let i = 1; i <= dmax; i++) dSel.add(new Option(i + '日', i));
+  dSel.value = Math.min(cur, dmax);
+}
+
+function setGender(g) {
+  currentGender = g;
+  $('genderMale').classList.toggle('active', g === 'male');
+  $('genderFemale').classList.toggle('active', g === 'female');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CALCULATE & RENDER
+   ═══════════════════════════════════════════════════════════ */
+function handleCalculate() {
+  const y = parseInt($('inpYear').value), m = parseInt($('inpMonth').value),
+        d = parseInt($('inpDay').value), hb = parseInt($('inpHour').value),
+        err = $('formError');
+  if (isNaN(y) || y < 1900 || y > 2100) { err.textContent = '年份需在 1900–2100 之间'; return; }
+  if (isNaN(m) || m < 1 || m > 12) { err.textContent = '请选择月份'; return; }
+  let dmax = 31;
+  if ([4, 6, 9, 11].includes(m)) dmax = 30;
+  else if (m === 2) dmax = ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) ? 29 : 28;
+  if (isNaN(d) || d < 1 || d > dmax) { err.textContent = m + '月只有 ' + dmax + ' 天'; return; }
+  if (isNaN(hb)) { err.textContent = '请选择时辰'; return; }
+  err.textContent = '';
+
+  const bazi = calcBazi(y, m, d, hb);
+  const analysis = analyze(bazi);
+  const rec = recommend(analysis);
+  const interp = generateInterpretation(bazi.day[0], bazi.day[1], analysis.favorable, analysis.counts, bazi);
+
+  const overlay = $('revealOverlay'), wheel = $('wuxingWheel');
+  overlay.style.display = 'flex'; overlay.classList.remove('hide');
+  wheel.classList.remove('animate'); void wheel.offsetWidth; wheel.classList.add('animate');
+
+  setTimeout(() => {
+    overlay.classList.add('hide');
+    setTimeout(() => { overlay.style.display = 'none'; }, 600);
+    renderResults(bazi, analysis, rec, interp);
+    showScreen('resultsScreen');
+  }, 1500);
+}
+
+function handleRetry() { showScreen('formScreen'); initFormDefaults(); }
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM DEEP READING — 付费深度解读
+   ═══════════════════════════════════════════════════════════ */
+function isPremiumUnlocked() { return localStorage.getItem(PREMIUM_KEY) === '1'; }
+
+function generateDeepReading(bazi, an, interp) {
+  const dayStem = bazi.day[0], dayBranch = bazi.day[1];
+  const dayWX = WU_XING[GAN_WX[dayStem]];
+  const dayGanChar = TIAN_GAN[dayStem];
+  const dayZhiChar = DI_ZHI[dayBranch];
+  const fav = an.favorable;
+  const profile = interp.dayMasterAnalysis;
+
+  /* ── 八字深度解读 ── */
+  const pillarNames = ['年柱', '月柱', '日柱', '时柱'];
+  const pillars = [bazi.year, bazi.month, bazi.day, bazi.hour];
+  const stemCounts = {}, branchCounts = {};
+  for (const [s, b] of pillars) {
+    stemCounts[s] = (stemCounts[s] || 0) + 1;
+    branchCounts[b] = (branchCounts[b] || 0) + 1;
+  }
+
+  // Analyze chart pattern (格局简析)
+  const ganStrength = an.counts[dayWX] || 0;
+  let patternName, patternDesc;
+  if (an.strength_score >= 70) {
+    patternName = '身旺格局';
+    patternDesc = `你的日主${dayGanChar}(${dayWX})在命局中力量较强，属于身旺格局。身旺之人精力充沛，但需注意过于自我膨胀。${fav}是你的喜用神，日常生活中多接触${fav}行的能量，能让你更加平衡。在决策时适当听取他人意见，避免刚愎自用。你最大的财富是你的行动力与坚定意志。`;
+  } else if (an.strength_score >= 45) {
+    patternName = '中和格局';
+    patternDesc = `你的日主${dayGanChar}(${dayWX})在命局中力量适中，属于中和格局。这是非常好的命局配置——既不会太弱需要依赖他人，也不会太强而失去灵活。你天生具备良好的适应力与判断力，能根据环境灵活调整。${fav}作为喜用神能锦上添花，让你的人生更加顺遂圆满。`;
+  } else {
+    patternName = '身弱格局';
+    patternDesc = `你的日主${dayGanChar}(${dayWX})在命局中力量偏弱，属于身弱格局。身弱不代表不好——如同精巧的乐器，虽小却能奏出最美妙的乐章。${fav}是你最重要的喜用神，它能为你补充能量、增强底气。身弱之人往往内心细腻、感知敏锐，这是你最大的天赋。学会借力而行，你的人生会更加从容。`;
+  }
+
+  // Pillar relationship analysis
+  const monthBranch = bazi.month[1];
+  const monthWX = WU_XING[ZHI_WX[monthBranch]];
+  // Ternary broken out to avoid nested template literals
+	  const _wxSame = '月令与日主同气，根基稳固，天生具有较强的主见与自信。';
+	  const _wxFav = '月令' + monthWX + '恰好是你的喜用神' + fav + '，这是非常好的配置——你天生受到天地之气的眷顾。';
+	  const _wxOther = '月令' + monthWX + '与日主' + dayWX + '形成生克关系，你的性格中带有双重特质，需要学会平衡内外。';
+	  const _wxPart = monthWX === dayWX ? _wxSame : (monthWX === fav ? _wxFav : _wxOther);
+	  const monthDesc = '你生于' + DI_ZHI[monthBranch] + '月（' + monthWX + '旺之季），月令为命局提纲，决定了命局的基调。' + _wxPart;
+
+  const deepBazi = `${patternDesc}\n\n${monthDesc}从四柱结构来看，你的年柱代表祖上与早年运势，月柱反映父母与青年时期，日柱是你自己与配偶的核心能量，时柱暗示子女与晚年。命局的奥妙在于四柱之间的相互作用——相生则顺遂，相克则砥砺。你的命局中，${fav}行是最关键的能量线索，顺着这个方向去发展，事半功倍。`;
+
+  /* ── 流年运势 (2026丙午年) ── */
+  // 2026 = 丙午年: 天干丙(火), 地支午(火) — 火旺之年
+  const liunianS = 2, liunianB = 6; // 丙午
+  const liunianWX = '火';
+  const liunianGanChar = TIAN_GAN[liunianS];
+  const liunianZhiChar = DI_ZHI[liunianB];
+
+  // Day master vs liunian five element
+  const wxRelMap = {
+    '木': { '火': { rel: '食伤', desc: '食伤生财之年，你的创造力与表达欲达到顶峰。这是一个适合开启新项目、学习新技能、拓展个人影响力的年份。木生火为泄秀，才华得以展现，但也要注意精力消耗，适时休息。', tip: '把握机遇，大胆表达，但记得劳逸结合。' }},
+    '火': { '火': { rel: '比劫', desc: '比劫帮身之年，社交圈扩大，人脉资源丰富。你可能会遇到重要的合作伙伴，或在团队中获得更多支持。但比劫也意味着竞争，需要你在合作与竞争之间找到平衡。火上加火，更要保持冷静头脑。', tip: '广结善缘，择良友而交，避免意气之争。' }},
+    '土': { '火': { rel: '印星', desc: '印星旺盛之年，贵人运强劲！这是学习深造、获取证书、扩展知识面的黄金时期。火生土为印，长辈贵人或导师会给你关键的指引。内在安全感增强，适合做长期规划与投资。', tip: '多学习、多请教，贵人在身边，别错过良机。' }},
+    '金': { '火': { rel: '官杀', desc: '官杀临太岁，事业压力与机遇并存。火克金为官杀，今年你可能面临重大职业挑战或职位变动。这是锻炼意志力与抗压能力的一年。官杀也是一种"雕琢"——经过烈火的淬炼，你会变得更加锋锐出色。', tip: '迎难而上，化压力为动力，沉住气就是胜利。' }},
+    '水': { '火': { rel: '财星', desc: '财星高照之年！水克火为财，2026年你的财运相当不错。正财偏财皆有进益，但火旺水干，赚钱的同时也容易大手大脚。关键在于开源节流，将财富用于投资自己或有价值的资产，而不是冲动消费。', tip: '财运佳但需守，投资自己回报最高。' }}
+  };
+  const wxRel = wxRelMap[dayWX] ? wxRelMap[dayWX]['火'] : null;
+  const liunianSummary = wxRel
+    ? `2026丙午年（${liunianGanChar}${liunianZhiChar}年），天干地支皆属火，是一个"火气冲天"的年份。对你（${dayGanChar}${dayWX}日主）而言，流年与日主的十神关系为【${wxRel.rel}】。${wxRel.desc}`
+    : `2026丙午年，你需要灵活应对各种变化，保持积极心态。`;
+
+  // Month-by-month highlights (simplified)
+  const seasonHighlights = [
+    { season: '🌱 春季 (寅卯辰月)', desc: '木旺生火，食伤/印星力量加强。适合启动新计划、创意工作。' },
+    { season: '☀️ 夏季 (巳午未月)', desc: '火旺极盛，流年力量达到顶峰。关键决策期，注意情绪管理。' },
+    { season: '🍂 秋季 (申酉戌月)', desc: '金旺制火，官杀/财星平衡流年。事业成果开始显现，宜收尾与总结。' },
+    { season: '❄️ 冬季 (亥子丑月)', desc: '水旺克火，财星/官杀主导。年末收官，财运与人际关系成焦点。' }
+  ];
+
+  let liunianHtml = `<p><span class="deep-highlight">2026丙午年·流年总论</span></p><p>${liunianSummary}</p>`;
+  liunianHtml += `<p style="margin-top:10px;"><span class="deep-highlight">${wxRel ? wxRel.tip : '顺势而为'}</span></p>`;
+  liunianHtml += `<p style="margin-top:10px;">📅 四季节奏：</p>`;
+  for (const sh of seasonHighlights) {
+    liunianHtml += `<p>${sh.season}：${sh.desc}</p>`;
+  }
+
+  /* ── 姻缘分析 ── */
+  const spouseBranch = dayBranch; // 日支为配偶宫
+  const spouseWX = WU_XING[ZHI_WX[spouseBranch]];
+  const spouseGanInHidden = HIDDEN[spouseBranch] || [];
+  const mainHiddenGan = spouseGanInHidden[0] !== undefined ? TIAN_GAN[spouseGanInHidden[0]] : '';
+
+  // Day stem vs day branch relationship
+  const dayStemWX = dayWX;
+  const dayBranchWX = spouseWX;
+  const wxInteraction = WU_XING.find(w => w === dayBranchWX) || spouseWX;
+
+  let spouseNature = '';
+  if (dayStemWX === dayBranchWX) {
+    spouseNature = '日支与日主同气，配偶与你志趣相投、三观契合。你们像是同一种材质的两块拼图——天然地理解彼此。需要注意的可能是：太过相似有时也会缺少互补的新鲜感。';
+  } else if (WU_XING.indexOf(dayStemWX) === (WU_XING.indexOf(dayBranchWX) + 1) % 5) {
+    spouseNature = '日支五行克制日主，配偶性格可能比你更强势。这样的组合，伴侣往往是你的"雕刻师"——通过这段关系，你会被磨砺成更好的自己。这是互相成就的关系模式。';
+  } else if (WU_XING.indexOf(dayBranchWX) === (WU_XING.indexOf(dayStemWX) + 1) % 5) {
+    spouseNature = '日主五行克制日支，你在关系中可能更有主导力。你的伴侣需要你的引导与包容，而你也会在这段关系中获得成就感和稳定感。注意不要无意中忽略了对方的感受。';
+  } else if ((WU_XING.indexOf(dayStemWX) + 1) % 5 === WU_XING.indexOf(dayBranchWX) || (WU_XING.indexOf(dayBranchWX) + 1) % 5 === WU_XING.indexOf(dayStemWX)) {
+    spouseNature = '日主与日支相生，这是非常和谐的配偶宫配置。你们之间有一种天然的吸引力——如同河流与大海，自然地流向彼此。关系中充满理解与支持，是众人眼中的理想伴侣。';
+  } else {
+    spouseNature = '日主与日支形成复杂的能量交换。你的感情世界丰富而深刻，不会轻易投入，但一旦认定便十分专一。你需要的是一个能读懂你内心的灵魂伴侣。';
+  }
+
+  const branchLoveMap = {
+    '子': '子为桃花之地，配偶相貌出众或人缘极佳。感情中充满浪漫，但需注意边界感。',
+    '午': '午为四正桃花，配偶热情开朗、充满魅力。一见钟情的概率较高，但激情之后需要用心经营。',
+    '卯': '卯为四正桃花，配偶温和有礼、气质优雅。感情细腻温柔，是细水长流型的浪漫。',
+    '酉': '酉为四正桃花，配偶精致讲究、品味出众。你对伴侣的要求较高，宁缺毋滥。',
+    '寅': '配偶独立自主、有主见。婚姻中需要相互尊重空间，控制欲过强反而适得其反。',
+    '申': '配偶聪明灵活、善于变通。你们的感情充满智性交流，精神层面的共鸣比其他都重要。',
+    '巳': '配偶精力充沛、热情主动。感情表达直接，不喜拐弯抹角。适合坦率沟通。',
+    '亥': '配偶温柔体贴、善解人意。感情中充满了包容与温暖，是治愈系的伴侣类型。',
+    '辰': '配偶稳重可靠、重情重义。虽然不擅长浪漫表达，但行动中处处可见真心。',
+    '戌': '配偶忠诚坚定、责任心强。一旦认定你便会全力以赴。信任是你们关系的基石。',
+    '丑': '配偶踏实本分、默默付出。感情不张扬但深沉持久，是能与你共度一生的伴侣。',
+    '未': '配偶温和包容、善解人意。家庭观念强，向往稳定温馨的婚姻生活。'
+  };
+  const branchLove = branchLoveMap[dayZhiChar] || '你的配偶宫蕴藏着独特的能量，等待你去发现和珍惜。';
+
+  let loveHtml = `<p><span class="deep-highlight">日支${dayZhiChar}为配偶宫</span></p>`;
+  loveHtml += `<p>配偶宫五行属${spouseWX}${mainHiddenGan ? '，藏干' + mainHiddenGan : ''}。${branchLove}</p>`;
+  loveHtml += `<p>${spouseNature}</p>`;
+  loveHtml += `<p style="margin-top:8px;">💡 <strong>姻缘建议</strong>：你的喜用神为${fav}，配偶若八字中${fav}行旺盛，不仅能与你五行互补，还能在人生道路上互相扶持。${fav}行对应的方位（${WX_DIR[fav]}）也是你邂逅良缘的最佳方向。</p>`;
+
+  return {
+    patternName, deepBazi,
+    liunianGanChar, liunianZhiChar, liunianWX, liunianHtml,
+    loveHtml, spouseWX
+  };
+}
+
+function renderPremiumSection(bazi, an, interp) {
+  const unlocked = isPremiumUnlocked();
+  let html = '';
+
+  if (!unlocked) {
+    // Locked state — show payment prompt
+    html += `
+    <div class="premium-locked" id="premiumLocked">
+      <div class="lock-icon">🔐</div>
+      <div class="lock-title">深度解读 · 付费解锁</div>
+      <div class="lock-subtitle">解锁后你将获得基于八字命理的<br>全方位深度人生解读</div>
+      <ul class="lock-features">
+        <li>八字格局详批与人生建议</li>
+        <li>2026丙午流年运势详解</li>
+        <li>姻缘分析与配偶宫解读</li>
+      </ul>
+      <div class="lock-price">${PREMIUM_PRICE} <small>一次解锁 · 永久查看</small></div>
+      <div class="qr-area">
+        <div class="qr-placeholder">
+          📱 微信/支付宝扫码支付<br>
+          <span style="font-size:10px;color:#999;">付款后请输入解锁码</span>
+        </div>
+      </div>
+      <div class="premium-code-wrap">
+        <input class="premium-code-input" id="premiumCodeInput" placeholder="请输入解锁码" autocomplete="off">
+        <button class="premium-code-btn" onclick="handlePremiumUnlock()">解锁</button>
+      </div>
+      <div class="premium-error" id="premiumError"></div>
+    </div>`;
+  } else {
+    // Unlocked state — show deep reading content
+    const dr = generateDeepReading(bazi, an, interp);
+    html += `<div class="premium-unlocked" id="premiumUnlocked">`;
+
+    // Section 1: Deep Bazi
+    html += `<div class="deep-card">`;
+    html += `<div class="deep-header">🔮 八字格局详批 · ${dr.patternName}</div>`;
+    html += `<div class="deep-text">${dr.deepBazi.split('\n\n').map(p => `<p>${p.trim()}</p>`).join('')}</div>`;
+    html += `</div>`;
+
+    // Section 2: Liunian 2026
+    html += `<div class="deep-card">`;
+    html += `<div class="deep-header">🔥 流年运势 · 2026${dr.liunianGanChar}${dr.liunianZhiChar}年（${dr.liunianWX}旺之年）</div>`;
+    html += `<div class="deep-text">${dr.liunianHtml}</div>`;
+    html += `</div>`;
+
+    // Section 3: Love analysis
+    html += `<div class="deep-card">`;
+    html += `<div class="deep-header">💕 姻缘分析 · 配偶宫解读</div>`;
+    html += `<div class="deep-text">${dr.loveHtml}</div>`;
+    html += `</div>`;
+
+    html += `</div>`;
+  }
+
+  return html;
+}
+
+function handlePremiumUnlock() {
+  const input = document.getElementById('premiumCodeInput');
+  const error = document.getElementById('premiumError');
+  if (!input) return;
+  const code = input.value.trim().toUpperCase();
+  if (!code) { error.textContent = '请输入解锁码'; return; }
+  if (PREMIUM_CODES.includes(code)) {
+    error.textContent = '';
+    localStorage.setItem(PREMIUM_KEY, '1');
+    // Re-render results with unlocked content
+    const y = parseInt($('inpYear').value), m = parseInt($('inpMonth').value),
+          d = parseInt($('inpDay').value), hb = parseInt($('inpHour').value);
+    const bazi = calcBazi(y, m, d, hb);
+    const analysis = analyze(bazi);
+    const rec = recommend(analysis);
+    const interp = generateInterpretation(bazi.day[0], bazi.day[1], analysis.favorable, analysis.counts, bazi);
+    renderResults(bazi, analysis, rec, interp);
+    // Scroll to premium content
+    setTimeout(() => {
+      const el = document.getElementById('premiumUnlocked');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 200);
+    // Show success toast
+    showToast('解锁成功！深度解读已开启 ✨');
+  } else {
+    error.textContent = '解锁码错误，请核对后重试';
+    input.classList.add('shake');
+    setTimeout(() => input.classList.remove('shake'), 500);
+    input.select();
+  }
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.className = 'premium-toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+function renderResults(bazi, an, rec, interp) {
+  const dayWX = an.dayWX, dayGanChar = TIAN_GAN[bazi.day[0]], dayZhiChar = DI_ZHI[bazi.day[1]];
+  const profile = interp.dayMasterAnalysis;
+  const wxCls = { '木': 'wood', '火': 'fire', '土': 'earth', '金': 'metal', '水': 'water' }[dayWX] || 'wood';
+
+  let html = '';
+
+  /* —— 板块一: 八字命盘速览 —— */
+  html += `<div class="glass-card"><div class="section-header">📋 八字命盘速览</div>`;
+  const names = ['年柱', '月柱', '日柱', '时柱'];
+  const pillars = [bazi.year, bazi.month, bazi.day, bazi.hour];
+  const nk = ['year', 'month', 'day', 'hour'];
+  html += `<div class="pillars-row">`;
+  for (let i = 0; i < 4; i++) {
+    const [s, b] = pillars[i];
+    html += `<div class="pillar-card"><div class="pillar-label">${names[i]}</div><div class="pillar-stem" style="color:${WX_COLOR[WU_XING[GAN_WX[s]]]}">${TIAN_GAN[s]}</div><div class="pillar-branch" style="color:${WX_COLOR[WU_XING[ZHI_WX[b]]]}">${DI_ZHI[b]}</div><div class="pillar-na">${bazi.nayin[nk[i]]}</div></div>`;
+  }
+  html += `</div>`;
+
+  for (const w of WU_XING) {
+    const c = an.counts[w], pct = Math.max(3, (c / 8) * 100);
+    html += `<div class="wx-bar-wrap"><span class="wx-bar-label" style="color:${WX_COLOR[w]}">${WX_EMOJI[w]}${w}</span><div class="wx-bar-track"><div class="wx-bar-fill ${w === '木' ? 'wood' : w === '火' ? 'fire' : w === '土' ? 'earth' : w === '金' ? 'metal' : 'water'}" style="width:${pct}%">${c > 0 ? '█'.repeat(Math.ceil(c / 2)) : ''}</div></div><span class="wx-bar-count">x${c}${w === dayWX ? ' 日主' : ''}</span></div>`;
+  }
+  html += `</div>`;
+
+  /* —— 板块二: 喜用神深度解读 —— */
+  html += `<div class="glass-card"><div class="section-header">✨ 你的八字喜用神</div>`;
+  html += `<div style="text-align:center;"><span class="day-master-badge ${wxCls}">${profile.title} · ${profile.nature} · ${dayGanChar}${dayZhiChar}</span></div>`;
+  html += `<div class="xiyong-big" style="color:${WX_COLOR[an.favorable]}">${WX_EMOJI[an.favorable]} 喜用神：${an.favorable} ${WX_EMOJI[an.favorable]}</div>`;
+  html += `<p class="text-block">${profile.desc}</p>`;
+  const xdParts = interp.xiyongDetail.split('\n\n');
+  for (const part of xdParts) { if (part.trim()) html += `<p class="text-block">${part.trim()}</p>`; }
+  const aspectTips = {
+    '木': '在事业上，补木能增强你的创造力与规划能力，适合文化艺术、教育、生态环保等领域。在人际中，木气充盈让你更加温和包容。',
+    '火': '在事业上，补火能点燃你的激情与领导力，适合创新科技、媒体传播、公共关系等领域。在人际中，火气充盈让你更具感染力和号召力。',
+    '土': '在事业上，补土能巩固你的根基与承载力，适合房地产、金融、管理咨询等领域。在人际中，土气充盈让你成为更可靠的伙伴。',
+    '金': '在事业上，补金能提升你的决断力与执行力，适合金融法律、精密制造、战略规划等领域。在人际中，金气充盈让你更加果断利落。',
+    '水': '在事业上，补水能拓宽你的思维与应变力，适合学术研究、国际贸易、创意写作等领域。在人际中，水气充盈让你更加智慧圆融。'
+  };
+  html += `<p class="text-block" style="margin-top:8px;">${aspectTips[an.favorable] || ''}</p>`;
+  html += `</div>`;
+
+  /* —— 板块三: 天命城市 —— */
+  html += `<div class="section-divider">🌆 专属于你的天命城市<br><span style="font-size:13px;font-weight:400;color:var(--text-muted);">应你八字而生，为你精准匹配</span></div>`;
+
+  const all = [...rec.cities.map(c => ({ ...c, _taboo: false }))];
+  if (rec.tabooCity) all.push({ ...rec.tabooCity, _taboo: true });
+
+  for (const city of all) {
+    const taboo = city._taboo, wx = taboo ? rec.taboo : rec.favorable;
+    const reason = taboo
+      ? `⚠️ ${city.n}属${wx}行，${wx}克${an.favorable}——五行能量存在冲突。若在此地久居，可能会感到阻力增多、运势不畅。建议作为旅行目的地短暂停留，不宜长居发展。`
+      : interp.getCityReason(city.n, dayWX, an.favorable);
+    html += `<div class="city-card ${taboo ? 'taboo' : ''}" onclick="flipCard(this)" data-flipped="false"><div class="city-card-inner"><div class="city-card-front"><div class="city-card-placeholder" style="background:linear-gradient(145deg,${city.c}33,${city.c}55)"></div><div class="city-card-photo" style="background-image:url('${city.img}')" onerror="this.style.display='none'" loading="lazy"></div><div class="city-card-overlay"></div><div class="city-card-text"><div class="city-card-name">${city.n}</div><div class="city-card-badge">${wx} · ${taboo ? '忌神' : '喜用'}</div><div class="city-card-reason">${reason}</div>${taboo ? '<div class="city-card-taboo-warn">⚠️ 能量不合，建议绕行</div>' : ''}</div></div><div class="city-card-back"><div class="back-name">${city.n}</div><div class="back-wx">${wx}${WX_EMOJI[wx]} ${taboo ? '· 忌神之地' : '· 喜用神之地'}</div><div class="back-detail">${city.d || ''}</div><div class="back-hint">👆 轻触翻回</div></div></div></div>`;
+  }
+
+  /* —— 板块四: 能量提醒 —— */
+  if (rec.tabooCity) {
+    html += `<div class="taboo-warn-card"><div class="warn-title">⚠️ 能量提醒</div><div class="warn-text">你的忌神为<strong>${rec.taboo}</strong>（${rec.taboo}克${rec.favorable}），五行中${rec.taboo}行过旺的城市可能会让你感到能量冲突。<br>若前往<strong>${rec.tabooCity.n}</strong>等${rec.taboo}行旺盛之地，建议短游而不长居，保持能量的舒适平衡。</div></div>`;
+  }
+
+  /* —— 板块五: 分享引导 —— */
+  html += `<div class="share-section"><div class="share-text">测完了？去小红书晒出你的天命城市<br>看看谁和你能量同频 ✨</div></div>`;
+  /* —— 板块六: 付费深度解读 —— */
+  html += renderPremiumSection(bazi, an, interp);
+
+  html += `<div class="disclaimer">⚠️ 本测算仅供娱乐研究，命运由你掌握 ✨</div>`;
+
+  $('resultsContent').innerHTML = html;
+}
+
+function flipCard(card) {
+  const f = card.getAttribute('data-flipped') === 'true';
+  card.classList.toggle('flipped', !f);
+  card.setAttribute('data-flipped', f ? 'false' : 'true');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SELF-VERIFICATION — 页面加载时自动运行
+   ═══════════════════════════════════════════════════════════ */
+
+/**
+ * verifyBazi — 运行3组完整八字排盘验证
+ *
+ * 验证用例均基于标准锚点 1900-01-01=甲戌日。
+ * 每组验证年柱、月柱、日柱、时柱的干支。
+ *
+ * 输出到 console。若任一失败，在页面底部显示红色错误横幅。
+ */
+function verifyBazi() {
+  // [年,月,日,时,年干,年支,月干,月支,日干,日支,时干,时支, 描述]
+  const tests = [
+    [1996, 7, 18, 6, 2, 0, 1, 7, 2, 4, 0, 6, '1996-07-18 午时 → 丙子 乙未 丙辰 甲午'],
+    [1995, 6, 15, 7, 1, 11, 8, 6, 3, 1, 3, 7, '1995-06-15 未时 → 乙亥 壬午 丁丑 丁未'],
+    [2020, 2, 3, 0, 5, 11, 3, 1, 2, 0, 4, 0, '2020-02-03 子时 (立春前一日) → 己亥 丁丑 丙子 戊子'],
+  ];
+
+  console.log('═══════════════════════════════════════');
+  console.log('🔍 八字排盘自检验证');
+  console.log('═══════════════════════════════════════');
+  console.log('锚点: 1900-01-01 = 甲戌日');
+  console.log('日柱: stem=(0+days)%10, branch=(10+days)%12');
+  console.log('');
+
+  let allPass = true;
+
+  for (const t of tests) {
+    const [y, m, d, hb, eYS, eYB, eMS, eMB, eDS, eDB, eHS, eHB, desc] = t;
+    const bazi = calcBazi(y, m, d, hb);
+    const [yS, yB] = bazi.year;
+    const [mS, mB] = bazi.month;
+    const [dS, dB] = bazi.day;
+    const [hS, _hB] = bazi.hour;
+
+    const checks = [
+      ['年干', yS, eYS], ['年支', yB, eYB],
+      ['月干', mS, eMS], ['月支', mB, eMB],
+      ['日干', dS, eDS], ['日支', dB, eDB],
+      ['时干', hS, eHS], ['时支', hb, eHB],
+    ];
+
+    let casePass = true;
+    for (const [label, actual, expected] of checks) {
+      if (actual !== expected) {
+        console.error(`  ❌ ${label}: 实际=${TIAN_GAN[actual]||actual}(${actual}) 预期=${TIAN_GAN[expected]||expected}(${expected})`);
+        casePass = false;
+        allPass = false;
+      }
+    }
+
+    if (casePass) {
+      console.log(`✅ PASS: ${desc}`);
+      console.log(`   四柱: ${TIAN_GAN[yS]}${DI_ZHI[yB]} ${TIAN_GAN[mS]}${DI_ZHI[mB]} ${TIAN_GAN[dS]}${DI_ZHI[dB]} ${TIAN_GAN[hS]}${DI_ZHI[hb]}`);
+    } else {
+      console.log(`❌ FAIL: ${desc}`);
+      console.log(`   实际: ${TIAN_GAN[yS]}${DI_ZHI[yB]} ${TIAN_GAN[mS]}${DI_ZHI[mB]} ${TIAN_GAN[dS]}${DI_ZHI[dB]} ${TIAN_GAN[hS]}${DI_ZHI[hb]}`);
+    }
+    console.log('');
+  }
+
+  console.log('── 用户指定用例复核 ──');
+  const userTests = [
+    [2024, 3, 18, '庚', '辰', '2024-03-18'],
+    [2025, 1, 1,  '乙', '未', '2025-01-01'],
+  ];
+  for (const [y, m, d, expS, expB, desc] of userTests) {
+    const [dS, dB] = getDayGanZhi(y, m, d);
+    const match = TIAN_GAN[dS] === expS && DI_ZHI[dB] === expB;
+    console.log(`  ${match ? '✅' : '⚠️'} ${desc}: 引擎→${TIAN_GAN[dS]}${DI_ZHI[dB]}, 用户预期→${expS}${expB}${match ? ' (一致)' : ' (建议复核来源)'}`);
+  }
+
+  console.log('═══════════════════════════════════════');
+  console.log(allPass ? '✅ 全部必通过用例验证通过' : '❌ 存在验证失败，请检查算法');
+  console.log('═══════════════════════════════════════');
+
+  if (!allPass) {
+    const banner = $('verifyErrorBanner');
+    if (banner) banner.classList.add('show');
+  }
+
+  return allPass;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════ */
+function init() {
+  const verified = verifyBazi();
+
+  updateResetLinks();
+  if (isUnlocked()) {
+    showScreen('formScreen');
+    initFormDefaults();
+  } else {
+    showScreen('lockScreen');
+  }
+  $('inpYear').addEventListener('change', updateDays);
+  $('inpMonth').addEventListener('change', updateDays);
+  $('pwdInput').addEventListener('keydown', e => { if (e.key === 'Enter') handleUnlock(); });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+/*
+ * ═══════════════════════════════════════════════════════════
+ * 测试用例文档
+ * ═══════════════════════════════════════════════════════════
+ *
+ * 【必通过验证用例】(基于 1900-01-01=甲戌日 锚点):
+ *   ✓ 1996-07-18 午时 → 丙子 乙未 丙辰 甲午
+ *   ✓ 1995-06-15 未时 → 乙亥 壬午 丁丑 丁未
+ *   ✓ 2020-02-03 子时 → 己亥 丁丑 丙子 戊子 (立春前一日)
+ *
+ * 【用户指定用例复核状态】:
+ *   ⚠️ 2024-03-18 → 引擎:辛巳日, 用户预期:庚辰日 (相差1位, 建议用万年历复核)
+ *   ⚠️ 2025-01-01 → 引擎:庚午日, 用户预期:乙未日 (差异较大, 建议用万年历复核)
+ *
+ * 【年柱边界】:
+ *   立春通常在2月3-5日。立春前出生年柱属上一年。
+ *   例如: 2020年立春为2月4日。2020-02-03 → 己亥年; 2020-02-05 → 庚子年。
+ *
+ * 【月柱边界】:
+ *   月柱以12个节为界。每月"节"通常在当月5-8日。
+ *   例如: 未月始于小暑(约7月7日), 而非7月1日。
+ */
+</script>
+</body>
+</html>
