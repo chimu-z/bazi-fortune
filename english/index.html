@@ -261,6 +261,16 @@ body::after {
 .paypal-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,112,186,0.45); }
 .paypal-btn img { height: 18px; vertical-align: middle; margin-right: 4px; }
 
+/* Payoneer Button */
+.payoneer-btn {
+  display: inline-block; padding: 14px 36px; border-radius: 26px;
+  background: linear-gradient(135deg, #FF4800, #FF6A33); color: #fff;
+  font-size: 16px; font-weight: 700; text-decoration: none; letter-spacing: 1px;
+  transition: all 0.35s var(--ease); box-shadow: 0 4px 18px rgba(255,72,0,0.35);
+  margin-bottom: 8px; cursor: pointer;
+}
+.payoneer-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,72,0,0.5); }
+
 /* QR Code Payment */
 .qr-area { display: inline-block; padding: 14px; background: #fff; border-radius: 14px; box-shadow: 0 2px 14px rgba(0,0,0,0.07); margin-bottom: 12px; }
 .qr-img { width: 160px; height: 160px; border-radius: 10px; object-fit: contain; padding: 4px; }
@@ -982,6 +992,8 @@ function renderResults(bazi, an, y, m, d) {
         <li>Career Direction & Professional Guidance</li>
       </ul>
       <div class="lock-price">${PRICE_USD} <small>One-time payment · Access forever</small></div>
+      <a class="payoneer-btn" href="https://link.payoneer.com/Token?t=D4EBC47F8B1D4429971A8F15688B9FD3&src=tpl" target="_blank" rel="noopener">💳 Pay with Card (Payoneer)</a>
+      <p style="font-size:11px;color:var(--text-muted);margin:8px 0;">Or scan with Alipay ↓</p>
       <div class="qr-area">
         <img class="qr-img" src="bazi_english_qr.jpg" alt="Alipay Payment QR">
         <div class="qr-label">Scan with Alipay to Pay</div>
