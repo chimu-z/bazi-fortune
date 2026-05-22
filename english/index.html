@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>神秘的东方力量 · Mysterious Eastern Force</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   CSS Custom Properties — Mystical Aesthetic
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --mist-pink:   #F3E8EE;
+  --warm-cream:  #FEF9F2;
+  --sage-green:  #5B7A6F;
+  --moon-white:  #E6EEF0;
+  --amber-brown: #8B5A4B;
+  --soft-rose:   #D4B8C5;
+  --text-primary:   #3D2C35;
+  --text-secondary: #7A6E75;
+  --text-muted:     #A89DA4;
+  --glass-bg:       rgba(255,255,255,0.55);
+  --glass-border:   rgba(255,255,255,0.6);
+  --wood:   #7B9E6D;
+  --fire:   #D4876E;
+  --earth:  #C9A87C;
+  --metal:  #D4B860;
+  --water:  #6B9EC2;
+  --radius-xl: 24px; --radius-lg: 18px; --radius-md: 14px; --radius-sm: 10px;
+  --shadow-sm: 0 2px 12px rgba(60,40,50,0.06);
+  --shadow-md: 0 8px 32px rgba(60,40,50,0.10);
+  --shadow-lg: 0 16px 48px rgba(60,40,50,0.14);
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --font-title: "PingFang SC", "Hiragino Sans GB", "Noto Serif SC", "Times New Roman", serif;
+  --font-body:  "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+}
+@property --flow-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(175deg, var(--mist-pink) 0%, #F5ECF2 25%, var(--warm-cream) 55%, #F9F3EF 80%, var(--mist-pink) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex; justify-content: center; align-items: flex-start;
+  padding: 20px 14px 80px;
+  overflow-x: hidden;
+  color: var(--text-primary);
+  line-height: 1.8;
+  transition: background 0.8s ease;
+}
+
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Particles */
+.particle-layer { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.petal {
+  position: absolute; width: 18px; height: 12px; border-radius: 50% 0 50% 0;
+  background: radial-gradient(ellipse at 30% 30%, rgba(212,184,197,0.7), rgba(200,160,180,0.15));
+  animation: petalFloat 9s ease-in-out infinite; will-change: transform;
+}
+.petal:nth-child(1) { top:5%; left:8%; animation-delay:0s; animation-duration:9s; }
+.petal:nth-child(2) { top:12%; left:78%; animation-delay:2s; animation-duration:11s; width:14px; height:10px; }
+.petal:nth-child(3) { top:30%; left:5%; animation-delay:4.5s; animation-duration:10s; }
+.petal:nth-child(4) { top:45%; left:85%; animation-delay:1.2s; animation-duration:8.5s; width:20px; height:13px; }
+.petal:nth-child(5) { top:60%; left:10%; animation-delay:3s; animation-duration:12s; }
+.petal:nth-child(6) { top:75%; left:80%; animation-delay:5.5s; animation-duration:9.5s; width:15px; height:11px; }
+.petal:nth-child(7) { top:18%; left:22%; animation-delay:6.8s; animation-duration:10.5s; }
+@keyframes petalFloat {
+  0%,100% { transform: translate(0,0) rotate(0deg) scale(1); opacity:0.5; }
+  25% { transform: translate(30px,-40px) rotate(120deg) scale(1.15); opacity:0.75; }
+  50% { transform: translate(60px,-15px) rotate(250deg) scale(0.9); opacity:0.45; }
+  75% { transform: translate(20px,-55px) rotate(340deg) scale(1.1); opacity:0.7; }
+}
+.star-point {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #F5E6D3;
+  box-shadow: 0 0 6px 2px rgba(245,230,210,0.6), 0 0 14px 4px rgba(212,184,197,0.3);
+  animation: starRise 7s ease-in-out infinite; will-change: transform, opacity;
+}
+.star-point:nth-child(8)  { top:10%; left:30%; animation-delay:0s; width:3px; height:3px; }
+.star-point:nth-child(9)  { top:22%; left:65%; animation-delay:1.5s; }
+.star-point:nth-child(10) { top:38%; left:18%; animation-delay:3s; width:5px; height:5px; }
+.star-point:nth-child(11) { top:52%; left:72%; animation-delay:0.8s; }
+.star-point:nth-child(12) { top:68%; left:25%; animation-delay:4.2s; width:3px; height:3px; }
+.star-point:nth-child(13) { top:80%; left:55%; animation-delay:2.2s; }
+.star-point:nth-child(14) { top:15%; left:48%; animation-delay:5.5s; width:5px; height:5px; }
+@keyframes starRise {
+  0%,100% { transform: translateY(0) scale(1); opacity:0.3; }
+  50% { transform: translateY(-35px) scale(1.8); opacity:0.85; }
+}
+.aurora {
+  position: absolute; height: 2px; border-radius: 50%;
+  background: linear-gradient(90deg, transparent, rgba(212,184,197,0.5), rgba(200,192,216,0.6), rgba(180,210,220,0.4), transparent);
+  animation: auroraWave 14s ease-in-out infinite; will-change: transform, opacity; filter: blur(1.5px);
+}
+.aurora:nth-child(15) { top:20%; left:-10%; width:120%; animation-delay:0s; height:2.5px; }
+.aurora:nth-child(16) { top:50%; left:-15%; width:130%; animation-delay:5s; height:1.5px; }
+.aurora:nth-child(17) { top:72%; left:-8%; width:115%; animation-delay:3.5s; height:2px; }
+@keyframes auroraWave {
+  0%,100% { transform: translateX(-5%) rotate(-1deg); opacity:0.25; }
+  25% { transform: translateX(3%) rotate(0.5deg); opacity:0.55; }
+  50% { transform: translateX(8%) rotate(1.5deg); opacity:0.35; }
+  75% { transform: translateX(0%) rotate(0deg); opacity:0.6; }
+}
+
+.app-container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
+
+/* Screens */
+.screen { display: none; }
+.screen.active { display: block; animation: screenIn 0.55s var(--ease); }
+@keyframes screenIn { from { opacity:0; transform:translateY(20px); filter:blur(4px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }
+@keyframes screenOut { from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(1.04); filter:blur(6px); } }
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl); box-shadow: var(--shadow-md); padding: 28px 22px;
+  margin-bottom: 16px; border: 1px solid var(--glass-border); position: relative; overflow: hidden;
+}
+.glass-card::after {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.glass-card > * { position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════════════════════
+   FORM SCREEN
+   ═══════════════════════════════════════════════════════════ */
+.form-title { text-align:center; font-family:var(--font-title); font-size:24px; font-weight:700; color:var(--amber-brown); letter-spacing:1px; margin-bottom:4px; }
+.form-subtitle { text-align:center; font-size:13.5px; color:var(--text-secondary); margin-bottom:18px; line-height:1.6; }
+.form-calendar-hint {
+  text-align: center; font-size: 13px; color: var(--amber-brown); font-weight: 600;
+  background: rgba(139,90,75,0.06); border-radius: var(--radius-sm); padding: 8px 14px;
+  margin-bottom: 18px; border: 1px solid rgba(139,90,75,0.1); letter-spacing: 0.5px;
+}
+.form-group { margin-bottom: 15px; }
+.form-label { display:block; font-size:13px; font-weight:600; color:var(--text-secondary); margin-bottom:6px; }
+.form-row { display:flex; gap:10px; }
+.form-row > * { flex: 1; }
+.form-input, .form-select {
+  width:100%; height:46px; border-radius:var(--radius-sm); border:1.5px solid rgba(200,184,197,0.45);
+  background:rgba(255,252,250,0.45); padding:0 14px; font-size:15px; font-family:var(--font-body);
+  color:var(--text-primary); outline:none; transition:all 0.35s var(--ease);
+  appearance:none; -webkit-appearance:none;
+}
+.form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A89DA4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; cursor:pointer;
+}
+.form-input:focus, .form-select:focus { border-color:rgba(91,122,111,0.45); box-shadow:0 0 0 4px rgba(91,122,111,0.06); background:rgba(255,252,250,0.7); }
+
+.gender-toggle { display:flex; gap:16px; justify-content:center; }
+.gender-btn {
+  width:68px; height:68px; border-radius:50%; border:1.5px solid rgba(200,184,197,0.5);
+  background:rgba(255,252,250,0.4); font-size:14px; font-weight:600; color:var(--text-muted);
+  cursor:pointer; transition:all 0.4s var(--ease); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:4px; font-family:var(--font-body); user-select:none;
+}
+.gender-btn .emoji { font-size:24px; transition:transform 0.4s var(--ease); }
+.gender-btn.active { background:linear-gradient(135deg, rgba(212,184,197,0.4), rgba(245,232,238,0.6)); border-color:var(--soft-rose); color:var(--amber-brown); transform:scale(1.05); box-shadow:0 4px 20px rgba(180,150,160,0.2); }
+.gender-btn.active .emoji { transform:scale(1.15); }
+
+.zodiac-badge {
+  display: inline-block; padding: 4px 12px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(107,158,194,0.15), rgba(180,160,200,0.2));
+  font-size: 12px; font-weight: 600; color: var(--amber-brown); margin-left: 6px; letter-spacing: 0.5px;
+}
+
+.btn-submit {
+  width:100%; height:50px; border-radius:26px; border:none;
+  background:linear-gradient(135deg, var(--sage-green), #6B8E80); color:#fff;
+  font-size:16px; font-weight:700; cursor:pointer; font-family:var(--font-title);
+  letter-spacing:2px; transition:all 0.4s var(--ease);
+  box-shadow:0 4px 20px rgba(91,122,111,0.2); animation:btnPulse 3s ease-in-out infinite;
+}
+.btn-submit:active { transform:scale(0.97); }
+@keyframes btnPulse { 0%,100% { box-shadow:0 4px 20px rgba(91,122,111,0.2); } 50% { box-shadow:0 4px 32px rgba(91,122,111,0.35), 0 0 0 8px rgba(91,122,111,0.04); } }
+.form-error { text-align:center; color:#C06050; font-size:13px; min-height:20px; margin-top:6px; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESULTS — Common
+   ═══════════════════════════════════════════════════════════ */
+.section-header { font-family:var(--font-title); font-size:18px; font-weight:700; color:var(--amber-brown); text-align:center; margin-bottom:16px; letter-spacing:1px; }
+.section-divider { text-align:center; font-family:var(--font-title); font-size:17px; font-weight:700; color:var(--amber-brown); margin:6px 0 14px; letter-spacing:1px; padding:10px 0; }
+.text-block { font-size:14px; color:var(--text-secondary); line-height:1.9; text-align:justify; text-indent:2em; }
+.text-block + .text-block { margin-top: 8px; }
+
+/* Pillars */
+.pillars-row { display:flex; gap:8px; margin-bottom:6px; }
+.pillar-card { flex:1; text-align:center; background:rgba(255,255,255,0.5); border-radius:var(--radius-md); padding:14px 6px; border:1px solid rgba(230,220,225,0.5); position:relative; overflow:hidden; }
+.pillar-card::before { content:''; position:absolute; top:-8px; left:-8px; width:36px; height:36px; border-radius:50%; opacity:0.08; }
+.pillar-card:nth-child(1)::before { background:#7B9E6D; }
+.pillar-card:nth-child(2)::before { background:#D4876E; }
+.pillar-card:nth-child(3)::before { background:#C9A87C; }
+.pillar-card:nth-child(4)::before { background:#6B9EC2; }
+.pillar-label { font-size:11px; color:var(--text-muted); margin-bottom:3px; }
+.pillar-stem { font-size:22px; font-weight:800; line-height:1.3; }
+.pillar-branch { font-size:18px; font-weight:700; line-height:1.3; }
+.pillar-na { font-size:10px; color:var(--text-muted); margin-top:2px; }
+
+/* Wuxing bars */
+.wx-bar-wrap { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+.wx-bar-label { width:28px; font-size:13px; font-weight:700; text-align:right; }
+.wx-bar-track { flex:1; height:18px; border-radius:9px; background:rgba(230,225,225,0.5); overflow:hidden; position:relative; }
+.wx-bar-fill { height:100%; border-radius:9px; transition:width 1s var(--ease); display:flex; align-items:center; padding-left:8px; font-size:10px; font-weight:700; color:#fff; }
+.wx-bar-fill.wood  { background: var(--wood); }
+.wx-bar-fill.fire  { background: var(--fire); }
+.wx-bar-fill.earth { background: var(--earth); }
+.wx-bar-fill.metal { background: var(--metal); }
+.wx-bar-fill.water { background: var(--water); }
+.wx-bar-count { font-size:12px; color:var(--text-secondary); min-width:22px; }
+
+/* Day Master Badge */
+.day-master-badge { display:inline-block; padding:6px 18px; border-radius:20px; font-size:15px; font-weight:700; margin-bottom:14px; }
+.day-master-badge.wood  { background:rgba(123,158,109,0.12); color:var(--wood); }
+.day-master-badge.fire  { background:rgba(212,135,110,0.12); color:var(--fire); }
+.day-master-badge.earth { background:rgba(201,168,124,0.12); color:var(--earth); }
+.day-master-badge.metal { background:rgba(212,184,96,0.12); color:var(--metal); }
+.day-master-badge.water { background:rgba(107,158,194,0.12); color:var(--water); }
+.xiyong-big { text-align:center; font-size:24px; font-weight:800; margin:10px 0 6px; letter-spacing:1px; }
+
+/* Share & Footer */
+.share-section { text-align:center; padding:16px 12px; background:linear-gradient(135deg, rgba(245,240,238,0.4), rgba(250,245,243,0.5)); border-radius:var(--radius-md); margin-bottom:14px; border:1px solid rgba(212,184,197,0.2); }
+.share-text { font-size:14px; color:var(--text-secondary); font-style:italic; line-height:1.8; }
+.disclaimer { text-align:center; font-size:11px; color:var(--text-muted); line-height:1.6; padding:6px 0 18px; }
+.btn-retry { display:block; margin:0 auto; background:none; border:1.5px solid rgba(200,184,197,0.4); color:var(--sage-green); font-size:14px; font-weight:600; padding:10px 28px; border-radius:22px; cursor:pointer; font-family:var(--font-body); transition:all 0.35s var(--ease); }
+.btn-retry:hover { background:rgba(91,122,111,0.05); border-color:var(--sage-green); }
+
+/* Verification error banner */
+.verify-error-banner {
+  display: none; text-align: center; padding: 10px 16px; margin: 8px 0;
+  background: rgba(200,60,60,0.1); border: 1px solid rgba(200,60,60,0.35);
+  border-radius: var(--radius-sm); color: #B04040; font-size: 12px; font-weight: 600;
+}
+.verify-error-banner.show { display: block; }
+
+/* ── Payment Section ── */
+.payment-locked {
+  text-align: center; padding: 20px 16px; margin-top: 14px;
+  background: linear-gradient(160deg, rgba(245,238,232,0.7), rgba(250,244,238,0.5));
+  border: 1.5px dashed rgba(212,184,150,0.5); border-radius: var(--radius-md);
+}
+.payment-locked .lock-icon { font-size: 36px; margin-bottom: 8px; }
+.payment-locked .lock-title { font-size: 17px; font-weight: 700; color: var(--amber-brown); margin-bottom: 4px; letter-spacing: 1px; }
+.payment-locked .lock-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.6; }
+.payment-locked .lock-features { text-align: left; max-width: 280px; margin: 0 auto 14px; }
+.payment-locked .lock-features li { font-size: 13px; color: var(--text-secondary); line-height: 2; padding-left: 4px; }
+.payment-locked .lock-features li::marker { content: '✨ '; }
+.payment-locked .lock-price { font-size: 24px; font-weight: 800; color: #C06040; margin-bottom: 6px; letter-spacing: 1px; }
+.payment-locked .lock-price small { font-size: 13px; font-weight: 400; color: var(--text-muted); }
+.paypal-btn {
+  display: inline-block; padding: 12px 32px; border-radius: 26px;
+  background: linear-gradient(135deg, #0070BA, #009CDE); color: #fff;
+  font-size: 15px; font-weight: 700; text-decoration: none; letter-spacing: 1px;
+  transition: all 0.35s var(--ease); box-shadow: 0 4px 16px rgba(0,112,186,0.3);
+  margin-bottom: 14px;
+}
+.paypal-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,112,186,0.45); }
+.paypal-btn img { height: 18px; vertical-align: middle; margin-right: 4px; }
+
+/* QR Code Payment */
+.qr-area { display: inline-block; padding: 14px; background: #fff; border-radius: 14px; box-shadow: 0 2px 14px rgba(0,0,0,0.07); margin-bottom: 12px; }
+.qr-img { width: 160px; height: 160px; border-radius: 10px; object-fit: contain; padding: 4px; }
+.qr-label { font-size: 11px; color: var(--text-muted); margin-top: 6px; letter-spacing: 1px; }
+.qr-hint { font-size: 12px; color: var(--sage-green); font-weight: 600; margin-top: 4px; }
+
+.premium-code-wrap { display: flex; gap: 8px; max-width: 280px; margin: 0 auto; }
+.premium-code-input {
+  flex: 1; height: 42px; border-radius: 21px; border: 1.5px solid rgba(200,184,197,0.5);
+  background: rgba(255,250,248,0.6); padding: 0 16px; font-size: 14px;
+  font-family: var(--font-body); color: var(--text-primary); outline: none;
+  text-align: center; letter-spacing: 2px; transition: border-color 0.3s var(--ease);
+}
+.premium-code-input:focus { border-color: var(--amber-brown); }
+.premium-code-btn {
+  height: 42px; padding: 0 20px; border-radius: 21px; border: none;
+  background: linear-gradient(135deg, #C9A87C, #B8936A); color: #fff;
+  font-size: 13px; font-weight: 700; font-family: var(--font-body);
+  cursor: pointer; letter-spacing: 1px; transition: all 0.35s var(--ease);
+  white-space: nowrap;
+}
+.premium-code-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(180,140,110,0.35); }
+.premium-error { font-size: 12px; color: #C06040; margin-top: 6px; min-height: 18px; }
+.premium-code-input.shake { animation: shake 0.5s var(--ease); }
+@keyframes shake { 0%,100% { transform: translateX(0); } 10%,50%,90% { transform: translateX(-5px); } 30%,70% { transform: translateX(5px); } }
+
+/* Premium unlocked content */
+.premium-unlocked { margin-top: 14px; }
+.deep-card {
+  padding: 18px 16px; margin-bottom: 12px;
+  background: linear-gradient(145deg, rgba(252,250,246,0.6), rgba(250,247,244,0.5));
+  border: 1px solid rgba(212,184,150,0.28); border-radius: var(--radius-md);
+  position: relative; overflow: hidden;
+}
+.deep-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+  background: linear-gradient(180deg, #C9A87C, #D4B860);
+  border-radius: 3px 0 0 3px;
+}
+.deep-card .deep-header { font-size: 15px; font-weight: 700; color: var(--amber-brown); margin-bottom: 8px; letter-spacing: 1px; }
+.deep-card .deep-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.85; }
+.deep-card .deep-text p { margin-bottom: 8px; }
+.deep-card .deep-highlight { display: inline-block; padding: 2px 10px; background: rgba(201,168,124,0.15); border-radius: 10px; font-weight: 600; color: var(--amber-brown); }
+
+/* Payment reminder toast */
+.premium-toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: rgba(60,50,40,0.92); color: #F5EDE0; padding: 12px 24px;
+  border-radius: 24px; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+  z-index: 200; backdrop-filter: blur(10px);
+  animation: toastIn 0.4s var(--ease), toastOut 0.4s 2.6s var(--ease) forwards;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+@keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* Reveal Overlay */
+.reveal-overlay { position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; background:rgba(245,235,240,0.6); backdrop-filter:blur(8px); pointer-events:none; }
+.reveal-overlay.hide { animation:revealOut 0.6s var(--ease) forwards; }
+@keyframes revealOut { to { opacity:0; } }
+.wuxing-wheel { width:90px; height:90px; border-radius:50%; background:conic-gradient(#7B9E6D 0deg 72deg, #D4876E 72deg 144deg, #C9A87C 144deg 216deg, #D4B860 216deg 288deg, #6B9EC2 288deg 360deg); box-shadow:0 0 40px 10px rgba(200,180,190,0.4); }
+.wuxing-wheel.animate { animation:wheelReveal 1.5s var(--ease) forwards; }
+@keyframes wheelReveal { 0% { transform:rotate(0deg) scale(0.3); opacity:0; } 30% { transform:rotate(240deg) scale(1.1); opacity:1; } 60% { transform:rotate(600deg) scale(1); opacity:0.8; } 100% { transform:rotate(720deg) scale(1.5); opacity:0; } }
+
+.reset-link { display:block; text-align:center; margin-top:12px; background:none; border:none; color:var(--text-muted); font-size:11px; cursor:pointer; font-family:var(--font-body); padding:6px; transition:color 0.3s; width:100%; }
+.reset-link:hover { color: var(--text-secondary); }
+
+@media (max-width:380px) {
+  .form-title { font-size:20px; }
+  .pillars-row { gap:5px; }
+  .pillar-stem { font-size:19px; }
+  .pillar-branch { font-size:16px; }
+  .glass-card { padding:22px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div class="particle-layer">
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+  <div class="petal"></div>
+  <div class="star-point"></div><div class="star-point"></div><div class="star-point"></div>
+  <div class="star-point"></div><div class="star-point"></div><div class="star-point"></div>
+  <div class="star-point"></div>
+  <div class="aurora"></div><div class="aurora"></div><div class="aurora"></div>
+</div>
+
+<div class="reveal-overlay" id="revealOverlay" style="display:none;"><div class="wuxing-wheel" id="wuxingWheel"></div></div>
+
+<div class="app-container">
+
+  <!-- ═══════════════════════════════════
+       FORM SCREEN
+       ═══════════════════════════════════ -->
+  <div class="screen active" id="formScreen">
+    <div class="glass-card">
+      <div class="form-title">神秘的东方力量</div>
+      <div class="form-subtitle">Mysterious Eastern Force — Ancient Bazi Reading<br>Reveal Your Fortune · Love · Wealth · Career</div>
+      <div class="form-calendar-hint">📅 Enter your <strong>Gregorian (Solar) Calendar</strong> birth date</div>
+      <div class="form-group"><label class="form-label">Year of Birth</label><input type="number" class="form-input" id="inpYear" placeholder="e.g. 1995" min="1900" max="2100" value="1995"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Month</label><select class="form-select" id="inpMonth"></select></div>
+        <div class="form-group"><label class="form-label">Day</label><select class="form-select" id="inpDay"></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Hour of Birth (Beijing Time / UTC+8)</label><select class="form-select" id="inpHour">
+        <option value="0">Rat (23:00 – 01:00)</option><option value="1">Ox (01:00 – 03:00)</option><option value="2">Tiger (03:00 – 05:00)</option><option value="3">Rabbit (05:00 – 07:00)</option><option value="4">Dragon (07:00 – 09:00)</option><option value="5">Snake (09:00 – 11:00)</option><option value="6" selected>Horse (11:00 – 13:00)</option><option value="7">Goat (13:00 – 15:00)</option><option value="8">Monkey (15:00 – 17:00)</option><option value="9">Rooster (17:00 – 19:00)</option><option value="10">Dog (19:00 – 21:00)</option><option value="11">Pig (21:00 – 23:00)</option>
+      </select></div>
+      <div class="form-group">
+        <label class="form-label">Gender</label>
+        <div class="gender-toggle">
+          <button class="gender-btn active" id="genderMale" onclick="setGender('male')"><span class="emoji">♂️</span> Male</button>
+          <button class="gender-btn" id="genderFemale" onclick="setGender('female')"><span class="emoji">♀️</span> Female</button>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-bottom:10px;" id="zodiacPreview"></div>
+      <div class="form-error" id="formError"></div>
+      <button class="btn-submit" onclick="handleCalculate()">Begin Your Reading</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       RESULTS SCREEN
+       ═══════════════════════════════════ -->
+  <div class="screen" id="resultsScreen">
+    <div id="resultsContent"></div>
+    <button class="btn-retry" style="margin-top:8px;" onclick="handleRetry()">🔄 Try Another Reading</button>
+    <button class="reset-link" id="resetPremiumBtn" style="display:none;" onclick="handleReset()">Reset Unlock Status</button>
+    <div class="verify-error-banner" id="verifyErrorBanner">⚠️ Bazi calculation self-check failed. Please contact support.</div>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════════════════════════
+   CONFIG — ⚠️ REPLACE WITH YOUR PAYPAL LINK
+   ═══════════════════════════════════════════════════════════ */
+const PAYPAL_ME = 'YOUR_PAYPAL_ME_LINK'; // e.g. 'paypal.me/yourname'
+const PRICE_USD = '$2.99';
+const PREMIUM_CODES = ['PREMIUM2026', 'DEPTH888', 'BAZI2026'];
+const PREMIUM_KEY = 'bazi_english_premium';
+
+/* ═══════════════════════════════════════════════════════════
+   CONSTANTS
+   ═══════════════════════════════════════════════════════════ */
+const TIAN_GAN = ['Jia','Yi','Bing','Ding','Wu','Ji','Geng','Xin','Ren','Gui'];
+const DI_ZHI   = ['Zi','Chou','Yin','Mao','Chen','Si','Wu','Wei','Shen','You','Xu','Hai'];
+const WU_XING  = ['Wood','Fire','Earth','Metal','Water'];
+const GAN_WX   = [0,0, 1,1, 2,2, 3,3, 4,4];
+const ZHI_WX   = [4,2, 0,0, 2,1, 1,2, 3,3, 2,4];
+const HIDDEN = { 0:[9], 1:[5,9,7], 2:[0,2,4], 3:[1], 4:[4,1,9], 5:[2,6,4], 6:[3,5], 7:[5,3,1], 8:[6,8,4], 9:[7], 10:[4,7,3], 11:[8,0] };
+const NAYIN = ['Sea Gold','Fire Stove','Forest Wood','Road Earth','Sword Gold','Mountain Fire','Stream Water','City Earth','White Wax Gold','Willow Wood','Spring Water','Roof Earth','Thunder Fire','Pine Wood','Flowing Water','Sand Gold','Mountain Fire','Plain Wood','Wall Earth','Gold Foil','Covered Lamp','Heaven Water','Station Earth','Hairpin Gold','Mulberry Wood','Pomegranate Wood','Ocean Water','Pomegranate Wood','Ocean Water','Sea Gold','Fire Stove','Forest Wood','Road Earth','Sword Gold','Mountain Fire','Stream Water','City Earth','White Wax Gold','Willow Wood','Spring Water','Roof Earth','Thunder Fire','Pine Wood','Flowing Water','Sand Gold','Mountain Fire','Plain Wood','Wall Earth','Gold Foil','Covered Lamp','Heaven Water','Station Earth','Hairpin Gold','Mulberry Wood','Pomegranate Wood','Ocean Water','Pomegranate Wood','Ocean Water','Sea Gold','Fire Stove'];
+
+const WX_COLOR = { 'Wood':'#7B9E6D', 'Fire':'#D4876E', 'Earth':'#C9A87C', 'Metal':'#D4B860', 'Water':'#6B9EC2' };
+const WX_EMOJI = { 'Wood':'🌳', 'Fire':'🔥', 'Earth':'🏛️', 'Metal':'💎', 'Water':'💧' };
+const WX_DIR = { 'Wood':'East', 'Fire':'South', 'Earth':'Center', 'Metal':'West', 'Water':'North' };
+
+// Western Zodiac signs
+const ZODIAC_SIGNS = ['Capricorn','Aquarius','Pisces','Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn'];
+const ZODIAC_EMOJI = { 'Aries':'♈','Taurus':'♉','Gemini':'♊','Cancer':'♋','Leo':'♌','Virgo':'♍','Libra':'♎','Scorpio':'♏','Sagittarius':'♐','Capricorn':'♑','Aquarius':'♒','Pisces':'♓' };
+function getZodiac(m, d) {
+  const cutoffs = [20,19,21,20,21,21,23,23,23,23,22,22,22];
+  return d < cutoffs[m-1] ? ZODIAC_SIGNS[m-1] : ZODIAC_SIGNS[m];
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ASTRONOMY — Solar Longitude · Jieqi calculation
+   ═══════════════════════════════════════════════════════════ */
+function toJD(y, m, d) {
+  let Y = y, M = m;
+  if (M <= 2) { Y--; M += 12; }
+  const A = Math.floor(Y / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + B - 1524.5;
+}
+
+function fromJD(jd) {
+  const Z = Math.floor(jd + 0.5), F = jd + 0.5 - Z;
+  let A = Z;
+  if (Z >= 2299161) {
+    const a = Math.floor((Z - 1867216.25) / 36524.25);
+    A = Z + 1 + a - Math.floor(a / 4);
+  }
+  const B = A + 1524;
+  const C = Math.floor((B - 122.1) / 365.25);
+  const D = Math.floor(365.25 * C);
+  const E = Math.floor((B - D) / 30.6001);
+  const day = B - D - Math.floor(30.6001 * E) + F;
+  const month = E < 14 ? E - 1 : E - 13;
+  const year = month > 2 ? C - 4716 : C - 4715;
+  return { year, month, day: Math.floor(day) };
+}
+
+function sunLon(jd) {
+  const T = (jd - 2451545.0) / 36525;
+  const T2 = T * T;
+  const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T2;
+  const M = 357.52911 + 35999.05029 * T - 0.0001537 * T2;
+  const Mr = M * Math.PI / 180;
+  const C = (1.914602 - 0.004817 * T - 0.000014 * T2) * Math.sin(Mr)
+          + (0.019993 - 0.000101 * T) * Math.sin(2 * Mr)
+          + 0.000289 * Math.sin(3 * Mr);
+  const omega = 125.04 - 1934.136 * T;
+  let lon = L0 + C - 0.00569 - 0.00478 * Math.sin(omega * Math.PI / 180);
+  return ((lon % 360) + 360) % 360;
+}
+
+function solarJD(year, angle) {
+  let jan1 = toJD(year, 1, 1);
+  let daysOffset = ((angle - 280 + 360) % 360) / 0.9856;
+  let jd = jan1 + daysOffset;
+  for (let i = 0; i < 30; i++) {
+    const lon = sunLon(jd);
+    let diff = angle - lon;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    if (Math.abs(diff) < 0.00001) break;
+    jd += diff / 0.9856;
+  }
+  return jd;
+}
+
+function jieqiDate(year, angle) {
+  return fromJD(solarJD(year, angle));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BAZI ENGINE — Four Pillars Calculation
+   ═══════════════════════════════════════════════════════════ */
+function getDayGanZhi(y, m, d) {
+  const ref = new Date(1900, 0, 1);
+  const birth = new Date(y, m - 1, d);
+  const daysDiff = Math.floor((birth - ref) / 86400000);
+  return [((0 + daysDiff) % 10 + 10) % 10, ((10 + daysDiff) % 12 + 12) % 12];
+}
+
+function getYearGanZhi(y, m, d) {
+  const lichun = jieqiDate(y, 315);
+  const birthKey = y * 10000 + m * 100 + d;
+  const lichunKey = lichun.year * 10000 + lichun.month * 100 + lichun.day;
+  const cy = birthKey < lichunKey ? y - 1 : y;
+  return [((cy - 4) % 10 + 10) % 10, ((cy - 4) % 12 + 12) % 12];
+}
+
+function getMonthGanZhi(y, m, d, yStem) {
+  const JIE = [
+    { angle: 315, branch: 2, num: 1  },
+    { angle: 345, branch: 3, num: 2  },
+    { angle: 15,  branch: 4, num: 3  },
+    { angle: 45,  branch: 5, num: 4  },
+    { angle: 75,  branch: 6, num: 5  },
+    { angle: 105, branch: 7, num: 6  },
+    { angle: 135, branch: 8, num: 7  },
+    { angle: 165, branch: 9, num: 8  },
+    { angle: 195, branch: 10, num: 9 },
+    { angle: 225, branch: 11, num: 10 },
+    { angle: 255, branch: 0,  num: 11 },
+    { angle: 285, branch: 1,  num: 12 }
+  ];
+  const birthKey = y * 10000 + m * 100 + d;
+  const lichunKey = (() => { const gd = fromJD(solarJD(y, 315)); return gd.year * 10000 + gd.month * 100 + gd.day; })();
+  let monthBranch = 2, monthNum = 1;
+  for (const jie of JIE) {
+    let cJd = solarJD(y, jie.angle);
+    let cGd = fromJD(cJd);
+    let cKey = cGd.year * 10000 + cGd.month * 100 + cGd.day;
+    if (!(jie.angle === 285 && birthKey >= lichunKey)) {
+      if (birthKey >= cKey) { monthBranch = jie.branch; monthNum = jie.num; }
+    }
+    if (m === 1) {
+      let pJd = solarJD(y - 1, jie.angle);
+      let pGd = fromJD(pJd);
+      let pKey = pGd.year * 10000 + pGd.month * 100 + pGd.day;
+      if (birthKey >= pKey) { monthBranch = jie.branch; monthNum = jie.num; }
+    }
+  }
+  const monthStem = ((yStem % 5) * 2 + monthNum + 1) % 10;
+  return [monthStem, monthBranch];
+}
+
+function getHourGanZhi(dayStem, hourBranch) {
+  const hourStem = ((dayStem % 5) * 2 + hourBranch) % 10;
+  return [hourStem, hourBranch];
+}
+
+function naIdx(s, b) {
+  return (((s * 6 - b * 5) % 60) + 60) % 60;
+}
+
+function calcBazi(y, m, d, hb) {
+  const [yS, yB] = getYearGanZhi(y, m, d);
+  const [mS, mB] = getMonthGanZhi(y, m, d, yS);
+  const [dS, dB] = getDayGanZhi(y, m, d);
+  const [hS, _hB] = getHourGanZhi(dS, hb);
+  const na = (s, b) => NAYIN[naIdx(s, b)];
+  return {
+    year:  [yS, yB],
+    month: [mS, mB],
+    day:   [dS, dB],
+    hour:  [hS, hb],
+    nayin: { year: na(yS, yB), month: na(mS, mB), day: na(dS, dB), hour: na(hS, hb) }
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANALYSIS — Five Elements · Favorable Element
+   ═══════════════════════════════════════════════════════════ */
+function analyze(bazi) {
+  const counts = { 'Wood': 0, 'Fire': 0, 'Earth': 0, 'Metal': 0, 'Water': 0 };
+  for (const [s, b] of [bazi.year, bazi.month, bazi.day, bazi.hour]) {
+    counts[WU_XING[GAN_WX[s]]]++;
+    counts[WU_XING[GAN_WX[HIDDEN[b][0]]]]++;
+  }
+  const dayWX = WU_XING[GAN_WX[bazi.day[0]]];
+  // Calculate strength score (0-100)
+  let strengthScore = counts[dayWX] * 12;
+  const generatedBy = { 'Fire':'Wood', 'Earth':'Fire', 'Metal':'Earth', 'Water':'Metal', 'Wood':'Water' };
+  strengthScore += counts[generatedBy[dayWX]] * 6;
+  strengthScore = Math.min(100, strengthScore);
+
+  let minC = Infinity;
+  for (const w of WU_XING) { if (counts[w] < minC) minC = counts[w]; }
+  const cand = WU_XING.filter(w => counts[w] === minC);
+
+  const pref = generatedBy[dayWX];
+  let favorable;
+  if (cand.length === 1) { favorable = cand[0]; }
+  else if (cand.includes(pref)) { favorable = pref; }
+  else if (cand.includes(dayWX)) { favorable = dayWX; }
+  else { favorable = cand[0]; }
+
+  const overcome = { 'Wood':'Metal', 'Fire':'Water', 'Earth':'Wood', 'Metal':'Fire', 'Water':'Earth' };
+  const taboo = overcome[favorable];
+
+  return {
+    dayWX, dayStem: bazi.day[0], dayBranch: bazi.day[1],
+    counts, favorable, taboo, strength_score: strengthScore
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ENGLISH INTERPRETATIONS
+   ═══════════════════════════════════════════════════════════ */
+const DAY_MASTER_PROFILES = {
+  'Jia': { title:'Jia — The Towering Tree', nature:'Yang Wood',
+    desc:'Jia is pure Yang Wood — the image of a mighty tree reaching skyward. You possess natural leadership qualities, integrity, and an unwavering upward drive. Like the tallest tree in the forest, you have an innate sense of direction and resilience. The harsher the conditions, the more determined you become. In teams, you are the quiet pillar others lean on, leading by virtue rather than force.' },
+  'Yi': { title:'Yi — The Supple Vine', nature:'Yin Wood',
+    desc:'Yi is Yin Wood — graceful and tenacious like flowering vines. You are sensitive, adaptable, and find life in the tightest spaces. Rather than brute force, you overcome through flexibility and wit. Your aesthetic talent is exceptional, and you pursue quality of life with quiet yet firm determination. Soft on the outside, unbreakable within — this is your most captivating paradox.' },
+  'Bing': { title:'Bing — The Blazing Sun', nature:'Yang Fire',
+    desc:'Bing is the Fire of the sun — radiant and illuminating all. You are passionate, generous, and a natural center of attention. Like the midday sun, you bring light wherever you go. With a strong sense of justice and leadership, you freely share your warmth. But even the sun must set — self-care and knowing when to rest is equally vital for you.' },
+  'Ding': { title:'Ding — The Eternal Flame', nature:'Yin Fire',
+    desc:'Ding is the Fire of candlelight — less intense than the sun but enduring and warm. Within you burns an unquenchable flame of conviction, lighting the way through darkness. Sensitive and perceptive, you read the emotions of others with remarkable clarity. Like a steady candle, you give lasting comfort. This gentle yet unwavering strength is your greatest gift.' },
+  'Wu': { title:'Wu — The Immovable Mountain', nature:'Yang Earth',
+    desc:'Wu is the Earth of great mountains — solid, stable, and bearing all things. You are the bedrock others rely on, offering unmatched trustworthiness. Steady, faithful, and grounded, you are the anchor in every circle. You move at your own deliberate pace, unshaken by passing storms. This profound stability is the foundation upon which greatness is built.' },
+  'Ji': { title:'Ji — The Nurturing Field', nature:'Yin Earth',
+    desc:'Ji is the Earth of fertile farmland — warm, receptive, and life-giving. You have extraordinary empathy and inclusiveness, silently supporting the growth of everyone around you. Attentive and caring, you are a natural mediator and comforter. Your gentleness is not weakness but a quiet, nourishing force that makes everyone feel accepted and cherished.' },
+  'Geng': { title:'Geng — The Forged Blade', nature:'Yang Metal',
+    desc:'Geng is the Metal of swords — sharp, decisive, and unstoppable. You are bold and resolute, with extraordinary willpower and execution ability. Like a drawn blade, you cut through obstacles once your target is set. With a fierce sense of justice, you despise ambiguity. Remember: the finest swords are forged in fire — your hardships only make you sharper.' },
+  'Xin': { title:'Xin — The Refined Jewel', nature:'Yin Metal',
+    desc:'Xin is the Metal of precious gems — refined, elegant, and inwardly noble. You pursue the highest standards in everything, from work to lifestyle. Understated yet proud, like a pearl formed in secret, your brilliance is deeply contained. With impeccable taste and acute perception, you notice what others miss — a true connoisseur of life.' },
+  'Ren': { title:'Ren — The Vast Ocean', nature:'Yang Water',
+    desc:'Ren is the Water of oceans and great rivers — expansive, deep, and wise. You possess a grand vision and far-sightedness that surpasses most. Like the sea, you embrace all things. Quick-witted and resourceful, you find unexpected solutions where others see dead ends. Your wisdom flows endlessly, taking you further than most in any endeavor.' },
+  'Gui': { title:'Gui — The Penetrating Dew', nature:'Yin Water',
+    desc:'Gui is the Water of morning dew — subtle, gentle, and permeating. You have powerful intuition and sensitivity, like crystalline droplets that see into everything. Calm on the surface, profound within, you excel at listening and observation. Your wisdom is not a crashing wave but the steady persistence of water wearing through stone — the gentlest yet strongest force.' }
+};
+
+const XIYONG_ADVICE = {
+  'Wood': { missing:'Your chart lacks Wood energy — like a garden missing its trees, there is beauty but lacking structure and direction.', supplement:'Adding Wood brings vitality and decisiveness. Wood governs the liver and vision — with balanced Wood, your thinking becomes clearer and your decisions firmer. The East, forests, parks, and creative arts are your best sources of this life-giving energy.' },
+  'Fire': { missing:'Your chart lacks Fire energy — like a winter day without the sun, there is reason but lacking passion and warmth.', supplement:'Adding Fire ignites your inner enthusiasm and charisma. Fire governs the heart and circulation — with balanced Fire, your energy soars and your influence grows. The South, sunny places, innovation hubs, and performing arts are where you recharge best.' },
+  'Earth': { missing:'Your chart lacks Earth energy — like a house without a foundation, there is talent but lacking stability and grounding.', supplement:'Adding Earth strengthens your capacity to hold and endure. Earth governs the spleen and stomach — with balanced Earth, you feel centered and rooted. Central places, historical cities, mountains, and community work are your anchors.' },
+  'Metal': { missing:'Your chart lacks Metal energy — like a warrior without a weapon, there is will but lacking sharpness and decisiveness.', supplement:'Adding Metal enhances your decisiveness and ability to gather resources. Metal governs the lungs — with balanced Metal, your mind is keen and judgment precise. The West, financial centers, law, and precision crafts sharpen your edge.' },
+  'Water': { missing:'Your chart lacks Water energy — like a river without a source, there is intelligence but lacking fluidity and depth.', supplement:'Adding Water nourishes your wisdom and adaptability. Water governs the kidneys — with balanced Water, your thinking expands and you navigate change effortlessly. The North, coastal places, libraries, and scholarly pursuits replenish you.' }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   DEEP READING GENERATORS
+   ═══════════════════════════════════════════════════════════ */
+function generateFortuneReading(bazi, an) {
+  const dayWX = an.dayWX, dayGan = TIAN_GAN[bazi.day[0]], dayZhi = DI_ZHI[bazi.day[1]];
+  const monthBranch = DI_ZHI[bazi.month[1]];
+  const monthWX = WU_XING[ZHI_WX[bazi.month[1]]];
+  const fav = an.favorable;
+  const score = an.strength_score || 50;
+
+  // Pattern analysis
+  let patternName, patternDesc;
+  if (score >= 70) {
+    patternName = 'Strong Day Master (身旺)';
+    patternDesc = `Your Day Master ${dayGan} (${dayWX}) is strong in your chart — a "Strong Body" pattern. You have abundant energy reserves and natural self-confidence. This means you can handle challenges that would overwhelm others. The key is to channel this strength constructively: ${fav} is your most favorable element for balance. Surround yourself with ${fav} energy, and your natural power will flow harmoniously rather than becoming stubbornness.`;
+  } else if (score >= 45) {
+    patternName = 'Balanced Chart (中和)';
+    patternDesc = `Your Day Master ${dayGan} (${dayWX}) strikes a beautiful balance — a "Harmonious" pattern. This is one of the most auspicious configurations: neither too weak nor too domineering, you possess natural adaptability. You can read situations accurately and adjust accordingly. ${fav} serves as your lucky element, providing an extra edge when needed. Life flows with relative ease for you.`;
+  } else {
+    patternName = 'Delicate Day Master (身弱)';
+    patternDesc = `Your Day Master ${dayGan} (${dayWX}) is relatively delicate — a "Refined" pattern. Think of a precision instrument: small but capable of the most exquisite music. Your sensitivity and perceptiveness are your greatest gifts. ${fav} is your most vital ally, replenishing your energy and strengthening your foundation. Learn to leverage support from others — your path is not about brute force but about wisdom and timing.`;
+  }
+
+  // Month pillar influence
+  const monthRelations = {
+    true: `The month pillar (${monthBranch} month, dominated by ${monthWX}) forms the foundation of your chart. ${monthWX === dayWX ? 'It shares the same element as your Day Master, giving you natural self-assurance and a strong sense of identity.' : (monthWX === fav ? 'It is your Favorable Element — an excellent sign that heaven and earth support your path.' : 'It interacts dynamically with your Day Master, creating a multi-layered personality that can see things from unique angles.')}`,
+  };
+  const monthInfo = `The ${monthBranch} month (${monthWX} season) is the提纲 of your chart, setting the life stage. ${monthWX === dayWX ? 'Month and Day Master share the same element — you have a consistent, reliable nature.' : (monthWX === fav ? 'The month is your Favorable Element — you are blessed with natural support from the seasonal energy.' : 'The month forms an interesting dynamic with your Day Master, giving you adaptability and depth.')}`;
+
+  // 2026 forecast
+  const liunianS = 2, liunianB = 6; // Bing-Wu (丙午)
+  const wxRelMap = {
+    'Wood': { rel:'Output Star (食伤)', desc:'2026 Bing-Wu (Fire) ignites your creativity. Wood feeds Fire as expression — this is a year for launching projects, learning new skills, and expanding your influence. Your talents will be noticed. However, Fire consumes Wood, so pace yourself and avoid burnout. The spotlight is yours — use it wisely.' },
+    'Fire': { rel:'Companion Star (比劫)', desc:'2026 Bing-Wu (Fire) doubles your Fire energy. Your social circle expands and collaborations flourish. You may meet important partners or gain team support. But more Fire also means more competition — balance cooperation with healthy boundaries. Keep a cool head when passions run high.' },
+    'Earth': { rel:'Resource Star (印星)', desc:'2026 Bing-Wu (Fire) brings abundant Resource energy. Fire produces Earth as nourishment — this is your year for learning, certification, and expanding knowledge. Mentors and elders will offer crucial guidance. Your inner security grows, making it ideal for long-term planning.' },
+    'Metal': { rel:'Authority Star (官杀)', desc:'2026 Bing-Wu (Fire) brings discipline and drive. Fire controls Metal as refinement — you may face career challenges or position changes. This is your forging year: the heat is real, but so is the transformation. Embrace the pressure — it is sculpting you into something extraordinary.' },
+    'Water': { rel:'Wealth Star (财星)', desc:'2026 Bing-Wu (Fire) shines on your Wealth Star. Water controls Fire as wealth — this is a strong financial year. Both active and passive income flow, but Fire evaporates Water, so manage spending wisely. Invest in yourself and real assets rather than fleeting pleasures.' }
+  };
+  const wxRel = wxRelMap[dayWX];
+  const liunianText = wxRel
+    ? `2026 is the year of Bing-Wu (丙午) — Heaven Stem and Earth Branch both Fire. For a ${dayGan} (${dayWX}) Day Master, the year's energy manifests as your 【${wxRel.rel}】. ${wxRel.desc}`
+    : `2026 is the year of Bing-Wu — a Fire-dominant year. Stay flexible and maintain a positive outlook.`;
+
+  const html = `
+    <p><span class="deep-highlight">Chart Pattern: ${patternName}</span></p>
+    <p>${patternDesc}</p>
+    <p>${monthInfo}</p>
+    <p style="margin-top:10px;"><span class="deep-highlight">2026 Year of the Fire Horse — Your Forecast</span></p>
+    <p>${liunianText}</p>
+  `;
+  return { patternName, html };
+}
+
+function generateLoveReading(bazi, an) {
+  const dayZhi = DI_ZHI[bazi.day[1]], fav = an.favorable;
+  const dayBranch = bazi.day[1];
+  const spouseWX = WU_XING[ZHI_WX[dayBranch]];
+  const dayWX = an.dayWX;
+  const mainHidden = HIDDEN[dayBranch] ? TIAN_GAN[HIDDEN[dayBranch][0]] : '';
+
+  const branchLoveMap = {
+    'Zi': 'Zi is a Peach Blossom star — your partner is likely attractive and charismatic. Romance fills your relationship, though boundaries need attention.',
+    'Wu': 'Wu is a cardinal Peach Blossom — your partner is passionate and magnetic. Love at first sight is possible, but lasting love requires nurturing beyond the spark.',
+    'Mao': 'Mao is a cardinal Peach Blossom — your partner is gentle, refined, and graceful. Your romance is tender and enduring, the slow-burning kind.',
+    'You': 'You is a cardinal Peach Blossom — your partner is elegant and discerning. You have high standards in love and would rather wait than settle.',
+    'Yin': 'Your partner is independent and strong-willed. Mutual respect for personal space is essential — too much control backfires.',
+    'Shen': 'Your partner is clever and adaptable. Your bond thrives on intellectual connection — mental resonance matters more than anything.',
+    'Si': 'Your partner is energetic and direct. They express love openly and dislike emotional games. Honest communication works best.',
+    'Hai': 'Your partner is gentle and empathetic. The relationship is filled with warmth and acceptance — a truly healing connection.',
+    'Chen': 'Your partner is stable and loyal. Not one for grand romantic gestures, but their actions consistently prove their devotion.',
+    'Xu': 'Your partner is faithful and responsible. Once committed, they give everything. Trust is the bedrock of your union.',
+    'Chou': 'Your partner is grounded and quietly devoted. Their love is not flashy but runs deep — the kind that stands the test of time.',
+    'Wei': 'Your partner is warm and accommodating. Family-oriented, they yearn for a stable and happy home life.'
+  };
+  const branchLove = branchLoveMap[dayZhi] || 'Your spouse palace holds unique energy, waiting to be discovered.';
+
+  let spouseNature = '';
+  const stemWX = dayWX, branchWX = spouseWX;
+  if (stemWX === branchWX) {
+    spouseNature = 'Day Master and spouse palace share the same element — you and your partner are naturally aligned. You understand each other intuitively. The richness lies in deepening what is already harmonious.';
+  } else {
+    const wxIdx = WU_XING.indexOf;
+    if (wxIdx(branchWX) === (wxIdx(stemWX) + 1) % 5) {
+      spouseNature = 'The spouse palace element controls your Day Master — your partner may be the stronger personality. They are your sculptor, refining you through the relationship into the best version of yourself.';
+    } else if (wxIdx(stemWX) === (wxIdx(branchWX) + 1) % 5) {
+      spouseNature = 'Your Day Master controls the spouse palace element — you may take the leading role. Your partner needs your guidance, and you find deep fulfillment in providing stability.';
+    } else if ((wxIdx(stemWX) + 2) % 5 === wxIdx(branchWX) || (wxIdx(branchWX) + 2) % 5 === wxIdx(stemWX)) {
+      spouseNature = 'Day Master and spouse palace generate each other — a wonderfully harmonious configuration. There is a natural magnetism between you, like rivers flowing to the sea.';
+    } else {
+      spouseNature = 'A complex energy exchange exists between you and your partner. Your emotional world is rich and deep — you give your heart fully, but only to someone who truly sees you.';
+    }
+  }
+
+  const html = `
+    <p><span class="deep-highlight">Spouse Palace: Day Branch ${dayZhi} (${spouseWX}${mainHidden ? ', Hidden Stem: ' + mainHidden : ''})</span></p>
+    <p>${branchLove}</p>
+    <p>${spouseNature}</p>
+    <p style="margin-top:8px;">💡 <strong>Love Guidance</strong>: Your Favorable Element is ${fav}. A partner whose chart contains strong ${fav} energy will complement your Five Elements and support your life path. The ${WX_DIR[fav]} direction is also your best orientation for meeting meaningful connections.</p>
+  `;
+  return { html, spouseWX };
+}
+
+function generateWealthReading(bazi, an) {
+  const dayWX = an.dayWX, dayGan = TIAN_GAN[bazi.day[0]], fav = an.favorable;
+  const overcome = { 'Wood':'Earth', 'Fire':'Metal', 'Earth':'Water', 'Metal':'Wood', 'Water':'Fire' };
+  const wealthWX = overcome[dayWX]; // Day Master overcomes = Wealth Star
+  const wealthCount = an.counts[wealthWX] || 0;
+  const generatedBy = { 'Fire':'Wood', 'Earth':'Fire', 'Metal':'Earth', 'Water':'Metal', 'Wood':'Water' };
+  const resourceWX = generatedBy[dayWX]; // Produces Day Master = Resource Star
+
+  let wealthLevel, wealthAdvice;
+  if (wealthCount >= 3) {
+    wealthLevel = 'Strong wealth potential';
+    wealthAdvice = `Your chart contains abundant ${wealthWX} (Wealth Star), suggesting natural money-making ability. However, wealth needs a strong container — ensure your Day Master (${dayGan} ${dayWX}) is balanced enough to hold onto it. ${fav} energy will help stabilize your capacity to accumulate and preserve wealth.`;
+  } else if (wealthCount >= 1) {
+    wealthLevel = 'Moderate wealth capacity';
+    wealthAdvice = `Your chart has some ${wealthWX} (Wealth Star), giving you steady earning ability. The key is consistency over windfalls. Strengthen your ${fav} element to boost your wealth-attracting magnetic field. Career income combined with smart investments is your optimal path.`;
+  } else {
+    wealthLevel = 'Wealth requires cultivation';
+    wealthAdvice = `Your chart is light on direct ${wealthWX} (Wealth Star), which does not mean poverty — it means wealth comes through indirect channels. Your ${resourceWX} (Resource Star) and ${fav} (Favorable Element) hold the key. Focus on building expertise and reputation; money follows mastery. Creative, knowledge-based, or service-oriented income suits you best.`;
+  }
+
+  // 2026 wealth specific
+  const yearWealthNote = dayWX === 'Water'
+    ? '2026 Fire year activates your Wealth Star directly — an excellent year for financial growth. Stay mindful of spending.'
+    : dayWX === 'Metal'
+    ? '2026 Fire year intensifies your Authority Star — career pressure can lead to financial breakthroughs if you persist.'
+    : dayWX === 'Earth'
+    ? '2026 Fire year boosts your Resource Star — invest in learning; the financial rewards follow later.'
+    : dayWX === 'Fire'
+    ? '2026 Fire year amplifies your Companion Star — partnerships and networking are your wealth catalysts this year.'
+    : '2026 Fire year fuels your Output Star — creative ventures can turn into profitable streams. Monetize your talents.';
+
+  const html = `
+    <p><span class="deep-highlight">Wealth Assessment: ${wealthLevel}</span></p>
+    <p>${wealthAdvice}</p>
+    <p>Your Wealth Star is <strong>${wealthWX}</strong> (Day Master ${dayGan} controls ${wealthWX} = wealth). ${wealthCount >= 2 ? 'This star is well-represented in your chart.' : 'This star is subtle in your chart, which shapes your unique wealth path.'}</p>
+    <p>${yearWealthNote}</p>
+    <p style="margin-top:8px;">💡 <strong>Wealth Tip</strong>: Enhance your ${fav} energy through environment, clothing colors, and career choices. The ${WX_DIR[fav]} sector of your home or office is your personal wealth amplifier.</p>
+  `;
+  return { html, wealthWX, wealthLevel };
+}
+
+function generateCareerReading(bazi, an) {
+  const dayWX = an.dayWX, dayGan = TIAN_GAN[bazi.day[0]], fav = an.favorable;
+  const overcome = { 'Wood':'Earth', 'Fire':'Metal', 'Earth':'Water', 'Metal':'Wood', 'Water':'Fire' };
+  const generatedBy = { 'Fire':'Wood', 'Earth':'Fire', 'Metal':'Earth', 'Water':'Metal', 'Wood':'Water' };
+
+  const careerMap = {
+    'Wood': { fields:'Education, environmental protection, arts & culture, publishing, healthcare, botanical sciences, interior design', style:'You thrive in collaborative, growth-oriented environments. Creativity and long-term vision are your career superpowers. Avoid rigid corporate structures — seek roles that allow you to nurture ideas and people.' },
+    'Fire': { fields:'Technology, media & communications, entertainment, public relations, marketing, entrepreneurship, renewable energy', style:'You excel in dynamic, fast-paced settings. Your charisma and energy make you a natural leader and motivator. Choose roles with visibility and impact — behind-the-scenes work will drain your fire.' },
+    'Earth': { fields:'Real estate, finance & banking, management consulting, hospitality, agriculture, construction, non-profit organizations', style:'You are the reliable cornerstone of any organization. Stability and steady growth define your career arc. You do best in established structures with clear paths — startups may feel too chaotic for your grounded nature.' },
+    'Metal': { fields:'Law & legal services, engineering, finance, precision manufacturing, strategic consulting, cybersecurity, military & defense', style:'You are decisive, disciplined, and results-driven. Authority and structure bring out your best. Seek leadership roles where your judgment is trusted — you are the person others turn to when tough decisions must be made.' },
+    'Water': { fields:'Academic research, international trade, writing & journalism, psychology & counseling, diplomacy, travel & tourism, data science', style:'Your mind flows like water — adaptable, deep, and far-reaching. You excel in intellectual and creative pursuits. Freedom and variety are essential; monotony stifles you. Consider careers with flexible paths and continuous learning.' }
+  };
+
+  const career = careerMap[fav] || careerMap['Wood'];
+  const yearCareerNote = dayWX === 'Metal'
+    ? '2026 is a breakthrough year — Authority Star pressure transforms into career elevation. Take on challenges boldly.'
+    : dayWX === 'Water'
+    ? '2026 Fire year energizes your Wealth Star — financial rewards from career efforts are especially strong. Negotiate your worth.'
+    : dayWX === 'Wood'
+    ? '2026 Fire year fuels your Output Star — launch that project, write that proposal, showcase your work. Visibility peaks.'
+    : dayWX === 'Fire'
+    ? '2026 double-Fire year amplifies your presence — collaborate strategically and avoid workplace rivalry.'
+    : '2026 Fire year nourishes your Resource Star — pursue certifications, find a mentor, and build your knowledge foundation.';
+
+  const html = `
+    <p><span class="deep-highlight">Career Direction: ${fav}-Element Fields</span></p>
+    <p>Your Favorable Element <strong>${fav}</strong> points to your most fulfilling career path. ${fav} industries align with your elemental nature: <strong>${career.fields}</strong>.</p>
+    <p>${career.style}</p>
+    <p style="margin-top:10px;"><span class="deep-highlight">2026 Career Forecast</span></p>
+    <p>${yearCareerNote}</p>
+    <p style="margin-top:8px;">💡 <strong>Career Tip</strong>: The ${WX_DIR[fav]} direction from your birthplace holds the most auspicious energy for your career development. If relocation is possible, cities in this direction amplify your professional luck.</p>
+  `;
+  return { html };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UI LOGIC
+   ═══════════════════════════════════════════════════════════ */
+let currentGender = 'male';
+
+function $(id) { return document.getElementById(id); }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.animation = ''; });
+  const el = $(id); if (!el) return;
+  el.classList.add('active');
+  el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
+  const bgMap = {
+    formScreen:    'linear-gradient(175deg, #F8F2F5 0%, #FEF9F2 40%, #F3F0EC 100%)',
+    resultsScreen: 'linear-gradient(175deg, #F5EDF0 0%, #FDF8F4 50%, #F3E8EE 100%)'
+  };
+  document.body.style.background = bgMap[id] || bgMap.formScreen;
+  document.body.style.backgroundAttachment = 'fixed';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM / UNLOCK
+   ═══════════════════════════════════════════════════════════ */
+function isPremiumUnlocked() { return localStorage.getItem(PREMIUM_KEY) === '1'; }
+
+function handleReset() {
+  localStorage.removeItem(PREMIUM_KEY);
+  const r = $('resetPremiumBtn'); if (r) r.style.display = 'none';
+  showScreen('formScreen'); initFormDefaults();
+  showToast('Unlock status reset');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FORM
+   ═══════════════════════════════════════════════════════════ */
+function initFormDefaults() {
+  const mSel = $('inpMonth');
+  if (mSel && mSel.options.length === 0) {
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    for (let i = 1; i <= 12; i++) mSel.add(new Option(months[i-1], i));
+    mSel.value = '6';
+  }
+  const dSel = $('inpDay');
+  if (dSel && dSel.options.length === 0) { for (let i = 1; i <= 31; i++) dSel.add(new Option(String(i), i)); dSel.value = '15'; }
+  const yInp = $('inpYear'); if (yInp) yInp.value = 1995;
+  const hSel = $('inpHour'); if (hSel) hSel.value = '6';
+  const err = $('formError'); if (err) err.textContent = '';
+  $('genderMale').classList.add('active');
+  $('genderFemale').classList.remove('active');
+  currentGender = 'male';
+  updateZodiacPreview();
+  updateDays();
+}
+
+function updateDays() {
+  const y = parseInt($('inpYear').value) || 2000, m = parseInt($('inpMonth').value) || 6;
+  let dmax = 31;
+  if ([4, 6, 9, 11].includes(m)) dmax = 30;
+  else if (m === 2) dmax = ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) ? 29 : 28;
+  const dSel = $('inpDay'), cur = parseInt(dSel.value) || 15;
+  dSel.innerHTML = '';
+  for (let i = 1; i <= dmax; i++) dSel.add(new Option(String(i), i));
+  dSel.value = Math.min(cur, dmax);
+  updateZodiacPreview();
+}
+
+function updateZodiacPreview() {
+  const m = parseInt($('inpMonth').value) || 6, d = parseInt($('inpDay').value) || 15;
+  const zodiac = getZodiac(m, d);
+  const el = $('zodiacPreview');
+  if (el) el.innerHTML = `${ZODIAC_EMOJI[zodiac] || ''} Your Zodiac: <strong>${zodiac}</strong>`;
+}
+
+function setGender(g) {
+  currentGender = g;
+  $('genderMale').classList.toggle('active', g === 'male');
+  $('genderFemale').classList.toggle('active', g === 'female');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CALCULATE & RENDER
+   ═══════════════════════════════════════════════════════════ */
+function handleCalculate() {
+  const y = parseInt($('inpYear').value), m = parseInt($('inpMonth').value),
+        d = parseInt($('inpDay').value), hb = parseInt($('inpHour').value),
+        err = $('formError');
+  if (isNaN(y) || y < 1900 || y > 2100) { err.textContent = 'Year must be between 1900–2100'; return; }
+  if (isNaN(m) || m < 1 || m > 12) { err.textContent = 'Please select a month'; return; }
+  let dmax = 31;
+  if ([4, 6, 9, 11].includes(m)) dmax = 30;
+  else if (m === 2) dmax = ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) ? 29 : 28;
+  if (isNaN(d) || d < 1 || d > dmax) { err.textContent = 'This month only has ' + dmax + ' days'; return; }
+  if (isNaN(hb)) { err.textContent = 'Please select an hour'; return; }
+  err.textContent = '';
+
+  const bazi = calcBazi(y, m, d, hb);
+  const an = analyze(bazi);
+
+  const overlay = $('revealOverlay'), wheel = $('wuxingWheel');
+  overlay.style.display = 'flex'; overlay.classList.remove('hide');
+  wheel.classList.remove('animate'); void wheel.offsetWidth; wheel.classList.add('animate');
+
+  setTimeout(() => {
+    overlay.classList.add('hide');
+    setTimeout(() => { overlay.style.display = 'none'; }, 600);
+    renderResults(bazi, an, y, m, d);
+    showScreen('resultsScreen');
+  }, 1500);
+}
+
+function handleRetry() { showScreen('formScreen'); initFormDefaults(); }
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER RESULTS
+   ═══════════════════════════════════════════════════════════ */
+function renderResults(bazi, an, y, m, d) {
+  const dayWX = an.dayWX, dayGanChar = TIAN_GAN[bazi.day[0]], dayZhiChar = DI_ZHI[bazi.day[1]];
+  const profile = DAY_MASTER_PROFILES[dayGanChar] || DAY_MASTER_PROFILES['Jia'];
+  const wxCls = { 'Wood': 'wood', 'Fire': 'fire', 'Earth': 'earth', 'Metal': 'metal', 'Water': 'water' }[dayWX] || 'wood';
+  const zodiac = getZodiac(m, d);
+
+  let html = '';
+
+  /* —— Section 1: Bazi Chart Overview —— */
+  html += `<div class="glass-card"><div class="section-header">📋 Your Four Pillars Chart</div>`;
+  const pillarLabels = ['Year', 'Month', 'Day', 'Hour'];
+  const pillars = [bazi.year, bazi.month, bazi.day, bazi.hour];
+  const nKeys = ['year', 'month', 'day', 'hour'];
+  html += `<div class="pillars-row">`;
+  for (let i = 0; i < 4; i++) {
+    const [s, b] = pillars[i];
+    html += `<div class="pillar-card"><div class="pillar-label">${pillarLabels[i]}</div><div class="pillar-stem" style="color:${WX_COLOR[WU_XING[GAN_WX[s]]]}">${TIAN_GAN[s]}</div><div class="pillar-branch" style="color:${WX_COLOR[WU_XING[ZHI_WX[b]]]}">${DI_ZHI[b]}</div><div class="pillar-na">${bazi.nayin[nKeys[i]]}</div></div>`;
+  }
+  html += `</div>`;
+
+  for (const w of WU_XING) {
+    const c = an.counts[w], pct = Math.max(3, (c / 8) * 100);
+    html += `<div class="wx-bar-wrap"><span class="wx-bar-label" style="color:${WX_COLOR[w]}">${WX_EMOJI[w]} ${w.charAt(0)}</span><div class="wx-bar-track"><div class="wx-bar-fill ${w === 'Wood' ? 'wood' : w === 'Fire' ? 'fire' : w === 'Earth' ? 'earth' : w === 'Metal' ? 'metal' : 'water'}" style="width:${pct}%">${c > 0 ? '█'.repeat(Math.ceil(c / 2)) : ''}</div></div><span class="wx-bar-count">x${c}${w === dayWX ? ' Day Master' : ''}</span></div>`;
+  }
+  html += `</div>`;
+
+  /* —— Section 2: Day Master & Favorable Element —— */
+  html += `<div class="glass-card"><div class="section-header">✨ Your Day Master & Favorable Element</div>`;
+  html += `<div style="text-align:center;"><span class="day-master-badge ${wxCls}">${profile.title} · ${profile.nature} · ${dayGanChar}${dayZhiChar}</span><span class="zodiac-badge">${ZODIAC_EMOJI[zodiac] || ''} ${zodiac}</span></div>`;
+  html += `<div class="xiyong-big" style="color:${WX_COLOR[an.favorable]}">${WX_EMOJI[an.favorable]} Favorable Element: ${an.favorable} ${WX_EMOJI[an.favorable]}</div>`;
+  html += `<p class="text-block">${profile.desc}</p>`;
+  const advice = XIYONG_ADVICE[an.favorable] || XIYONG_ADVICE['Wood'];
+  html += `<p class="text-block">${advice.missing}</p>`;
+  html += `<p class="text-block">${advice.supplement}</p>`;
+  html += `</div>`;
+
+  /* —— Section 3: Payment Wall or Premium Content —— */
+  const unlocked = isPremiumUnlocked();
+  if (!unlocked) {
+    html += `
+    <div class="payment-locked" id="paymentLocked">
+      <div class="lock-icon">🔮</div>
+      <div class="lock-title">Unlock Your Full Destiny Reading</div>
+      <div class="lock-subtitle">Get a complete, personalized analysis<br>based on your unique Four Pillars chart</div>
+      <ul class="lock-features">
+        <li>Personal Fortune & 2026 Year Forecast</li>
+        <li>Love Compatibility & Spouse Palace</li>
+        <li>Wealth Star Analysis & Financial Path</li>
+        <li>Career Direction & Professional Guidance</li>
+      </ul>
+      <div class="lock-price">${PRICE_USD} <small>One-time payment · Access forever</small></div>
+      <div class="qr-area">
+        <img class="qr-img" src="bazi_english_qr.jpg" alt="Alipay Payment QR">
+        <div class="qr-label">Scan with Alipay to Pay</div>
+        <div class="qr-hint">Supports Visa / Mastercard / International Cards</div>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">After payment, enter your unlock code below</p>
+      <div class="premium-code-wrap">
+        <input class="premium-code-input" id="premiumCodeInput" placeholder="Enter unlock code" autocomplete="off">
+        <button class="premium-code-btn" onclick="handlePremiumUnlock(${y},${m},${d})">Unlock</button>
+      </div>
+      <div class="premium-error" id="premiumError"></div>
+    </div>`;
+  } else {
+    html += renderUnlockedContent(bazi, an, y, m, d);
+  }
+
+  html += `<div class="share-section"><div class="share-text">Enjoyed your reading? Share it ✨</div></div>`;
+  html += `<div class="disclaimer">⚠️ For entertainment purposes only. You hold the pen that writes your destiny ✨</div>`;
+
+  $('resultsContent').innerHTML = html;
+  const r = $('resetPremiumBtn'); if (r) r.style.display = unlocked ? 'block' : 'none';
+}
+
+function renderUnlockedContent(bazi, an, y, m, d) {
+  let html = `<div class="premium-unlocked" id="premiumUnlocked">`;
+
+  // Fortune
+  const fortune = generateFortuneReading(bazi, an);
+  html += `<div class="deep-card"><div class="deep-header">🔮 Personal Fortune · ${fortune.patternName}</div><div class="deep-text">${fortune.html}</div></div>`;
+
+  // Love
+  const love = generateLoveReading(bazi, an);
+  html += `<div class="deep-card"><div class="deep-header">💕 Love & Marriage · Spouse Palace Reading</div><div class="deep-text">${love.html}</div></div>`;
+
+  // Wealth
+  const wealth = generateWealthReading(bazi, an);
+  html += `<div class="deep-card"><div class="deep-header">💰 Wealth & Prosperity · ${wealth.wealthLevel}</div><div class="deep-text">${wealth.html}</div></div>`;
+
+  // Career
+  const career = generateCareerReading(bazi, an);
+  html += `<div class="deep-card"><div class="deep-header">🚀 Career & Purpose · Your Professional Path</div><div class="deep-text">${career.html}</div></div>`;
+
+  html += `</div>`;
+  return html;
+}
+
+function handlePremiumUnlock(y, m, d) {
+  const input = document.getElementById('premiumCodeInput');
+  const error = document.getElementById('premiumError');
+  if (!input) return;
+  const code = input.value.trim().toUpperCase();
+  if (!code) { error.textContent = 'Please enter your unlock code'; return; }
+  if (PREMIUM_CODES.includes(code)) {
+    error.textContent = '';
+    localStorage.setItem(PREMIUM_KEY, '1');
+    const hb = parseInt($('inpHour').value);
+    const bazi = calcBazi(y, m, d, hb);
+    const an = analyze(bazi);
+    renderResults(bazi, an, y, m, d);
+    setTimeout(() => {
+      const el = document.getElementById('premiumUnlocked');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 200);
+    showToast('Unlocked! Your full reading is ready ✨');
+  } else {
+    error.textContent = 'Invalid code. Please check and try again.';
+    input.classList.add('shake');
+    setTimeout(() => input.classList.remove('shake'), 500);
+    input.select();
+  }
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.className = 'premium-toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SELF-VERIFICATION
+   ═══════════════════════════════════════════════════════════ */
+function verifyBazi() {
+  const tests = [
+    [1996, 7, 18, 6, 2, 0, 1, 7, 2, 4, 0, 6, '1996-07-18 Horse hour → Bing-Zi Yi-Wei Bing-Chen Jia-Wu'],
+    [1995, 6, 15, 7, 1, 11, 8, 6, 3, 1, 3, 7, '1995-06-15 Goat hour → Yi-Hai Ren-Wu Ding-Chou Ding-Wei'],
+    [2020, 2, 3, 0, 5, 11, 3, 1, 2, 0, 4, 0, '2020-02-03 Rat hour (day before Lichun) → Ji-Hai Ding-Chou Bing-Zi Wu-Zi'],
+  ];
+
+  console.log('═══════════════════════════════════════');
+  console.log('🔍 Bazi Engine Self-Verification');
+  console.log('═══════════════════════════════════════');
+  console.log('Anchor: 1900-01-01 = Jia-Xu Day');
+  console.log('');
+
+  let allPass = true;
+  for (const t of tests) {
+    const [y, m, d, hb, eYS, eYB, eMS, eMB, eDS, eDB, eHS, eHB, desc] = t;
+    const bazi = calcBazi(y, m, d, hb);
+    const [yS, yB] = bazi.year;
+    const [mS, mB] = bazi.month;
+    const [dS, dB] = bazi.day;
+    const [hS, _hB] = bazi.hour;
+    const checks = [
+      ['Year Stem', yS, eYS], ['Year Branch', yB, eYB],
+      ['Month Stem', mS, eMS], ['Month Branch', mB, eMB],
+      ['Day Stem', dS, eDS], ['Day Branch', dB, eDB],
+      ['Hour Stem', hS, eHS], ['Hour Branch', hb, eHB],
+    ];
+    let casePass = true;
+    for (const [label, actual, expected] of checks) {
+      if (actual !== expected) {
+        console.error(`  ❌ ${label}: got=${TIAN_GAN[actual]||actual}(${actual}) expected=${TIAN_GAN[expected]||expected}(${expected})`);
+        casePass = false;
+        allPass = false;
+      }
+    }
+    if (casePass) {
+      console.log(`✅ PASS: ${desc}`);
+      console.log(`   Pillars: ${TIAN_GAN[yS]}${DI_ZHI[yB]} ${TIAN_GAN[mS]}${DI_ZHI[mB]} ${TIAN_GAN[dS]}${DI_ZHI[dB]} ${TIAN_GAN[hS]}${DI_ZHI[hb]}`);
+    } else {
+      console.log(`❌ FAIL: ${desc}`);
+      console.log(`   Got: ${TIAN_GAN[yS]}${DI_ZHI[yB]} ${TIAN_GAN[mS]}${DI_ZHI[mB]} ${TIAN_GAN[dS]}${DI_ZHI[dB]} ${TIAN_GAN[hS]}${DI_ZHI[hb]}`);
+    }
+    console.log('');
+  }
+
+  console.log('═══════════════════════════════════════');
+  console.log(allPass ? '✅ All verification tests passed' : '❌ Some tests failed — check the algorithm');
+  console.log('═══════════════════════════════════════');
+
+  if (!allPass) {
+    const banner = $('verifyErrorBanner');
+    if (banner) banner.classList.add('show');
+  }
+  return allPass;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════ */
+function init() {
+  verifyBazi();
+  showScreen('formScreen');
+  initFormDefaults();
+  $('inpYear').addEventListener('change', updateDays);
+  $('inpMonth').addEventListener('change', updateDays);
+  $('inpDay').addEventListener('change', updateZodiacPreview);
+  // Update reset premium button visibility
+  const r = $('resetPremiumBtn'); if (r) r.style.display = isPremiumUnlocked() ? 'block' : 'none';
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
