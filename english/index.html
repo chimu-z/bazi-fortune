@@ -206,6 +206,7 @@ body::after {
   box-shadow:0 4px 20px rgba(91,122,111,0.2); animation:btnPulse 3s ease-in-out infinite;
 }
 .btn-submit:active { transform:scale(0.97); }
+@keyframes progressPulse { 0%,100% { opacity:0.8; } 50% { opacity:1; } }
 @keyframes btnPulse { 0%,100% { box-shadow:0 4px 20px rgba(91,122,111,0.2); } 50% { box-shadow:0 4px 32px rgba(91,122,111,0.35), 0 0 0 8px rgba(91,122,111,0.04); } }
 .form-error { text-align:center; color:#C06050; font-size:13px; min-height:20px; margin-top:6px; }
 
@@ -380,6 +381,13 @@ body::after {
   .pillar-branch { font-size:16px; }
   .glass-card { padding:22px 16px; }
 }
+
+<link rel="manifest" href="data:application/json,{%22name%22:%22Mysterious%20Eastern%20Force%20-%20BaZi%20Life%20Blueprint%22,%22short_name%22:%22BaZi%20Blueprint%22,%22description%22:%22Discover%20your%20destiny%20with%20ancient%20Chinese%20Four%20Pillars%20reading%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23FEF9F2%22,%22theme_color%22:%22%235B7A6F%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%20100%20100%27%3E%3Ctext%20y=%27.9em%27%20font-size=%2790%27%3E%F0%9F%94%AE%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22100x100%22,%22type%22:%22image/svg+xml%22}]}">
+<meta name="theme-color" content="#5B7A6F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BaZi Blueprint">
+
 </style>
 </head>
 <body>
@@ -397,6 +405,10 @@ body::after {
 
 <div class="reveal-overlay" id="revealOverlay" style="display:none;"><div class="wuxing-wheel" id="wuxingWheel"></div></div>
 
+
+<div style="position:fixed;top:12px;right:12px;z-index:200;">
+  <button id="themeToggle" onclick="toggleTheme()" style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(200,184,197,0.4);background:rgba(255,255,255,0.5);font-size:18px;cursor:pointer;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:all 0.3s;">🌙</button>
+</div>
 <div class="app-container">
 
   <!-- ═══════════════════════════════════
@@ -469,6 +481,29 @@ const WX_DIR = { 'Wood':'East', 'Fire':'South', 'Earth':'Center', 'Metal':'West'
 // Western Zodiac signs
 const ZODIAC_SIGNS = ['Capricorn','Aquarius','Pisces','Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn'];
 const ZODIAC_EMOJI = { 'Aries':'♈','Taurus':'♉','Gemini':'♊','Cancer':'♋','Leo':'♌','Virgo':'♍','Libra':'♎','Scorpio':'♏','Sagittarius':'♐','Capricorn':'♑','Aquarius':'♒','Pisces':'♓' };
+// Moon phase calculation (simplified astronomical)
+function getMoonPhase() {
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+  // Use a simplified lunar cycle approximation
+  const jd = toJD(y, m, d);
+  const newMoon = toJD(2000, 1, 6); // Known new moon
+  const phase = ((jd - newMoon) % 29.53058867 + 29.53058867) % 29.53058867;
+  const day = Math.floor(phase);
+  const names = [
+    'New Moon', 'Waxing Crescent', 'Waxing Crescent', 'Waxing Crescent',
+    'Waxing Crescent', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous',
+    'Waxing Gibbous', 'Waxing Gibbous', 'Waxing Gibbous', 'Waxing Gibbous',
+    'Waxing Gibbous', 'Full Moon', 'Full Moon',
+    'Waning Gibbous', 'Waning Gibbous', 'Waning Gibbous', 'Waning Gibbous',
+    'Waning Gibbous', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent',
+    'Waning Crescent', 'Waning Crescent', 'Waning Crescent', 'Waning Crescent',
+    'Waning Crescent', 'New Moon'
+  ];
+  const emojis = ['🌑','🌒','🌒','🌒','🌒','🌒','🌓','🌔','🌔','🌔','🌔','🌔','🌔','🌕','🌕','🌖','🌖','🌖','🌖','🌖','🌖','🌗','🌘','🌘','🌘','🌘','🌘','🌘','🌑'];
+  return { name: names[Math.min(day, 28)], emoji: emojis[Math.min(day, 28)], day: Math.round(phase) };
+}
+
 function getZodiac(m, d) {
   const cutoffs = [20,19,21,20,21,21,23,23,23,23,22,22,22];
   return d < cutoffs[m-1] ? ZODIAC_SIGNS[m-1] : ZODIAC_SIGNS[m];
@@ -918,7 +953,23 @@ function generateLoveReading(bazi, an) {
     <p>${spouseNature}</p>
     <p style="margin-top:8px;">💡 <strong>Love Guidance</strong>: Your Favorable Element is ${fav}. A partner whose chart contains strong ${fav} energy will complement your Five Elements and support your life path. The ${WX_DIR[fav]} direction is also your best orientation for meeting meaningful connections.</p>
   `;
-  return { html, spouseWX };
+    // Ideal Partner Profile (Soulmate-style reading)
+  const partnerCompatMap = {
+    'Jia': { best:['Ji','Gui','Ding'], desc:'Your ideal partner is nurturing and supportive (Earth/Water types). They admire your leadership and provide the emotional grounding you need. Look for someone who is steady, patient, and deeply caring — they will be your anchor in stormy seas.' },
+    'Yi': { best:['Wu','Ren','Bing'], desc:'Your ideal partner is strong yet gentle (Earth/Water/Fire types). They protect without controlling and appreciate your sensitive nature. Seek someone with quiet confidence who can match your adaptability with their steadfastness.' },
+    'Bing': { best:['Xin','Ji','Geng'], desc:'Your ideal partner is refined and elegant (Metal/Earth types). They admire your warmth and bring structure to your passion. Look for someone with poise and inner strength — together you create a partnership of light and form.' },
+    'Ding': { best:['Geng','Wu','Xin'], desc:'Your ideal partner is sharp and decisive (Metal/Earth types). Your gentle flame needs their protective strength. Seek someone who is principled and honorable — they will guard your heart with fierce loyalty.' },
+    'Wu': { best:['Ren','Yi','Gui'], desc:'Your ideal partner is fluid and wise (Water/Wood types). Their adaptability balances your grounded nature. Look for someone intellectually curious and emotionally deep — they bring the river that shapes your mountain.' },
+    'Ji': { best:['Gui','Jia','Ren'], desc:'Your ideal partner is gentle and perceptive (Water/Wood types). They recognize your quiet nurturing and mirror it back. Seek someone with emotional intelligence and a giving heart — together you cultivate a garden of unconditional love.' },
+    'Geng': { best:['Ding','Yi','Bing'], desc:'Your ideal partner is warm and creative (Fire/Wood types). They soften your edges without dulling your blade. Look for someone passionate and inspiring — they are the forge that transforms your steel into art.' },
+    'Xin': { best:['Bing','Ding','Ji'], desc:'Your ideal partner is radiant and generous (Fire/Earth types). They bring warmth to your refined nature. Seek someone with natural charisma who sees and celebrates your hidden brilliance — together you sparkle brilliantly.' },
+    'Ren': { best:['Wu','Yi','Ji'], desc:'Your ideal partner is stable and nurturing (Earth/Wood types). They provide the shoreline that contains your vastness. Look for someone dependable and warm — they give your ocean a home to return to.' },
+    'Gui': { best:['Ji','Wu','Yi'], desc:'Your ideal partner is grounded and protective (Earth/Wood types). They cherish your sensitivity and provide a safe harbor. Seek someone with quiet strength and unwavering loyalty — they understand your depths without needing to plumb them.' }
+  };
+  const partnerInfo = partnerCompatMap[dayGanChar] || partnerCompatMap['Jia'];
+  const partnerHTML = `<p style="margin-top:10px;"><span class="deep-highlight">💑 Your Ideal Partner Profile</span></p><p><strong>Best Day Master matches:</strong> ${partnerInfo.best.join(', ')}. ${partnerInfo.desc}</p><p style="font-size:12px;color:var(--text-muted);">Based on your Day Master ${dayGanChar} (${dayWX}), the Five Elements' generating and controlling cycles reveal your most harmonious partner types. Seek someone whose chart features these Day Masters for natural compatibility.</p>`;
+
+  return { html: html + partnerHTML, spouseWX };
 }
 
 function generateWealthReading(bazi, an) {
@@ -1154,7 +1205,8 @@ function renderResults(bazi, an, y, m, d) {
   let html = '';
 
   /* —— Section 1: Bazi Chart Overview —— */
-  html += `<div class="glass-card"><div class="section-header">📋 Your Four Pillars Chart</div>`;
+  const moon = getMoonPhase();
+  html += `<div class="glass-card"><div class="section-header">📋 Your Four Pillars Chart <span style="font-size:12px;opacity:0.7;">${moon.emoji} ${moon.name}</span></div>`;
   const pillarLabels = ['Year', 'Month', 'Day', 'Hour'];
   const pillars = [bazi.year, bazi.month, bazi.day, bazi.hour];
   const nKeys = ['year', 'month', 'day', 'hour'];
@@ -1218,7 +1270,11 @@ function renderResults(bazi, an, y, m, d) {
       <div class="lock-icon">🔮</div>
       <div class="lock-title">Unlock Your Complete Life Blueprint</div>
       <div class="lock-subtitle">Get a full, personalized BaZi analysis<br>based on your unique Four Pillars chart</div>
-      <ul class="lock-features">
+      <div style="margin-bottom:10px;">
+	        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:3px;"><span>Free Preview</span><span>3 of 10 sections unlocked</span></div>
+	        <div style="height:6px;border-radius:3px;background:rgba(230,225,225,0.5);overflow:hidden;"><div style="height:100%;width:30%;border-radius:3px;background:linear-gradient(90deg,var(--sage-green),#6B8E80);animation:progressPulse 2s ease-in-out infinite;"></div></div>
+	      </div>
+	      <ul class="lock-features">
         <li>Personal Fortune & 2026 Year Forecast</li>
         <li>12-Month 2026 Breakdown (流月)</li>
         <li>Major Luck Cycles (大运) — 80-Year Timeline</li>
@@ -1226,6 +1282,8 @@ function renderResults(bazi, an, y, m, d) {
         <li>Love Compatibility & Spouse Palace</li>
         <li>Wealth Star Analysis & Financial Path</li>
         <li>Career Direction & Professional Guidance</li>
+	        <li style="opacity:0.4;">Ideal Partner Profile (Soulmate Reading)</li>
+	        <li style="opacity:0.4;">Personal Element Guide & Lucky Calendar</li>
       </ul>
       <div style="text-align:center;margin-bottom:4px;"><span style="display:inline-block;padding:3px 12px;border-radius:12px;background:rgba(200,96,64,0.1);color:#C06040;font-size:11px;font-weight:700;">🔥 Launch Special — Limited Time Offer</span></div>
 	      <div class="lock-price">${PRICE_USD} <small>One-time payment · Lifetime access</small></div>
@@ -1414,7 +1472,64 @@ function init() {
   const r = $('resetPremiumBtn'); if (r) r.style.display = isPremiumUnlocked() ? 'block' : 'none';
 }
 
+
+// PWA Service Worker
+if ('serviceWorker' in navigator) {
+  const swCode = `
+const CACHE = 'bazi-v3';
+self.addEventListener('install', e => {
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(clients.claim());
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
+      if (resp.ok) {
+        const clone = resp.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+      }
+      return resp;
+    }).catch(() => caches.match(e.request)))
+  );
+});
+`;
+  const blob = new Blob([swCode], {type: 'application/javascript'});
+  const swURL = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swURL).catch(() => {});
+}
+
+
+// Theme toggle
+let isDark = false;
+function toggleTheme() {
+  isDark = !isDark;
+  const btn = document.getElementById('themeToggle');
+  if (isDark) {
+    document.body.style.background = 'linear-gradient(175deg, #1a1a2e 0%, #16213e 35%, #0f3460 70%, #1a1a2e 100%)';
+    document.body.style.color = '#e0d8cf';
+    document.querySelectorAll('.glass-card').forEach(c => {
+      c.style.background = 'rgba(30,25,40,0.75)';
+      c.style.borderColor = 'rgba(139,90,75,0.2)';
+      c.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+    });
+    if (btn) btn.textContent = '☀️';
+  } else {
+    document.body.style.background = '';
+    document.body.style.color = '';
+    document.querySelectorAll('.glass-card').forEach(c => {
+      c.style.background = '';
+      c.style.borderColor = '';
+      c.style.boxShadow = '';
+    });
+    if (btn) btn.textContent = '🌙';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', init);
+
+
 </script>
 
 <footer style="font-size:11px;color:var(--text-muted);text-align:center;padding:20px 14px 40px;line-height:1.8;max-width:480px;margin:0 auto;">
