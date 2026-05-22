@@ -440,7 +440,7 @@ body::after {
    CONFIG — ⚠️ REPLACE WITH YOUR PAYPAL LINK
    ═══════════════════════════════════════════════════════════ */
 const PAYPAL_ME = 'YOUR_PAYPAL_ME_LINK'; // e.g. 'paypal.me/yourname'
-const PRICE_USD = '$2.99';
+const PRICE_USD = '$9.99';
 const PREMIUM_CODES = ['PREMIUM2026', 'DEPTH888', 'BAZI2026'];
 const PREMIUM_KEY = 'bazi_english_premium';
 
@@ -606,9 +606,103 @@ function calcBazi(y, m, d, hb) {
   };
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ANALYSIS — Five Elements · Favorable Element
-   ═══════════════════════════════════════════════════════════ */
+	/* ═══════════════════════════════════════════════════════════
+	   DA YUN — Major Luck Cycles (大运)
+	   ═══════════════════════════════════════════════════════════ */
+	const YANG_STEMS = new Set([0, 2, 4, 6, 8]);
+	const JIE_ANGLES = [315, 345, 15, 45, 75, 105, 135, 165, 195, 225, 255, 285];
+
+	function calcDayun(y, m, d, hb, yearStem, monthStem, monthBranch, gender) {
+	  const isYangYear = YANG_STEMS.has(yearStem % 10);
+	  let forward;
+	  if (gender === 'male') forward = isYangYear;
+	  else forward = !isYangYear;
+
+	  const birthJD = toJD(y, m, d) + (hb * 2) / 24;
+
+	  let targetJD = null;
+	  if (forward) {
+	    for (let i = 0; i < 12; i++) {
+	      const jieJD = solarJD(y, JIE_ANGLES[i]);
+	      if (jieJD > birthJD) { targetJD = jieJD; break; }
+	    }
+	    if (!targetJD) targetJD = solarJD(y + 1, 315);
+	  } else {
+	    for (let i = 11; i >= 0; i--) {
+	      const jieJD = solarJD(y, JIE_ANGLES[i]);
+	      if (jieJD < birthJD) { targetJD = jieJD; break; }
+	    }
+	    if (!targetJD) targetJD = solarJD(y - 1, 285);
+	  }
+
+	  const daysDiff = Math.abs(targetJD - birthJD);
+	  const startAge = Math.max(1, Math.round(daysDiff / 3));
+
+	  const dayunList = [];
+	  let cs = monthStem, cb = monthBranch;
+	  for (let i = 0; i < 8; i++) {
+	    if (forward) { cs = (cs + 1) % 10; cb = (cb + 1) % 12; }
+	    else { cs = (cs - 1 + 10) % 10; cb = (cb - 1 + 12) % 12; }
+	    dayunList.push({
+	      stem: cs, branch: cb,
+	      stemChar: TIAN_GAN[cs], branchChar: DI_ZHI[cb],
+	      wx: WU_XING[GAN_WX[cs]],
+	      nayin: NAYIN[naIdx(cs, cb)],
+	      startAge: startAge + i * 10,
+	      endAge: startAge + i * 10 + 9
+	    });
+	  }
+	  return { startAge, forward, dayunList };
+	}
+
+	/* ═══════════════════════════════════════════════════════════
+	   TEN GODS — 十神
+	   ═══════════════════════════════════════════════════════════ */
+	function getTenGod(dayStem, otherStem) {
+	  const dayWXIdx = GAN_WX[dayStem];
+	  const otherWXIdx = GAN_WX[otherStem];
+	  const sameWX = dayWXIdx === otherWXIdx;
+	  const samePol = (dayStem % 2) === (otherStem % 2);
+
+	  if (sameWX) return samePol ? { en:'Companion', zh:'比肩', type:'companion' } : { en:'Friend', zh:'劫财', type:'friend' };
+	  if ((otherWXIdx + 1) % 5 === dayWXIdx) return samePol ? { en:'Indirect Resource', zh:'偏印', type:'resource' } : { en:'Direct Resource', zh:'正印', type:'resource' };
+	  if ((dayWXIdx + 1) % 5 === otherWXIdx) return samePol ? { en:'Hurting Officer', zh:'伤官', type:'output' } : { en:'Output Star', zh:'食神', type:'output' };
+	  if ((otherWXIdx + 2) % 5 === dayWXIdx) return samePol ? { en:'Seven Killings', zh:'七杀', type:'authority' } : { en:'Direct Officer', zh:'正官', type:'authority' };
+	  if ((dayWXIdx + 2) % 5 === otherWXIdx) return samePol ? { en:'Indirect Wealth', zh:'偏财', type:'wealth' } : { en:'Direct Wealth', zh:'正财', type:'wealth' };
+	  return { en:'Unknown', zh:'未知', type:'unknown' };
+	}
+
+	/* ═══════════════════════════════════════════════════════════
+	   SHEN SHA — Spirit Stars (神煞)
+	   ═══════════════════════════════════════════════════════════ */
+	function getShenSha(dayStem, yearBranch, dayBranch, monthBranch) {
+	  const stars = [];
+	  const peachGroup = Math.floor(yearBranch / 3);
+	  const peachBranch = [9, 3, 6, 0][peachGroup];
+	  if (dayBranch === peachBranch || monthBranch === peachBranch) {
+	    stars.push({ name:'Peach Blossom (桃花)', desc:'Natural charisma and romantic magnetism. Others are drawn to your presence effortlessly.' });
+	  }
+	  const nobleMap = { 0:[8,4], 1:[5,9], 2:[10,8], 3:[9,7], 4:[8,4], 5:[1,11], 6:[6,0], 7:[7,11], 8:[2,10], 9:[2,10] };
+	  const nobleB = nobleMap[dayStem % 10] || [];
+	  if (nobleB.includes(yearBranch)) stars.push({ name:'Nobleman (天乙贵人)', desc:'Heavenly benefactor energy. Helpful mentors appear at critical moments in your life.' });
+	  if (nobleB.includes(dayBranch) && !nobleB.includes(yearBranch)) stars.push({ name:'Nobleman (天乙贵人)', desc:'Innate noble aura — you attract support and goodwill throughout your life journey.' });
+	  const academicMap = { 0:[7], 1:[7], 2:[6], 3:[9], 4:[2], 5:[4], 6:[3], 7:[0], 8:[1], 9:[10] };
+	  const acadB = academicMap[dayStem % 10] || [];
+	  if (acadB.includes(dayBranch)) stars.push({ name:'Academic Star (文昌星)', desc:'Natural scholarly talent. Excellence in learning, writing, and intellectual pursuits.' });
+	  const horseGroup = Math.floor(yearBranch / 3);
+	  const horseBranch = [2, 11, 8, 5][horseGroup];
+	  if (dayBranch === horseBranch || monthBranch === horseBranch) {
+	    stars.push({ name:'Sky Horse (驿马)', desc:'Dynamic, adventurous energy. Frequent travel or career mobility. You thrive in motion.' });
+	  }
+	  const fortuneMap = { 0:[2], 1:[3], 2:[4], 3:[7], 4:[4], 5:[7], 6:[8], 7:[9], 8:[11], 9:[0] };
+	  const fortuneB = fortuneMap[dayStem % 10] || [];
+	  if (fortuneB.includes(dayBranch)) stars.push({ name:'Fortune Star (禄神)', desc:'Blessed for wealth accumulation. Stable income and material comfort flow naturally.' });
+	  return stars;
+	}
+
+	/* ═══════════════════════════════════════════════════════════
+	   ANALYSIS — Five Elements · Favorable Element
+	   ═══════════════════════════════════════════════════════════ */
 function analyze(bazi) {
   const counts = { 'Wood': 0, 'Fire': 0, 'Earth': 0, 'Metal': 0, 'Water': 0 };
   for (const [s, b] of [bazi.year, bazi.month, bazi.day, bazi.hour]) {
@@ -679,7 +773,7 @@ const XIYONG_ADVICE = {
 /* ═══════════════════════════════════════════════════════════
    DEEP READING GENERATORS
    ═══════════════════════════════════════════════════════════ */
-function generateFortuneReading(bazi, an) {
+function generateFortuneReading(bazi, an, dayun, y) {
   const dayWX = an.dayWX, dayGan = TIAN_GAN[bazi.day[0]], dayZhi = DI_ZHI[bazi.day[1]];
   const monthBranch = DI_ZHI[bazi.month[1]];
   const monthWX = WU_XING[ZHI_WX[bazi.month[1]]];
@@ -703,7 +797,28 @@ function generateFortuneReading(bazi, an) {
   const monthRelations = {
     true: `The month pillar (${monthBranch} month, dominated by ${monthWX}) forms the foundation of your chart. ${monthWX === dayWX ? 'It shares the same element as your Day Master, giving you natural self-assurance and a strong sense of identity.' : (monthWX === fav ? 'It is your Favorable Element — an excellent sign that heaven and earth support your path.' : 'It interacts dynamically with your Day Master, creating a multi-layered personality that can see things from unique angles.')}`,
   };
-  const monthInfo = `The ${monthBranch} month (${monthWX} season) is the提纲 of your chart, setting the life stage. ${monthWX === dayWX ? 'Month and Day Master share the same element — you have a consistent, reliable nature.' : (monthWX === fav ? 'The month is your Favorable Element — you are blessed with natural support from the seasonal energy.' : 'The month forms an interesting dynamic with your Day Master, giving you adaptability and depth.')}`;
+
+  // Current Da Yun — prepend to monthInfo if available
+  let currentDayun = null;
+  if (dayun) {
+    const approxAge = new Date().getFullYear() - y;
+    for (const d of dayun.dayunList) {
+      if (approxAge >= d.startAge && approxAge <= d.endAge) { currentDayun = d; break; }
+    }
+    if (!currentDayun && dayun.dayunList.length > 0) {
+      currentDayun = approxAge < dayun.startAge ? dayun.dayunList[0] : dayun.dayunList[dayun.dayunList.length-1];
+    }
+    if (currentDayun) {
+      const dc = currentDayun;
+      const dcWx = WU_XING[GAN_WX[dc.stem]];
+      let dcMsg = '';
+      if (dcWx === an.favorable) dcMsg = 'This cycle brings your Favorable Element — smooth progress and good fortune flow naturally.';
+      else if (dcWx === an.dayWX) dcMsg = 'This cycle strengthens your Day Master — increased self-awareness, confidence, and personal power.';
+      else dcMsg = 'This cycle brings dynamic energy that challenges you to grow and adapt — transformation is your keyword.';
+      monthInfo = `<p>Current Luck Cycle: <span class="deep-highlight">${dc.stemChar}${dc.branchChar} (${dc.nayin}, ${dcWx})</span> — Age ${dc.startAge}–${dc.endAge}. ${dcMsg}</p>` + monthInfo;
+    }
+  }
+  let monthInfo = `The ${monthBranch} month (${monthWX} season) is the提纲 of your chart, setting the life stage. ${monthWX === dayWX ? 'Month and Day Master share the same element — you have a consistent, reliable nature.' : (monthWX === fav ? 'The month is your Favorable Element — you are blessed with natural support from the seasonal energy.' : 'The month forms an interesting dynamic with your Day Master, giving you adaptability and depth.')}`;
 
   // 2026 forecast
   const liunianS = 2, liunianB = 6; // Bing-Wu (丙午)
@@ -719,13 +834,34 @@ function generateFortuneReading(bazi, an) {
     ? `2026 is the year of Bing-Wu (丙午) — Heaven Stem and Earth Branch both Fire. For a ${dayGan} (${dayWX}) Day Master, the year's energy manifests as your 【${wxRel.rel}】. ${wxRel.desc}`
     : `2026 is the year of Bing-Wu — a Fire-dominant year. Stay flexible and maintain a positive outlook.`;
 
-  const html = `
+
+  // 2026 Monthly Breakdown (流月)
+  const monthNames = ['Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan'];
+  // 2026 Bing-Wu year monthly pillars
+  const monthlyStems = [6,7,8,9,0,1,2,3,4,5,6,7]; // Geng,Xin,Ren,Gui,Jia,Yi,Bing,Ding,Wu,Ji,Geng,Xin
+  const monthlyBranches = [2,3,4,5,6,7,8,9,10,11,0,1];
+  let monthlyHTML = '<p style="margin-top:12px;"><span class="deep-highlight">2026 Monthly Forecast</span></p><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-top:6px;">';
+  for (let mi = 0; mi < 12; mi++) {
+    const ms = monthlyStems[mi], mb = monthlyBranches[mi];
+    const mtg = getTenGod(bazi.day[0], ms);
+    const mWX = WU_XING[GAN_WX[ms]];
+    let rating = '⭐⭐⭐';
+    if (mtg.type === 'wealth') rating = '⭐⭐⭐⭐';
+    else if (mtg.type === 'resource') rating = '⭐⭐⭐⭐';
+    else if (mtg.type === 'output') rating = '⭐⭐⭐';
+    else if (mtg.type === 'authority') rating = '⭐⭐';
+    else if (mtg.type === 'friend') rating = '⭐⭐';
+    if (mWX === an.favorable) rating = '⭐⭐⭐⭐⭐';
+    monthlyHTML += `<div style="padding:6px 4px;border-radius:8px;background:rgba(255,255,255,0.4);text-align:center;font-size:11px;"><div style="font-weight:700;color:${WX_COLOR[mWX]};">${monthNames[mi]}</div><div style="font-size:10px;color:var(--text-muted);">${TIAN_GAN[ms]}${DI_ZHI[mb]}</div><div style="font-size:10px;color:var(--sage-green);">${mtg.en}</div><div>${rating}</div></div>`;
+  }
+  monthlyHTML += '</div>';
+    const html = `
     <p><span class="deep-highlight">Chart Pattern: ${patternName}</span></p>
     <p>${patternDesc}</p>
     <p>${monthInfo}</p>
     <p style="margin-top:10px;"><span class="deep-highlight">2026 Year of the Fire Horse — Your Forecast</span></p>
     <p>${liunianText}</p>
-  `;
+  ${monthlyHTML}`;
   return { patternName, html };
 }
 
@@ -986,7 +1122,8 @@ function renderResults(bazi, an, y, m, d) {
   html += `<div class="pillars-row">`;
   for (let i = 0; i < 4; i++) {
     const [s, b] = pillars[i];
-    html += `<div class="pillar-card"><div class="pillar-label">${pillarLabels[i]}</div><div class="pillar-stem" style="color:${WX_COLOR[WU_XING[GAN_WX[s]]]}">${TIAN_GAN[s]}</div><div class="pillar-branch" style="color:${WX_COLOR[WU_XING[ZHI_WX[b]]]}">${DI_ZHI[b]}</div><div class="pillar-na">${bazi.nayin[nKeys[i]]}</div></div>`;
+    const tg = i === 2 ? { en:'Day Master', zh:'日主' } : getTenGod(bazi.day[0], s);
+	    html += `<div class="pillar-card"><div class="pillar-label">${pillarLabels[i]}</div><div class="pillar-stem" style="color:${WX_COLOR[WU_XING[GAN_WX[s]]]}">${TIAN_GAN[s]}</div><div class="pillar-branch" style="color:${WX_COLOR[WU_XING[ZHI_WX[b]]]}">${DI_ZHI[b]}</div><div class="pillar-na">${bazi.nayin[nKeys[i]]}</div><div style="font-size:10px;color:var(--sage-green);margin-top:3px;font-weight:600;">${tg.en}</div></div>`;
   }
   html += `</div>`;
 
@@ -995,6 +1132,18 @@ function renderResults(bazi, an, y, m, d) {
     html += `<div class="wx-bar-wrap"><span class="wx-bar-label" style="color:${WX_COLOR[w]}">${WX_EMOJI[w]} ${w.charAt(0)}</span><div class="wx-bar-track"><div class="wx-bar-fill ${w === 'Wood' ? 'wood' : w === 'Fire' ? 'fire' : w === 'Earth' ? 'earth' : w === 'Metal' ? 'metal' : 'water'}" style="width:${pct}%">${c > 0 ? '█'.repeat(Math.ceil(c / 2)) : ''}</div></div><span class="wx-bar-count">x${c}${w === dayWX ? ' Day Master' : ''}</span></div>`;
   }
   html += `</div>`;
+  // Spirit Stars (神煞)
+  const shenSha = getShenSha(bazi.day[0], bazi.year[1], bazi.day[1], bazi.month[1]);
+  if (shenSha.length > 0) {
+    html += `<div style="margin-top:12px;padding:12px 14px;background:rgba(201,168,124,0.06);border-radius:12px;border:1px solid rgba(201,168,124,0.15);">`;
+    html += `<div style="font-size:13px;font-weight:700;color:var(--amber-brown);margin-bottom:6px;">⭐ Spirit Stars (神煞)</div>`;
+    for (const star of shenSha) {
+      html += `<div style="margin-bottom:5px;font-size:12px;"><span style="color:var(--sage-green);font-weight:600;">${star.name}</span><span style="color:var(--text-muted);font-size:11px;"> — ${star.desc}</span></div>`;
+    }
+    html += `</div>`;
+  }
+  html += `</div>`;
+
 
   /* —— Section 2: Day Master & Favorable Element —— */
   html += `<div class="glass-card"><div class="section-header">✨ Your Day Master & Favorable Element</div>`;
@@ -1004,6 +1153,22 @@ function renderResults(bazi, an, y, m, d) {
   const advice = XIYONG_ADVICE[an.favorable] || XIYONG_ADVICE['Wood'];
   html += `<p class="text-block">${advice.missing}</p>`;
   html += `<p class="text-block">${advice.supplement}</p>`;
+
+  // Lucky Elements Guide
+  const luckyColors = { 'Wood':['Green','Teal','Emerald'], 'Fire':['Red','Coral','Burgundy'], 'Earth':['Brown','Beige','Terracotta'], 'Metal':['White','Gold','Silver'], 'Water':['Black','Navy','Deep Blue'] };
+  const luckyNumbers = { 'Wood':[3,8], 'Fire':[2,7], 'Earth':[5,10], 'Metal':[4,9], 'Water':[1,6] };
+  const luckyDirections = { 'Wood':'East / Southeast', 'Fire':'South', 'Earth':'Center / Southwest', 'Metal':'West / Northwest', 'Water':'North' };
+  const favEl = an.favorable;
+  html += `<div style="margin-top:14px;padding:12px 14px;background:linear-gradient(135deg,rgba(245,240,238,0.4),rgba(250,245,243,0.5));border-radius:12px;border:1px solid rgba(212,184,197,0.2);">`;
+  html += `<div style="font-size:13px;font-weight:700;color:var(--amber-brown);margin-bottom:8px;">🍀 Your Lucky Elements Guide</div>`;
+  html += `<div style="font-size:12px;color:var(--text-secondary);line-height:1.8;">`;
+  html += `<div>🎨 <strong>Lucky Colors:</strong> ${(luckyColors[favEl]||['N/A']).join(', ')}</div>`;
+  html += `<div>🔢 <strong>Lucky Numbers:</strong> ${(luckyNumbers[favEl]||['N/A']).join(', ')}</div>`;
+  html += `<div>🧭 <strong>Best Direction:</strong> ${luckyDirections[favEl]||'N/A'}</div>`;
+  html += `<div>🌿 <strong>Element to Cultivate:</strong> ${favEl} ${WX_EMOJI[favEl]||''}</div>`;
+  html += `<div style="margin-top:4px;font-size:11px;color:var(--text-muted);">Wear these colors, face these directions, and surround yourself with ${favEl} energy to amplify your luck.</div>`;
+  html += `</div></div>`;
+
   html += `</div>`;
 
   /* —— Section 3: Payment Wall or Premium Content —— */
@@ -1012,19 +1177,27 @@ function renderResults(bazi, an, y, m, d) {
     html += `
     <div class="payment-locked" id="paymentLocked">
       <div class="lock-icon">🔮</div>
-      <div class="lock-title">Unlock Your Full Destiny Reading</div>
-      <div class="lock-subtitle">Get a complete, personalized analysis<br>based on your unique Four Pillars chart</div>
+      <div class="lock-title">Unlock Your Complete Life Blueprint</div>
+      <div class="lock-subtitle">Get a full, personalized BaZi analysis<br>based on your unique Four Pillars chart</div>
       <ul class="lock-features">
         <li>Personal Fortune & 2026 Year Forecast</li>
+        <li>12-Month 2026 Breakdown (流月)</li>
+        <li>Major Luck Cycles (大运) — 80-Year Timeline</li>
+        <li>Ten Gods Analysis (十神) & Spirit Stars (神煞)</li>
         <li>Love Compatibility & Spouse Palace</li>
         <li>Wealth Star Analysis & Financial Path</li>
         <li>Career Direction & Professional Guidance</li>
       </ul>
-      <div class="lock-price">${PRICE_USD} <small>One-time payment · Access forever</small></div>
-      <a class="payoneer-btn" href="https://link.payoneer.com/Token?t=D4EBC47F8B1D4429971A8F15688B9FD3&src=tpl" target="_blank" rel="noopener">💳 Pay with Card (Payoneer)</a>
+      <div class="lock-price">${PRICE_USD} <small>One-time payment · Lifetime access</small></div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap;">
+	        <span style="font-size:11px;color:var(--sage-green);">🔒 Secure Payment</span>
+	        <span style="font-size:11px;color:var(--sage-green);">⚡ Instant Unlock</span>
+	        <span style="font-size:11px;color:var(--sage-green);">🔄 30-Day Refund</span>
+	      </div>
+	      <a class="payoneer-btn" href="https://link.payoneer.com/Token?t=D4EBC47F8B1D4429971A8F15688B9FD3&src=tpl" target="_blank" rel="noopener">💳 Pay with Card (Payoneer)</a>
       <p style="font-size:11px;color:var(--text-muted);margin:8px 0;">Or scan with Alipay ↓</p>
       <div class="qr-area">
-        <img class="qr-img" src="undefined" alt="Alipay Payment QR">
+        <img class="qr-img" src="bazi_english_qr.jpg" alt="Alipay Payment QR">
         <div class="qr-label">Scan with Alipay to Pay</div>
         <div class="qr-hint">Supports Visa / Mastercard / International Cards</div>
       </div>
@@ -1050,7 +1223,7 @@ function renderUnlockedContent(bazi, an, y, m, d) {
   let html = `<div class="premium-unlocked" id="premiumUnlocked">`;
 
   // Fortune
-  const fortune = generateFortuneReading(bazi, an);
+  const dayunForReading = calcDayun(y, m, d, parseInt($('inpHour').value)||6, bazi.year[0], bazi.month[0], bazi.month[1], currentGender); const fortune = generateFortuneReading(bazi, an, dayunForReading, y);
   html += `<div class="deep-card"><div class="deep-header">🔮 Personal Fortune · ${fortune.patternName}</div><div class="deep-text">${fortune.html}</div></div>`;
 
   // Love
@@ -1191,3 +1364,23 @@ document.addEventListener('DOMContentLoaded', init);
 </noscript>
 </body>
 </html>
+
+  const dayun = calcDayun(y, m, d, parseInt($('inpHour').value)||6, bazi.year[0], bazi.month[0], bazi.month[1], currentGender);
+
+  // Da Yun (大运) Timeline
+  html += `<div class="deep-card"><div class="deep-header">🔄 Major Luck Cycles (大运) — Your Life Chapters</div><div class="deep-text">`;
+  html += `<p>Starting age: <span class="deep-highlight">${dayun.startAge} years old</span> · Direction: ${dayun.forward ? 'Forward (顺排)' : 'Backward (逆排)'}</p>`;
+  html += `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">`;
+  for (let i = 0; i < 8; i++) {
+    const d = dayun.dayunList[i];
+    const approxAge = (new Date().getFullYear()) - y;
+    const isCurrent = (approxAge >= d.startAge && approxAge <= d.endAge);
+    html += `<div style="flex:1;min-width:60px;text-align:center;padding:8px 4px;border-radius:10px;${isCurrent ? 'background:rgba(201,168,124,0.2);border:1px solid rgba(201,168,124,0.5);' : 'background:rgba(255,255,255,0.3);'}font-size:11px;">`;
+    html += `<div style="font-weight:700;color:${WX_COLOR[d.wx]};font-size:13px;">${d.stemChar}${d.branchChar}</div>`;
+    html += `<div style="color:var(--text-muted);">${d.nayin}</div>`;
+    html += `<div style="color:var(--text-secondary);">${d.startAge}–${d.endAge}y</div>`;
+    if (isCurrent) html += `<div style="color:var(--amber-brown);font-weight:700;">← Current</div>`;
+    html += `</div>`;
+  }
+  html += `</div></div></div>`;
+
