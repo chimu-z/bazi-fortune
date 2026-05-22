@@ -354,6 +354,13 @@ body::after {
 }
 @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+	.referral-badge {
+	  display: inline-block; padding: 4px 10px; border-radius: 12px;
+	  background: linear-gradient(135deg, #FFD700, #FFA500); color: #5D3A1A;
+	  font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-left: 6px;
+	  animation: glowPulse 2s ease-in-out infinite;
+	}
+	@keyframes glowPulse { 0%,100% { box-shadow: 0 0 4px rgba(255,215,0,0.4); } 50% { box-shadow: 0 0 14px rgba(255,215,0,0.8); } }
 
 /* Reveal Overlay */
 .reveal-overlay { position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; background:rgba(245,235,240,0.6); backdrop-filter:blur(8px); pointer-events:none; }
@@ -1016,6 +1023,38 @@ function showScreen(id) {
    ═══════════════════════════════════════════════════════════ */
 function isPremiumUnlocked() { return localStorage.getItem(PREMIUM_KEY) === '1'; }
 
+function generateReferralCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = 'MEF';
+  for (let i = 0; i < 5; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  return code;
+}
+
+// Check for referral code in URL
+function getRefCode() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('ref');
+}
+
+// Apply referral discount
+function applyReferral(refCode) {
+  if (refCode && refCode.startsWith('MEF') && refCode.length === 8) {
+    localStorage.setItem('bazi_ref_code', refCode);
+    return true;
+  }
+  return false;
+}
+
+// Show referral welcome message
+function showRefWelcome(refCode) {
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FFD700,#FFA500);color:#5D3A1A;padding:14px 24px;border-radius:24px;font-size:14px;font-weight:700;z-index:300;box-shadow:0 4px 20px rgba(255,215,0,0.4);animation:toastIn 0.4s ease,toastOut 0.4s 3.6s ease forwards;letter-spacing:1px;text-align:center;';
+  toast.innerHTML = '🎁 Friend Referral Active!<br><span style="font-size:11px;">Use code <strong>' + refCode + '</strong> for a special discount</span>';
+  document.body.appendChild(toast);
+  setTimeout(function() { toast.remove(); }, 4000);
+}
+
+
 function handleReset() {
   localStorage.removeItem(PREMIUM_KEY);
   const r = $('resetPremiumBtn'); if (r) r.style.display = 'none';
@@ -1188,7 +1227,8 @@ function renderResults(bazi, an, y, m, d) {
         <li>Wealth Star Analysis & Financial Path</li>
         <li>Career Direction & Professional Guidance</li>
       </ul>
-      <div class="lock-price">${PRICE_USD} <small>One-time payment · Lifetime access</small></div>
+      <div style="text-align:center;margin-bottom:4px;"><span style="display:inline-block;padding:3px 12px;border-radius:12px;background:rgba(200,96,64,0.1);color:#C06040;font-size:11px;font-weight:700;">🔥 Launch Special — Limited Time Offer</span></div>
+	      <div class="lock-price">${PRICE_USD} <small>One-time payment · Lifetime access</small></div>
       <div style="display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap;">
 	        <span style="font-size:11px;color:var(--sage-green);">🔒 Secure Payment</span>
 	        <span style="font-size:11px;color:var(--sage-green);">⚡ Instant Unlock</span>
@@ -1201,7 +1241,7 @@ function renderResults(bazi, an, y, m, d) {
         <div class="qr-label">Scan with Alipay to Pay</div>
         <div class="qr-hint">Supports Visa / Mastercard / International Cards</div>
       </div>
-      <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">After payment, enter your unlock code below</p>
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">After payment, enter your unlock code below<br><span style="font-size:10px;color:var(--sage-green);">Have a friend referral code? Enter it as your unlock code!</span></p>
       <div class="premium-code-wrap">
         <input class="premium-code-input" id="premiumCodeInput" placeholder="Enter unlock code" autocomplete="off">
         <button class="premium-code-btn" onclick="handlePremiumUnlock(${y},${m},${d})">Unlock</button>
@@ -1212,7 +1252,29 @@ function renderResults(bazi, an, y, m, d) {
     html += renderUnlockedContent(bazi, an, y, m, d);
   }
 
-  html += `<div class="share-section"><div class="share-text">Enjoyed your reading? Share it ✨</div></div>`;
+  // Viral share section
+  const shareText = encodeURIComponent(`🔮 My BaZi (Four Pillars of Destiny) reading reveals I'm a ${dayGanChar} (${dayWX}) Day Master — my Fortunate Element is ${an.favorable}. Uncover your ancient Chinese destiny blueprint!`);
+  const shareURL = encodeURIComponent('https://chimu-z.github.io/bazi-fortune/english/');
+  const twURL = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareURL}`;
+  const fbURL = `https://www.facebook.com/sharer/sharer.php?u=${shareURL}&quote=${shareText}`;
+  const redditURL = `https://www.reddit.com/r/astrology/submit?url=${shareURL}&title=${shareText}`;
+  const waURL = `https://api.whatsapp.com/send?text=${shareText}%20${shareURL}`;
+  const rawShareText = `🔮 My BaZi (Four Pillars of Destiny) reading reveals I'm a ${dayGanChar} (${dayWX}) Day Master — my Fortunate Element is ${an.favorable}. Uncover your ancient Chinese destiny blueprint! https://chimu-z.github.io/bazi-fortune/english/`;
+
+  html += `<div class="share-section" style="text-align:center;">
+    <div style="font-size:16px;font-weight:700;color:var(--amber-brown);margin-bottom:4px;">📤 Share Your BaZi Blueprint</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Share with friends — when they unlock, you both get a reward!</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;">
+      <a href="${twURL}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:20px;background:#1DA1F2;color:#fff;text-decoration:none;font-size:12px;font-weight:600;">𝕏 Twitter</a>
+      <a href="${redditURL}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:20px;background:#FF4500;color:#fff;text-decoration:none;font-size:12px;font-weight:600;">💬 Reddit</a>
+      <a href="${fbURL}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:20px;background:#1877F2;color:#fff;text-decoration:none;font-size:12px;font-weight:600;">📘 Facebook</a>
+      <a href="${waURL}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:20px;background:#25D366;color:#fff;text-decoration:none;font-size:12px;font-weight:600;">📱 WhatsApp</a>
+    </div>
+    <div style="display:flex;gap:6px;justify-content:center;align-items:center;">
+      <input id="shareTextInput" value="${rawShareText.replace(/"/g, '&quot;')}" readonly style="flex:1;max-width:240px;height:34px;border-radius:17px;border:1px solid rgba(200,184,197,0.4);padding:0 12px;font-size:11px;color:var(--text-secondary);background:rgba(255,255,255,0.5);" onclick="this.select();document.execCommand('copy');showToast('Copied! Share with friends 📋')">
+      <button onclick="const inp=document.getElementById('shareTextInput');inp.select();document.execCommand('copy');showToast('Copied! 📋')" style="height:34px;padding:0 16px;border-radius:17px;border:none;background:var(--sage-green);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">Copy</button>
+    </div>
+  </div>`;
   html += `<div class="disclaimer">⚠️ For entertainment purposes only. You hold the pen that writes your destiny ✨</div>`;
 
   $('resultsContent').innerHTML = html;
@@ -1248,7 +1310,10 @@ function handlePremiumUnlock(y, m, d) {
   if (!input) return;
   const code = input.value.trim().toUpperCase();
   if (!code) { error.textContent = 'Please enter your unlock code'; return; }
-  if (PREMIUM_CODES.includes(code)) {
+  // Also check referral codes
+	  const savedRefCode = localStorage.getItem('bazi_ref_code');
+	  const isRefUnlock = savedRefCode && code === savedRefCode;
+	  if (PREMIUM_CODES.includes(code) || isRefUnlock) {
     error.textContent = '';
     localStorage.setItem(PREMIUM_KEY, '1');
     const hb = parseInt($('inpHour').value);
@@ -1353,7 +1418,28 @@ document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <footer style="font-size:11px;color:var(--text-muted);text-align:center;padding:20px 14px 40px;line-height:1.8;max-width:480px;margin:0 auto;">
-  <p><strong>Mysterious Eastern Force</strong> offers authentic <strong>BaZi (Four Pillars of Destiny)</strong> readings — an ancient Chinese astrology system that reveals your life blueprint through your birth date. Discover your <strong>Day Master element</strong>, <strong>Favorable Element</strong>, and get personalized insights on <strong>personal fortune</strong>, <strong>2026 yearly forecast</strong>, <strong>love compatibility &amp; spouse palace</strong>, <strong>wealth &amp; prosperity analysis</strong>, and <strong>career path guidance</strong>. Each reading is based on the traditional Chinese calendar system using solar longitude (Jieqi), the Five Elements (Wu Xing), and the Ten Heavenly Stems &amp; Twelve Earthly Branches. Whether you're seeking clarity on your life direction, relationship insights, or financial guidance, our BaZi Life Blueprint provides a comprehensive roadmap tailored to your unique elemental composition.</p>
+  <div style="text-align:left;max-width:480px;margin:0 auto 16px;">
+	  <h2 style="font-family:var(--font-title);font-size:16px;color:var(--amber-brown);text-align:center;margin-bottom:12px;">📚 BaZi Knowledge Base</h2>
+	  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;line-height:1.6;">
+	    <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
+	      <strong style="color:var(--amber-brown);">What is BaZi?</strong><br>
+	      <span style="color:var(--text-secondary);">The Four Pillars of Destiny (八字) is an ancient Chinese metaphysical system that reveals your life blueprint through birth date analysis. Unlike Western astrology, BaZi maps the Five Elements (Wood, Fire, Earth, Metal, Water) across your birth year, month, day, and hour — creating a unique destiny code read by Chinese emperors and scholars for over 2,000 years.</span>
+	    </div>
+	    <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
+	      <strong style="color:var(--amber-brown);">How Does It Work?</strong><br>
+	      <span style="color:var(--text-secondary);">Your birth time is converted into Four Pillars (Year, Month, Day, Hour), each containing a Heavenly Stem and Earthly Branch. These map to the Five Elements, revealing your Day Master (core self), Fortunate Element (what balances you), and life path through Ten Gods, Spirit Stars, and Major Luck Cycles — providing guidance for fortune, love, wealth, and career.</span>
+	    </div>
+	    <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
+	      <strong style="color:var(--amber-brown);">BaZi vs Western Astrology</strong><br>
+	      <span style="color:var(--text-secondary);">While Western astrology focuses on planetary positions, BaZi analyzes elemental balances in your birth chart. BaZi provides more specific career, wealth, and relationship guidance through the Five Elements' generating and controlling cycles — offering practical advice for daily life decisions.</span>
+	    </div>
+	    <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
+	      <strong style="color:var(--amber-brown);">What You'll Discover</strong><br>
+	      <span style="color:var(--text-secondary);">Your Day Master element reveals your core personality. Your Fortunate Element guides career choices. Your Ten Gods show relationship patterns. Major Luck Cycles map your life chapters. Spirit Stars reveal hidden talents. Get your complete BaZi Life Blueprint for just $9.99 — one payment, lifetime access.</span>
+	    </div>
+	  </div>
+	</div>
+	<p><strong>Mysterious Eastern Force</strong> offers authentic <strong>BaZi (Four Pillars of Destiny)</strong> readings — an ancient Chinese astrology system that reveals your life blueprint through your birth date. Discover your <strong>Day Master element</strong>, <strong>Favorable Element</strong>, and get personalized insights on <strong>personal fortune</strong>, <strong>2026 yearly forecast</strong>, <strong>love compatibility &amp; spouse palace</strong>, <strong>wealth &amp; prosperity analysis</strong>, and <strong>career path guidance</strong>. Each reading is based on the traditional Chinese calendar system using solar longitude (Jieqi), the Five Elements (Wu Xing), and the Ten Heavenly Stems &amp; Twelve Earthly Branches. Whether you're seeking clarity on your life direction, relationship insights, or financial guidance, our BaZi Life Blueprint provides a comprehensive roadmap tailored to your unique elemental composition.</p>
 </footer>
 <noscript>
   <div style="text-align:center;padding:20px;">
