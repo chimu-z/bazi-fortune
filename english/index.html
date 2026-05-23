@@ -1,22 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>神秘的东方力量 · Mysterious Eastern Force — BaZi Life Blueprint</title>
-<meta name="description" content="Discover your destiny with the ancient Chinese Four Pillars (BaZi) reading. Get personalized insights on fortune, love, wealth, and career. Free chart calculation, pay $9.99 for full life blueprint.">
-<meta name="keywords" content="Bazi, BaZi, Four Pillars of Destiny, Chinese astrology, Chinese fortune telling, Eastern fortune reading, BaZi chart, life blueprint, discover your element, Chinese zodiac, mysterious eastern force, 八字, destiny reading, fortune reading, love compatibility, wealth analysis, career path, 2026 forecast">
+<title>Free BaZi Calculator — Four Pillars of Destiny | Chinese Astrology Chart</title>
+<meta name="description" content="Free BaZi (八字) Four Pillars of Destiny calculator. Discover your Day Master, Five Elements, Spirit Stars, and Favorable Element. Authentic Chinese astrology from Putian, birthplace of Mazu. No email required.">
+<meta name="keywords" content="free bazi calculator, bazi, four pillars of destiny, chinese astrology, chinese zodiac, day master, five elements, favorable element, 八字, destiny reading, fortune telling, love compatibility, wealth analysis, career path, 2026 forecast, major luck cycles, da yun, shen sha, ten gods, wu xing, chinese metaphysics, putian, mazu">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Mysterious Eastern Force">
 <link rel="canonical" href="https://chimu-z.github.io/bazi-fortune/english/">
-<meta property="og:title" content="神秘的东方力量 · Mysterious Eastern Force — BaZi Life Blueprint">
-<meta property="og:description" content="Discover your destiny with ancient Chinese Four Pillars reading. Fortune · Love · Wealth · Career.">
+<meta property="og:title" content="Free BaZi Calculator — Four Pillars of Destiny | Chinese Astrology">
+<meta property="og:description" content="Discover your Day Master, Five Elements, and Favorable Element. Authentic BaZi from Putian, birthplace of Mazu. Free chart, no email required.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://chimu-z.github.io/bazi-fortune/english/">
-<meta property="og:site_name" content="Mysterious Eastern Force">
+<meta property="og:site_name" content="Mysterious Eastern Force — BaZi Life Blueprint">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="神秘的东方力量 — BaZi Life Blueprint">
-<meta name="twitter:description" content="Discover your destiny with ancient Chinese Four Pillars reading. Fortune · Love · Wealth · Career.">
+<meta name="twitter:title" content="Free BaZi Calculator — Four Pillars of Destiny">
+<meta name="twitter:description" content="Discover your Day Master, Five Elements, and Favorable Element. Authentic Chinese astrology — free chart, no email.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1346,6 +1346,24 @@ function renderUnlockedContent(bazi, an, y, m, d) {
   const dayunForReading = calcDayun(y, m, d, parseInt($('inpHour').value)||6, bazi.year[0], bazi.month[0], bazi.month[1], currentGender); const fortune = generateFortuneReading(bazi, an, dayunForReading, y);
   html += `<div class="deep-card"><div class="deep-header">🔮 Personal Fortune · ${fortune.patternName}</div><div class="deep-text">${fortune.html}</div></div>`;
 
+  // Da Yun Timeline
+  html += `<div class="deep-card"><div class="deep-header">🔄 Major Luck Cycles (大运) — Your Life Chapters</div><div class="deep-text">`;
+  html += `<p>Starting age: <span class="deep-highlight">${dayunForReading.startAge} years old</span> · Direction: ${dayunForReading.forward ? 'Forward (顺排)' : 'Backward (逆排)'}</p>`;
+  html += `<p style="font-size:12px;color:var(--text-muted);">Each cycle lasts 10 years. The highlighted cycle is your current one.</p>`;
+  html += `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">`;
+  for (let i = 0; i < 8; i++) {
+    const dc = dayunForReading.dayunList[i];
+    const approxAge = (new Date().getFullYear()) - y;
+    const isCurrent = (approxAge >= dc.startAge && approxAge <= dc.endAge);
+    html += `<div style="flex:1;min-width:60px;text-align:center;padding:8px 4px;border-radius:10px;${isCurrent ? 'background:rgba(201,168,124,0.2);border:1px solid rgba(201,168,124,0.5);' : 'background:rgba(255,255,255,0.3);'}font-size:11px;">`;
+    html += `<div style="font-weight:700;color:${WX_COLOR[dc.wx]};font-size:13px;">${dc.stemChar}${dc.branchChar}</div>`;
+    html += `<div style="color:var(--text-muted);font-size:10px;">${dc.nayin}</div>`;
+    html += `<div style="color:var(--text-secondary);">${dc.startAge}–${dc.endAge}y</div>`;
+    if (isCurrent) html += `<div style="color:var(--amber-brown);font-weight:700;font-size:10px;">← Current</div>`;
+    html += `</div>`;
+  }
+  html += `</div></div></div>`;
+
   // Love
   const love = generateLoveReading(bazi, an);
   html += `<div class="deep-card"><div class="deep-header">💕 Love & Marriage · Spouse Palace Reading</div><div class="deep-text">${love.html}</div></div>`;
@@ -1533,28 +1551,71 @@ document.addEventListener('DOMContentLoaded', init);
 </script>
 
 <footer style="font-size:11px;color:var(--text-muted);text-align:center;padding:20px 14px 40px;line-height:1.8;max-width:480px;margin:0 auto;">
+
+  <!-- Cultural Context -->
   <div style="text-align:left;max-width:480px;margin:0 auto 16px;">
-	  <h2 style="font-family:var(--font-title);font-size:16px;color:var(--amber-brown);text-align:center;margin-bottom:12px;">📚 BaZi Knowledge Base</h2>
-	  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;line-height:1.6;">
-	    <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
-	      <strong style="color:var(--amber-brown);">What is BaZi?</strong><br>
-	      <span style="color:var(--text-secondary);">The Four Pillars of Destiny (八字) is an ancient Chinese metaphysical system that reveals your life blueprint through birth date analysis. Unlike Western astrology, BaZi maps the Five Elements (Wood, Fire, Earth, Metal, Water) across your birth year, month, day, and hour — creating a unique destiny code read by Chinese emperors and scholars for over 2,000 years.</span>
-	    </div>
-	    <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
-	      <strong style="color:var(--amber-brown);">How Does It Work?</strong><br>
-	      <span style="color:var(--text-secondary);">Your birth time is converted into Four Pillars (Year, Month, Day, Hour), each containing a Heavenly Stem and Earthly Branch. These map to the Five Elements, revealing your Day Master (core self), Fortunate Element (what balances you), and life path through Ten Gods, Spirit Stars, and Major Luck Cycles — providing guidance for fortune, love, wealth, and career.</span>
-	    </div>
-	    <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
-	      <strong style="color:var(--amber-brown);">BaZi vs Western Astrology</strong><br>
-	      <span style="color:var(--text-secondary);">While Western astrology focuses on planetary positions, BaZi analyzes elemental balances in your birth chart. BaZi provides more specific career, wealth, and relationship guidance through the Five Elements' generating and controlling cycles — offering practical advice for daily life decisions.</span>
-	    </div>
-	    <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
-	      <strong style="color:var(--amber-brown);">What You'll Discover</strong><br>
-	      <span style="color:var(--text-secondary);">Your Day Master element reveals your core personality. Your Fortunate Element guides career choices. Your Ten Gods show relationship patterns. Major Luck Cycles map your life chapters. Spirit Stars reveal hidden talents. Get your complete BaZi Life Blueprint for just $9.99 — one payment, lifetime access.</span>
-	    </div>
-	  </div>
-	</div>
-	<p><strong>Mysterious Eastern Force</strong> offers authentic <strong>BaZi (Four Pillars of Destiny)</strong> readings — an ancient Chinese astrology system that reveals your life blueprint through your birth date. Discover your <strong>Day Master element</strong>, <strong>Favorable Element</strong>, and get personalized insights on <strong>personal fortune</strong>, <strong>2026 yearly forecast</strong>, <strong>love compatibility &amp; spouse palace</strong>, <strong>wealth &amp; prosperity analysis</strong>, and <strong>career path guidance</strong>. Each reading is based on the traditional Chinese calendar system using solar longitude (Jieqi), the Five Elements (Wu Xing), and the Ten Heavenly Stems &amp; Twelve Earthly Branches. Whether you're seeking clarity on your life direction, relationship insights, or financial guidance, our BaZi Life Blueprint provides a comprehensive roadmap tailored to your unique elemental composition.</p>
+    <h2 style="font-family:var(--font-title);font-size:16px;color:var(--amber-brown);text-align:center;margin-bottom:12px;">🌏 The Tradition Behind This BaZi Calculator</h2>
+    <div style="padding:14px;background:rgba(255,255,255,0.4);border-radius:12px;font-size:12px;line-height:1.9;color:var(--text-secondary);">
+      <p>This BaZi calculator was built by someone from <strong>Putian (莆田), Fujian, China</strong> — the birthplace of <strong>Mazu (妈祖)</strong>, the sea goddess worshipped by 300 million people across 50 countries. Mazu was a real person, Lin Mo (林默), born in 960 AD on Meizhou Island. Recognizing her spiritual purity and divine connection, the heavens chose her to protect seafarers and guide lost ships home. Over 1,000 years, 22 emperors granted her 36 imperial titles — from "Lady" to "Heavenly Empress." In 2009, UNESCO recognized Mazu belief and customs as Intangible Cultural Heritage of Humanity.</p>
+      <p style="margin-top:8px;">The region's spiritual tradition traces even further back to the ancient <strong>Wu-Nuo (巫傩)</strong> culture of the Shang and Zhou dynasties (3,000+ years ago), which blended ancestor veneration, nature worship, and ritual ceremony. Nuo mask dances are still performed in Fujian villages during festivals today. This is the authentic cultural root from which Chinese folk divination — including BaZi — grew. Our calculator brings this genuine tradition to the English-speaking world, translated faithfully from classical sources including 《渊海子平》《滴天髓》《穷通宝鉴》《三命通会》and《子平真诠》.</p>
+    </div>
+  </div>
+
+  <!-- Knowledge Base -->
+  <div style="text-align:left;max-width:480px;margin:0 auto 16px;">
+    <h2 style="font-family:var(--font-title);font-size:16px;color:var(--amber-brown);text-align:center;margin-bottom:12px;">📚 BaZi Knowledge Base</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;line-height:1.6;">
+      <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
+        <strong style="color:var(--amber-brown);">What is BaZi (八字)?</strong><br>
+        <span style="color:var(--text-secondary);">BaZi, the Four Pillars of Destiny, is an ancient Chinese metaphysical system that maps the Five Elements (Wood, Fire, Earth, Metal, Water) across your birth year, month, day, and hour. Unlike Western sun-sign astrology, BaZi creates a unique destiny code based on your EXACT birth time — the same birth data always produces the same chart, making it a mathematical system closer to astronomy than mysticism. Chinese emperors and scholars have used it for over 2,000 years.</span>
+      </div>
+      <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
+        <strong style="color:var(--amber-brown);">How Does BaZi Work?</strong><br>
+        <span style="color:var(--text-secondary);">Your birth time is converted into Four Pillars using the traditional Chinese calendar (solar longitude / Jieqi). Each pillar has a Heavenly Stem and Earthly Branch, mapping to the Five Elements. This reveals your Day Master (core personality), Favorable Element (what balances you), Ten Gods (relationship patterns), Spirit Stars (hidden talents), and Major Luck Cycles (life chapters).</span>
+      </div>
+      <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
+        <strong style="color:var(--amber-brown);">BaZi vs Western Astrology</strong><br>
+        <span style="color:var(--text-secondary);">Western astrology focuses on planetary positions at birth. BaZi analyzes the Five Elements' generating (生) and controlling (克) cycles in your chart. BaZi provides specific guidance for career, wealth, relationships, and life timing through Major Luck Cycles (大运) — 10-year periods that show when different energies activate in your life.</span>
+      </div>
+      <div style="padding:10px;background:rgba(255,255,255,0.4);border-radius:10px;">
+        <strong style="color:var(--amber-brown);">What Your Free Chart Reveals</strong><br>
+        <span style="color:var(--text-secondary);">Get your complete Four Pillars chart, Day Master element, Five Elements breakdown, Spirit Stars (Peach Blossom, Nobleman, Academic Star, Sky Horse, Fortune Star), Lucky Elements (colors, numbers, directions), and your Favorable Element — all free, no email required. Unlock the full reading for just $9.99 lifetime access.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div style="text-align:left;max-width:480px;margin:0 auto 16px;">
+    <h2 style="font-family:var(--font-title);font-size:16px;color:var(--amber-brown);text-align:center;margin-bottom:12px;">❓ Frequently Asked Questions</h2>
+    <div style="font-size:11px;line-height:1.7;color:var(--text-secondary);">
+      <div style="padding:10px;background:rgba(255,255,255,0.35);border-radius:10px;margin-bottom:6px;">
+        <strong style="color:var(--amber-brown);">Q: Is BaZi fortune telling real?</strong><br>
+        BaZi is not fortune-telling by intuition or psychic ability. It is a mathematical system — the same birth data always produces the same chart and analysis. Think of it as a map of your elemental energies rather than a prediction. It reveals tendencies, optimal timing, and areas of natural strength, but your choices ultimately shape your path.
+      </div>
+      <div style="padding:10px;background:rgba(255,255,255,0.35);border-radius:10px;margin-bottom:6px;">
+        <strong style="color:var(--amber-brown);">Q: What is a Day Master in BaZi?</strong><br>
+        Your Day Master is the Heavenly Stem of your Day Pillar — it represents your core self, personality, and essential nature. There are 10 Day Master types (Jia, Yi, Bing, Ding, Wu, Ji, Geng, Xin, Ren, Gui), each with distinct characteristics. Your Day Master element determines how the other elements in your chart interact with you.
+      </div>
+      <div style="padding:10px;background:rgba(255,255,255,0.35);border-radius:10px;margin-bottom:6px;">
+        <strong style="color:var(--amber-brown);">Q: What is a Favorable Element (用神)?</strong><br>
+        Your Favorable Element is the Five Elements energy that balances your chart. If your chart has too much Fire, Water may be your Favorable Element. Surrounding yourself with this element — through colors, career choices, directions, and lifestyle — helps harmonize your energy and improve fortune.
+      </div>
+      <div style="padding:10px;background:rgba(255,255,255,0.35);border-radius:10px;margin-bottom:6px;">
+        <strong style="color:var(--amber-brown);">Q: How accurate is this BaZi calculator?</strong><br>
+        Our calculator uses solar longitude (Jieqi) to determine the exact month pillar boundary, and anchors to the verified 1900-01-01 Jia-Xu day for day pillar calculation. The algorithm is verified against known test cases. The same birth data always produces identical results — there is no randomness or cold reading involved.
+      </div>
+      <div style="padding:10px;background:rgba(255,255,255,0.35);border-radius:10px;margin-bottom:6px;">
+        <strong style="color:var(--amber-brown);">Q: What are Major Luck Cycles (大运)?</strong><br>
+        Major Luck Cycles are 10-year periods in your life, each governed by a specific elemental energy. They determine when different aspects of life — career, relationships, wealth — are more or less active. Understanding your current cycle helps you time important decisions and navigate challenges.
+      </div>
+      <div style="padding:10px;background:rgba(255,255,255,0.35);border-radius:10px;margin-bottom:6px;">
+        <strong style="color:var(--amber-brown);">Q: Do I need to know my Chinese birth time?</strong><br>
+        No. Enter your Gregorian (Western) calendar birth date and the hour you were born in Beijing Time (UTC+8). The calculator automatically converts it to the Chinese calendar system. If you don't know your exact birth hour, use 12:00 noon (Horse hour) as an estimate — though the hour pillar affects about 25% of your reading's accuracy.
+      </div>
+    </div>
+  </div>
+
+  <p><strong>Mysterious Eastern Force</strong> offers authentic <strong>BaZi (Four Pillars of Destiny)</strong> readings rooted in the folk spiritual tradition of Putian, Fujian — the birthplace of Mazu. Discover your <strong>Day Master element</strong>, <strong>Favorable Element (用神)</strong>, and get personalized insights on <strong>personal fortune, 2026 yearly forecast, love compatibility & spouse palace, wealth & prosperity analysis, and career path guidance</strong>. Each reading is calculated using the traditional Chinese calendar system (solar longitude / Jieqi), the Five Elements (Wu Xing / 五行), Ten Gods (十神), Spirit Stars (神煞), and Major Luck Cycles (大运). Whether you're seeking clarity on life direction, relationship insights, or financial guidance, our BaZi Life Blueprint provides a comprehensive, mathematically-grounded roadmap. Free chart — $9.99 lifetime for full reading.</p>
 </footer>
 <noscript>
   <div style="text-align:center;padding:20px;">
@@ -1565,23 +1626,4 @@ document.addEventListener('DOMContentLoaded', init);
 </noscript>
 </body>
 </html>
-
-  const dayun = calcDayun(y, m, d, parseInt($('inpHour').value)||6, bazi.year[0], bazi.month[0], bazi.month[1], currentGender);
-
-  // Da Yun (大运) Timeline
-  html += `<div class="deep-card"><div class="deep-header">🔄 Major Luck Cycles (大运) — Your Life Chapters</div><div class="deep-text">`;
-  html += `<p>Starting age: <span class="deep-highlight">${dayun.startAge} years old</span> · Direction: ${dayun.forward ? 'Forward (顺排)' : 'Backward (逆排)'}</p>`;
-  html += `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">`;
-  for (let i = 0; i < 8; i++) {
-    const d = dayun.dayunList[i];
-    const approxAge = (new Date().getFullYear()) - y;
-    const isCurrent = (approxAge >= d.startAge && approxAge <= d.endAge);
-    html += `<div style="flex:1;min-width:60px;text-align:center;padding:8px 4px;border-radius:10px;${isCurrent ? 'background:rgba(201,168,124,0.2);border:1px solid rgba(201,168,124,0.5);' : 'background:rgba(255,255,255,0.3);'}font-size:11px;">`;
-    html += `<div style="font-weight:700;color:${WX_COLOR[d.wx]};font-size:13px;">${d.stemChar}${d.branchChar}</div>`;
-    html += `<div style="color:var(--text-muted);">${d.nayin}</div>`;
-    html += `<div style="color:var(--text-secondary);">${d.startAge}–${d.endAge}y</div>`;
-    if (isCurrent) html += `<div style="color:var(--amber-brown);font-weight:700;">← Current</div>`;
-    html += `</div>`;
-  }
-  html += `</div></div></div>`;
 
