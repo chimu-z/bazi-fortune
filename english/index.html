@@ -259,14 +259,6 @@ body::after {
 .btn-retry { display:block; margin:0 auto; background:none; border:1.5px solid rgba(200,184,197,0.4); color:var(--sage-green); font-size:14px; font-weight:600; padding:10px 28px; border-radius:22px; cursor:pointer; font-family:var(--font-body); transition:all 0.35s var(--ease); }
 .btn-retry:hover { background:rgba(91,122,111,0.05); border-color:var(--sage-green); }
 
-/* Verification error banner */
-.verify-error-banner {
-  display: none; text-align: center; padding: 10px 16px; margin: 8px 0;
-  background: rgba(200,60,60,0.1); border: 1px solid rgba(200,60,60,0.35);
-  border-radius: var(--radius-sm); color: #B04040; font-size: 12px; font-weight: 600;
-}
-.verify-error-banner.show { display: block; }
-
 /* ── Payment Section ── */
 .payment-locked {
   text-align: center; padding: 20px 16px; margin-top: 14px;
@@ -447,7 +439,7 @@ body::after {
     <div id="resultsContent"></div>
     <button class="btn-retry" style="margin-top:8px;" onclick="handleRetry()">🔄 Try Another Reading</button>
     <button class="reset-link" id="resetPremiumBtn" style="display:none;" onclick="handleReset()">Reset Unlock Status</button>
-    <div class="verify-error-banner" id="verifyErrorBanner">⚠️ Bazi calculation self-check failed. Please contact support.</div>
+    
   </div>
 
 </div>
@@ -1469,10 +1461,6 @@ function verifyBazi() {
   console.log(allPass ? '✅ All verification tests passed' : '❌ Some tests failed — check the algorithm');
   console.log('═══════════════════════════════════════');
 
-  if (!allPass) {
-    const banner = $('verifyErrorBanner');
-    if (banner) banner.classList.add('show');
-  }
   return allPass;
 }
 
